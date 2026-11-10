@@ -1,12 +1,9 @@
-// ═══════════════════════════════════════════════════════════════
-// Stage 2b: Parse Identity Resolver Response v4.0
+// Stage 2b: Parse Identity Resolver Response
 //
-// Parses the Ollama identity resolution response into clean
-// contact records ready for Stage 3 validation.
+// Turns the identity resolver's reply into contact records for Stage 3.
 //
 // Input: Ollama response + passthrough
 // Output: { contacts: [...], contactCount, ...passthrough }
-// ═══════════════════════════════════════════════════════════════
 
 const input = $input.first().json;
 
@@ -29,10 +26,10 @@ let contacts = [];
 try {
   let parsed = JSON.parse(ollamaResponse);
   // Handle all possible formats from the AI:
-  // 1. {"contacts": [...]} — preferred wrapper format
-  // 2. [...] — bare array
-  // 3. {"firstName": ...} — single object (model ignored array instruction)
-  // 4. {"contacts": {"firstName": ...}} — wrapper with single object instead of array
+  // 1. {"contacts": [...]} - preferred wrapper format
+  // 2. [...] - bare array
+  // 3. {"firstName": ...} - single object (model ignored array instruction)
+  // 4. {"contacts": {"firstName": ...}} - wrapper with single object instead of array
   if (parsed && Array.isArray(parsed.contacts)) {
     contacts = parsed.contacts;
   } else if (parsed && parsed.contacts && typeof parsed.contacts === 'object' && !Array.isArray(parsed.contacts)) {
@@ -64,7 +61,7 @@ try {
   }
 }
 
-// ── Post-processing sanity checks ─────────────────────────────
+// Post-processing sanity checks
 
 // Filter out any internal contacts that slipped through
 const internalDomains = ['yourcompany.com', 'example-consultancy.com'];
@@ -130,9 +127,9 @@ for (const c of contacts) {
       const titleKW = /\b(?:officer|director|president|manager|chief|head|lead|senior|junior|vice|vp|svp|evp|ceo|cfo|cto|coo|partner|counsel|advisor|analyst|specialist|coordinator|engineer|architect|consultant|associate|assistant)\b/i;
       const nonNameParts = parts.filter(p => {
         const pLower = p.toLowerCase();
-        // If it contains a title keyword, it's NOT a name — keep it
+        // If it contains a title keyword, it's NOT a name - keep it
         if (titleKW.test(pLower)) return true;
-        // If it matches the contact's name, it IS the name — filter it out
+        // If it matches the contact's name, it IS the name - filter it out
         return pLower !== fullName &&
                pLower !== (c.firstName || '').toLowerCase() &&
                !(lastName.length >= 3 && pLower.includes(lastName) && pLower.split(/\s+/).length <= 3);
@@ -165,7 +162,7 @@ for (const c of contacts) {
         c._companyDerived = true;
       }
     } else {
-      c.company = ''; // Clear it — better empty than wrong
+      c.company = ''; // Clear it - better empty than wrong
     }
   }
 
@@ -187,7 +184,7 @@ for (const c of contacts) {
   }
 }
 
-// ── Build output ──────────────────────────────────────────────
+// Build output
 
 // Strip internal fields from passthrough
 const output = {

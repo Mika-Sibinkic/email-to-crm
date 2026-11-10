@@ -1,60 +1,22 @@
-// Validate Contact Type v3.32 — P0 RECIPIENT-LIST FILTER (user paused use Apr 20 2026)
+// Validate Contact Type
 //
-// v3.32 RECIPIENT-LIST FILTER (+ safety nets added 2026-04-21 post-regression)
-// Observed failure (Apr 20 2026, user paused use):
-//   A single-contact email produced 5 contacts (the real contact + 4 people from the original To: line).
-//   Only the real contact had a real signature block. The other 4 appear ONLY inside
-//   "To:"/"Cc:"/"Subject:" header lines in the forwarded body.
-// Filter: when totalContacts > 1, drop contacts whose email appears exclusively in
-//   header lines AND who have no corroborating phone/mobile/jobTitle.
+// Last filter before anything is written. Drops contacts that are not real people
+// or that belong to your own staff, then settles each contact's type. The
+// forwarder's note wins ("Family Office for Zoho"); otherwise the model's guess is
+// mapped onto VALID_TYPES through TYPE_ALIASES. When the requested type clearly does
+// not fit a contact (a bank domain on a "Family Office" request), that contact is
+// held back from the CRM write and the confirmation says why.
 //
-// 2026-04-21 SAFETY NETS (added after regression analysis against the 166-record Apr-17/18
-// baseline surfaced that a forwarded "FW: Checking In" email — "Both of these needs to go into
-// ZOHO OEMs" — would have had Contact A wrongly dropped because his email appears
-// only in the To: line while Contact B's signature block was the only one with phone/title):
-//  A. PLURAL-INTENT SHORT-CIRCUIT — if the forwarder instruction/preamble contains any of
-//     {both, these, everyone, all of, all the, the following, attendees, team, group,
-//      folks, the crew, the contacts, the people, the three, ...} the filter is skipped
-//     for the entire email. Forwarder is explicitly signalling multi-target intent.
-//     This alone handles the real Contact A/Contact B case from exec 989 ("Both of these needs to
-//     go into ZOHO OEMs"). A domain-match secondary net was considered but proven too
-//     aggressive — it also saved a second banker at the same bank domain from a colleague's signature on exec 1342,
-//     which is exactly what the user flagged as bad.
-//  B. NAME-IN-INSTRUCTION LIFELINE — if the at-risk contact's first or last name appears
-//     literally inside the forwarder instruction/preamble, keep it regardless.
-//     (Covers the narrower "add John at ACME" singular-intent-but-named-target case.)
+// needsReview means something is wrong: no usable contact data, or low model
+// confidence. infoNotes are observations: the model suggested a different type,
+// optional fields are missing.
 //
-// Validate Contact Type v3.3.2 + v3.30c post-extraction ghost filter — FUZZY TYPE MATCH FLAG
-// v3.3.1 FIX: When forwarder instruction matches after normalization (lowercasing, plural
-// stripping, alias resolution) but the ORIGINAL instruction text doesn't exactly match any
-// canonical type name, flag for review. E.g., "Family offices" → "Family Office" works
-// but gets flagged. Observed failure: type typos not flagged for review.
-//
-// Validate Contact Type v3.3 — TYPE-RELEVANCE GATE
-//
-// v3.3 CHANGES:
-// - NEW: TYPE-RELEVANCE GATE added after type validation cascade.
-//   When the forwarder specifies a type (suggestedType), each contact is evaluated
-//   for compatibility based on their company name and email domain.
-//
-//   EXAMPLE: Forwarder says "Family Office for Zoho". Two contacts extracted:
-//     - John Broker (bofa.com, Bank of America) → inferred "Financial Institution" → SKIP
-//     - Jane Broker (example-familyoffice.com) → no strong conflict → KEPT as Family Office
-//
-//   HIGH confidence mismatch (known bank domain, etc.) → skipZohoUpsert = true
-//   MEDIUM confidence mismatch (possible but uncertain) → infoNote only
-//
-//   Expected: the holding group is the family office and NOT Bank of America,
-//   so only the one contact would be logged.
-//
-// v3.2: forwarderInstruction fallback, OEM aliases.
-// v3.1: Preserve skipZohoUpsert from upstream, email format validation.
-// v3.0: Forwarder instruction always wins, review vs info distinction.
-//
-// REVIEW = something is genuinely WRONG (no contact data, low AI confidence)
-// INFO = noteworthy observation (AI saw different type, optional fields missing)
+// This version also drops people who only appear on a forwarded To:/Cc: line with
+// no phone or title of their own, unless the note asks for several people ("both of
+// these", "the team") or names them.
 
 // Edit to match your CRM's contact-type picklist.
+
 const VALID_TYPES = ["Attorney", "Broker", "Customer", "Employee", "Family Office", "Financial Institution",
   "Industry Resource", "Insurance", "Investment Advisor", "Management Company", "Manufacturer",
   "Marketing", "Partner", "Service Provider"];
@@ -86,26 +48,24 @@ const TYPE_ALIASES = {
 // Edit to match your CRM's contact-type picklist.
 const SPECIFIC_TYPE_REMAP = {}; // optional sub-category picklist; empty = disabled
 
-// ═══════════════════════════════════════════════════════════════
-// v3.3 NEW: TYPE-RELEVANCE SIGNALS
+// TYPE-RELEVANCE SIGNALS
 // Maps each Zoho type to company/domain patterns that indicate
 // a contact BELONGS to that industry. Used to detect mismatches
 // between the forwarder's instructed type and the contact's actual industry.
-// ═══════════════════════════════════════════════════════════════
 
 // THREE-TIER CONFIDENCE:
-//   Tier 1 — strongDomains: Known institution domains → SKIP (high confidence)
-//   Tier 2 — strongCompanyPatterns: Unambiguous type words in company name
-//            ("Bank", "Law Firm", "Insurance Co") → SKIP (high confidence)
-//   Tier 3 — suggestivePatterns: Ambiguous keywords ("Asset Management", "Capital",
+//   Tier 1 - strongDomains: Known institution domains -> SKIP (high confidence)
+//   Tier 2 - strongCompanyPatterns: Unambiguous type words in company name
+//            ("Bank", "Law Firm", "Insurance Co") -> SKIP (high confidence)
+//   Tier 3 - suggestivePatterns: Ambiguous keywords ("Asset Management", "Capital",
 //            "Financial") that COULD indicate a type but also could be wrong
-//            → INFO NOTE only (medium confidence, no skip)
+//            -> INFO NOTE only (medium confidence, no skip)
 //
 // WHY THREE TIERS?
 // "Example Asset Management" has "Asset Management" in the name, which is suggestive of
-// Family Office. But the forwarder says it's an Investment Advisor — and they're RIGHT. "Asset
+// Family Office. But the forwarder says it's an Investment Advisor - and they're RIGHT. "Asset
 // Management" is ambiguous. We can't skip on ambiguity.
-// "Bank of America" has "Bank" in the name — that's UNAMBIGUOUS. A bank is a
+// "Bank of America" has "Bank" in the name - that's UNAMBIGUOUS. A bank is a
 // Financial Institution, period. We CAN skip on certainty.
 
 // Edit to match your CRM's contact-type picklist.
@@ -117,7 +77,7 @@ const TYPE_SIGNALS = {
       /\bsavings\s+(?:bank|association|institution)\b/i,
       /\bfederal\s+(?:savings|credit)\b/i, /\btrust\s+(?:company|bank)\b/i
     ],
-    // TIER 3: ambiguous — "Capital" could be family office, "Financial" could be anything
+    // TIER 3: ambiguous - "Capital" could be family office, "Financial" could be anything
     suggestivePatterns: [
       /\blending\b/i, /\bmortgage\b/i, /\bfinancial\s+(?:group|corp|services)\b/i
     ],
@@ -204,14 +164,12 @@ const TYPE_SIGNALS = {
   }
 };
 
-// ═══════════════════════════════════════════════════════════════
-// TYPE INFERENCE ENGINE — Three-tier confidence
+// TYPE INFERENCE ENGINE - Three-tier confidence
 //
 // Returns: { type, confidence: 'high'|'medium', source, detail } or null
 //
 // high = WILL SKIP (strongDomains or strongCompanyPatterns)
 // medium = INFO NOTE only (suggestivePatterns or domainPatterns)
-// ═══════════════════════════════════════════════════════════════
 
 function inferTypeFromCompany(companyName, email) {
   const company = (companyName || '').trim();
@@ -220,7 +178,7 @@ function inferTypeFromCompany(companyName, email) {
   const domainBase = domainLower.replace(/\.(com|net|org|bank|co|io|us|ca|uk)$/, '');
 
   for (const [type, signals] of Object.entries(TYPE_SIGNALS)) {
-    // TIER 1 — HIGH confidence: exact known domain
+    // TIER 1 - HIGH confidence: exact known domain
     if (signals.strongDomains && signals.strongDomains.length > 0) {
       for (const sd of signals.strongDomains) {
         const sdBase = sd.replace(/\.(com|net|org|bank|co|io|us|ca|uk)$/, '');
@@ -229,7 +187,7 @@ function inferTypeFromCompany(companyName, email) {
         }
       }
     }
-    // TIER 2 — HIGH confidence: unambiguous company name pattern
+    // TIER 2 - HIGH confidence: unambiguous company name pattern
     if (company && signals.strongCompanyPatterns) {
       for (const pattern of signals.strongCompanyPatterns) {
         if (pattern.test(company)) {
@@ -241,7 +199,7 @@ function inferTypeFromCompany(companyName, email) {
 
   // Second pass: check suggestive/ambiguous patterns (MEDIUM only)
   for (const [type, signals] of Object.entries(TYPE_SIGNALS)) {
-    // TIER 3a — MEDIUM: suggestive company name pattern
+    // TIER 3a - MEDIUM: suggestive company name pattern
     if (company && signals.suggestivePatterns) {
       for (const pattern of signals.suggestivePatterns) {
         if (pattern.test(company)) {
@@ -249,7 +207,7 @@ function inferTypeFromCompany(companyName, email) {
         }
       }
     }
-    // TIER 3b — MEDIUM: domain pattern match
+    // TIER 3b - MEDIUM: domain pattern match
     if (domainBase && domainBase.length >= 3 && signals.domainPatterns) {
       for (const pattern of signals.domainPatterns) {
         if (pattern.test(domainBase)) {
@@ -267,9 +225,9 @@ const results = [];
 for (const item of items) {
   const data = { ...item.json };
 
-  // ═══ v3.2: FORWARDER INSTRUCTION FALLBACK ═══
+  // FORWARDER INSTRUCTION FALLBACK
   // If Email Parser didn't set suggestedType but forwarderInstruction has type keywords,
-  // derive suggestedType from the instruction. E.g., "OEM for Zoho" →
+  // derive suggestedType from the instruction. E.g., "OEM for Zoho" ->
   // suggestedType=Manufacturer.
   if (!data.suggestedType && data.forwarderInstruction) {
     const instrLower = data.forwarderInstruction.toLowerCase();
@@ -291,12 +249,10 @@ for (const item of items) {
     }
   }
 
-  // ═══════════════════════════════════════════════════════════════
   // MULTI-CONTACT: Process contacts array if present
-  // ═══════════════════════════════════════════════════════════════
   let contacts = data.contacts || [data];
 
-    // v3.2.9f: EMPLOYEE EXCLUSION — runs here to catch ALL extraction paths
+    // EMPLOYEE EXCLUSION - runs here to catch ALL extraction paths
     // (AI extraction, PDF/OCR extraction, web research discovery)
     // Populate with the firm's own staff so their signatures are never extracted as contacts.
     const OWN_FIRST = new Set(['alex', 'pat', 'taylor', 'morgan', 'casey']);
@@ -318,10 +274,10 @@ for (const item of items) {
       return true;
     });
 
-    // v3.30c+: POST-EXTRACTION GHOST CONTACT FILTER (extended)
+    // +: POST-EXTRACTION GHOST CONTACT FILTER (extended)
     // Catches PDF/OCR/AI artifacts the upstream filters miss:
     //  - Apostrophe-S names ("Alex's", "Pat's") anywhere in name field
-    //  - Names containing sentence punctuation (:, ", parens) — parser leaks
+    //  - Names containing sentence punctuation (:, ", parens) - parser leaks
     //  - Single-word names ≤3 chars with no opposite-field value
     //  - Own-company staff name tokens bleeding in without proper email
     //  - Email-name mismatch (e.g., firstName="Wry" with email="wiz@...")
@@ -332,31 +288,31 @@ for (const item of items) {
       const co = (c.companyName || c.company || '').trim();
       // Punctuation artifacts: name fields containing : " ( [ {
       if (/[:"\[\]\{\}]/.test(f) || /[:"\[\]\{\}]/.test(l)) return false;
-      // Possessive 's at END of name only (Alex's, Pat's) — NOT mid-name apostrophes (O'Brien, O'Neill)
+      // Possessive 's at END of name only (Alex's, Pat's) - NOT mid-name apostrophes (O'Brien, O'Neill)
       if (/^[A-Za-z]+['’]s$/i.test(f) || /^[A-Za-z]+['’]s$/i.test(l)) return false;
       // Also catch "Alex's instruction:" style garbage
       if (/['’]s\s+/i.test(f) && f.length > 10) return false;
-      // Very short single-side name (≤3) with empty other side → ghost
+      // Very short single-side name (≤3) with empty other side -> ghost
       if (!l && f.length <= 3) return false;
       if (!f && l.length <= 3) return false;
-      // Zero name + only email (orphan email) — not a real contact
+      // Zero name + only email (orphan email) - not a real contact
       if (!f && !l) return false;
-      // Very short name + no email + no company — ghost
+      // Very short name + no email + no company - ghost
       if (f.length <= 3 && l.length <= 3 && !e && !co) return false;
       // Staff name tokens leaking without legitimate email
       const lLow = l.toLowerCase().replace(/['’]s$/i,'').trim();
       const fLow = f.toLowerCase().trim();
       if (!e && OWN_LAST.has(lLow)) return false;
       if (!e && OWN_FIRST.has(fLow) && !l) return false;
-      // (Removed email-name mismatch rule — too aggressive for role emails like manager@)
+      // (Removed email-name mismatch rule - too aggressive for role emails like manager@)
       return true;
     });
 
-    // v3.32: RECIPIENT-LIST FILTER — drop contacts that only appear inside To:/Cc:/Subject: headers
+    // RECIPIENT-LIST FILTER - drop contacts that only appear inside To:/Cc:/Subject: headers
     // Applied only when multiple contacts are present AND the dropped contact lacks corroborating
     // signature data (phone/mobile/jobTitle), AND no plural-intent safety net triggers.
     if (contacts.length > 1 && data.fullBody) {
-      // 2026-04-21 SAFETY NET A — plural-intent short-circuit
+      // 2026-04-21 SAFETY NET A - plural-intent short-circuit
       const forwarderSignals = [
         data.forwarderInstruction || '',
         data.rawForwarderInstruction || '',
@@ -426,7 +382,7 @@ for (const item of items) {
       continue;
     }
 
-    // Step 0: Check for specific type remap (optional sub-category → contact type)
+    // Step 0: Check for specific type remap (optional sub-category -> contact type)
     const lowerType = extractedType.toLowerCase();
     if (SPECIFIC_TYPE_REMAP[lowerType]) {
       specificType = extractedType;
@@ -434,17 +390,14 @@ for (const item of items) {
       typeCorrected = true;
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // v3.0 CRITICAL: FORWARDER INSTRUCTION ALWAYS WINS
+    // FORWARDER INSTRUCTION ALWAYS WINS
     // If suggestedType exists from forwarder, USE IT. Period.
     // AI-extracted type is informational only.
-    // ═══════════════════════════════════════════════════════════
 
     if (data.suggestedType) {
-      // Forwarder gave a type instruction — this is the final type
+      // Forwarder gave a type instruction - this is the final type
       extractedType = data.suggestedType;
-      specificType = ''; // v3.2.8: Clear AI-derived specificType when forwarder overrides
-      specificType = ''; // v3.2.8: Clear AI-derived specificType when forwarder overrides
+      specificType = ''; // Clear AI-derived specificType when forwarder overrides
       typeValidated = VALID_TYPES.includes(extractedType);
 
       if (!typeValidated) {
@@ -465,7 +418,7 @@ for (const item of items) {
       }
 
       if (!typeValidated) {
-        // Forwarder gave something we can't resolve — still use it, but flag
+        // Forwarder gave something we can't resolve - still use it, but flag
         extractedType = data.suggestedType;
         typeValidated = false; // Will fall through to default below
       }
@@ -514,8 +467,7 @@ for (const item of items) {
       specificType = matched || '';
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.2.8: COMPANY NAME QUALITY CHECK — skip type gate for garbled names
+    // COMPANY NAME QUALITY CHECK - skip type gate for garbled names
     // AI sometimes extracts proposal text as company name (e.g., "- Buyer: UAE family office")
     const companyStr = (contact.companyName || '').trim();
     const isGarbledCompany = companyStr.startsWith('-') || companyStr.startsWith('•') ||
@@ -527,16 +479,14 @@ for (const item of items) {
       contact.infoNotes.push('Cleared garbled company name: "' + companyStr.substring(0, 50) + '"');
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.3: TYPE-RELEVANCE GATE
+    // TYPE-RELEVANCE GATE
     // When forwarder specified a type, check if this contact's company
     // is compatible. Skip contacts that clearly belong to a different type.
-    // ═══════════════════════════════════════════════════════════════
 
     let typeRelevanceSkip = false;
     let typeRelevanceNote = '';
     let inferredCompanyType = null;
-    // v3.3.2: Moved reviewReasons declaration here — was declared after first usage at line ~457
+    // Moved reviewReasons declaration here - was declared after first usage at line ~457
     const reviewReasons = [];
 
     if (data.suggestedType && contact.email) {
@@ -547,8 +497,8 @@ for (const item of items) {
 
         if (inferredCompanyType.confidence === 'high') {
           // HIGH confidence: company clearly belongs to a different type
-          // e.g., bofa.com (Financial Institution) being tagged as Family Office → SKIP
-          // v3.2.9e: Only skip if forwarder didn't explicitly set a type
+          // e.g., bofa.com (Financial Institution) being tagged as Family Office -> SKIP
+          // Only skip if forwarder didn't explicitly set a type
           // If the forwarder says "Family Office" for a bank contact, trust the forwarder
           if (!data.suggestedType) {
             typeRelevanceSkip = true;
@@ -558,7 +508,7 @@ for (const item of items) {
               '" but forwarder explicitly instructed "' + data.suggestedType +
               '". Using forwarder type (forwarder always wins).';
           }
-          // v3.3.2: Only set "skipped" note when contact is actually skipped
+          // Only set "skipped" note when contact is actually skipped
           if (typeRelevanceSkip) {
             typeRelevanceNote =
               'Type mismatch: "' + (contact.companyName || contactDomain) +
@@ -568,7 +518,7 @@ for (const item of items) {
               '". Contact skipped — not the intended target.';
           }
         } else if (inferredCompanyType.confidence === 'medium') {
-          // MEDIUM: possible mismatch — info note only, don't skip
+          // MEDIUM: possible mismatch - info note only, don't skip
           typeRelevanceNote =
             'Possible type mismatch: "' + (contact.companyName || contactDomain) +
             '" may be a ' + inferredCompanyType.type +
@@ -578,14 +528,12 @@ for (const item of items) {
       }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.0: REVIEW LOGIC — only genuine problems
+    // REVIEW LOGIC - only genuine problems
     // TYPE CONFLICTS ARE NEVER REVIEW FLAGS (forwarder always wins)
-    // ═══════════════════════════════════════════════════════════════
 
-    const infoNotes = [...(contact.infoNotes || [])]; // v3.1: preserve upstream infoNotes
+    const infoNotes = [...(contact.infoNotes || [])]; // preserve upstream infoNotes
 
-    // v3.3.1 FIX: Fuzzy type match flag — when instruction resolved via normalization
+    // Fuzzy type match flag - when instruction resolved via normalization
     // but the original text doesn't exactly match any canonical type name, flag for review
     // Edit to match your CRM's contact-type picklist.
     const CANONICAL_TYPES = ["Customer", "Financial Institution", "Broker", "Manufacturer",
@@ -605,7 +553,7 @@ for (const item of items) {
       infoNotes.push('AI found type "' + aiType + '" but using your instruction: "' + extractedType + '"');
     }
 
-    // v3.0 AUDIT FIX: Validate email format
+    // AUDIT Validate email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (contact.email && !emailRegex.test(contact.email)) {
       infoNotes.push('Email format may be invalid: "' + contact.email + '" — verify manually');
@@ -655,14 +603,12 @@ for (const item of items) {
       reviewReasons.push('NO EMAIL: Contact created without email — manual lookup needed');
     }
 
-    // v3.3: Type-relevance gate note
+    // Type-relevance gate note
     if (typeRelevanceNote) {
       infoNotes.push(typeRelevanceNote);
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.1: INFORMATIONAL — Source-text validation cleared some fields
-    // ═══════════════════════════════════════════════════════════════
+    // INFORMATIONAL - Source-text validation cleared some fields
     if (contact.clearedFields && contact.clearedFields.length > 0) {
       const clearedNames = contact.clearedFields.map(f => f.field || f).join(', ');
       infoNotes.push('Source validation cleared: ' + clearedNames + ' (not found in email text)');
@@ -677,16 +623,14 @@ for (const item of items) {
 
     const hasAnyContactData = !!(contact.email || contact.lastName || contact.firstName);
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.1 CRITICAL FIX: MERGE skipZohoUpsert — never UN-BLOCK a contact
+    // MERGE skipZohoUpsert - never UN-BLOCK a contact
     //
     // If Parse AI Response blocked this contact (skipZohoUpsert: true)
     // because source-text validation failed, we MUST preserve that.
     // We can only ADD additional reasons to skip, never remove them.
     //
-    // OLD (broken): skipZohoUpsert: shouldSkipZoho  ← overwrote upstream block
+    // OLD (broken): skipZohoUpsert: shouldSkipZoho  <- overwrote upstream block
     // NEW (fixed):  skipZohoUpsert: upstreamBlocked || shouldSkipZoho
-    // ═══════════════════════════════════════════════════════════════
     const upstreamBlocked = contact.skipZohoUpsert === true;
     const shouldSkipZoho = !hasAnyContactData;
 
@@ -701,11 +645,11 @@ for (const item of items) {
       needsReview: needsReview,
       reviewReason: reviewReason,
       infoNotes: infoNotes,
-      // v3.3: Type-relevance gate fields (audit trail)
+      // Type-relevance gate fields (audit trail)
       inferredCompanyType: inferredCompanyType ? inferredCompanyType.type : null,
       inferredTypeConfidence: inferredCompanyType ? inferredCompanyType.confidence : null,
       inferredTypeSource: inferredCompanyType ? inferredCompanyType.source : null,
-      // v3.1+v3.3: MERGE — blocked stays blocked, add new reasons to skip
+      // MERGE - blocked stays blocked, add new reasons to skip
       skipZohoUpsert: upstreamBlocked || shouldSkipZoho || typeRelevanceSkip
     });
   }

@@ -3,7 +3,7 @@
 Email-to-CRM runs as Docker containers on an on-prem mini-PC
 (Windows 11 Pro, hostname `<HOSTNAME>`) on the office LAN.
 This directory version-controls the box's resilience config so the setup is
-reproducible and audit-replayable.
+reproducible.
 
 ## Files
 - `harden.ps1`: idempotent, replayable unattended-reboot hardening. Run elevated on the box (or over SSH as the local admin user). Pass `-AutologinPassword <pw>` to also enable auto-login. Never hardcodes a secret.
@@ -24,7 +24,7 @@ reproducible and audit-replayable.
 5. Appends a timestamped line to `watchdog.log` next to the script for every action taken.
 
 ## Recovery model: why the box survives an unattended reboot
-Cold boot (any cause) → Windows **auto-login** (admin user, encrypted LSA secret) → a desktop session exists → **`OnPrem-StackWatchdog`** (at-logon trigger) and Docker **AutoStart** launch Docker Desktop → engine comes up → **`unless-stopped`** containers start → n8n live. The watchdog's 5-minute loop also self-heals engine/container crashes, not just reboots.
+After a cold boot, Windows auto-logs in the admin user (credential stored as an encrypted LSA secret). That session fires the `OnPrem-StackWatchdog` at-logon trigger, and Docker Desktop's AutoStart launches the engine. The `unless-stopped` containers then start and n8n comes up. The watchdog's 5-minute loop also restarts the engine or the n8n container when either crashes.
 
 Root cause of the outage that prompted this: an unattended power-on left the stack dead because (a) there was no Windows auto-login and (b) Docker Desktop `AutoStart=False`, so the engine never started without a manual login. Both are fixed by `harden.ps1`.
 
@@ -51,7 +51,7 @@ Check state with `Get-ScheduledTask OnPrem-StackWatchdog` and `Get-Content C:\Us
 2. Copy this directory to `C:\Users\<user>\onprem-hardening\`.
 3. `net user <user> <password>`, set a known password.
 4. `powershell -ExecutionPolicy Bypass -File harden.ps1 -User <user> -AutologinPassword <password>`
-5. Set BIOS **"Restore on AC Power Loss = Power On"** (physical).
+5. Set BIOS "Restore on AC Power Loss = Power On" (needs someone at the machine).
 
 ## Rollback
 - Disable auto-login: run `Autologon64.exe` and choose Disable, or delete `AutoAdminLogon` / `DefaultUserName` / `DefaultPassword` under `HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`.

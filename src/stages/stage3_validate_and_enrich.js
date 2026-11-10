@@ -1,25 +1,20 @@
-// ═══════════════════════════════════════════════════════════════
-// Stage 3: Validate & Enrich v4.0
+// Stage 3: Validate & Enrich
 //
-// Deterministic validation and enrichment of resolved contacts:
-// 1. Completeness check (name + email/phone minimum)
-// 2. Phone normalization + format detection
-// 3. Company name word splitting for domain-derived names
-// 4. Stub detection + web research flagging
-// 5. Type assignment from forwarder instruction
-// 6. Name format normalization (comma-swap, punctuation strip)
+// Deterministic checks on the resolved contacts, in order: a minimum of name plus
+// email or phone; phone normalization; splitting run-together company names taken
+// from a domain ("acmeprivatewealth" -> "Acme Private Wealth"); flagging stubs for
+// web research; type from the forwarder's note; name cleanup ("Doe, Jane" -> Jane Doe).
 //
-// Input: Resolved contacts from Stage 2
-// Output: Validated contacts ready for downstream (CSV, Zoho, confirmation)
-// ═══════════════════════════════════════════════════════════════
+// Input: resolved contacts from Stage 2
+// Output: validated contacts for CSV, Zoho, and the confirmation
 
 const input = $input.first().json;
 const contacts = input.contacts || [];
 const forwarderInstruction = input.forwarderInstruction || '';
 const suggestedType = input.suggestedType || '';
 
-// ── Known company word dictionaries for domain splitting ──────
-// When company is derived from domain (e.g., "smithoneill" → "Smith O'Neill"),
+// Known company word dictionaries for domain splitting
+// When company is derived from domain (e.g., "smithoneill" -> "Smith O'Neill"),
 // we try known word boundaries and common business suffixes.
 
 const commonWords = new Set([
@@ -75,10 +70,10 @@ function splitDomainCompany(domainName) {
     return bestSplit.replace(/\b\w/g, l => l.toUpperCase());
   }
 
-  return domainName; // Can't split — return original
+  return domainName; // Can't split - return original
 }
 
-// ── Phone normalization helpers ───────────────────────────────
+// Phone normalization helpers
 
 function normalizePhone(phone) {
   if (!phone) return '';
@@ -96,7 +91,7 @@ function isUKPhone(phone) {
   return /^(?:\+?44|0)\s*\d{3,5}\s+\d{5,7}$/i.test(phone.trim());
 }
 
-// ── Name normalization ────────────────────────────────────────
+// Name normalization
 
 function fixName(firstName, lastName, email) {
   let fn = (firstName || '').trim();
@@ -108,7 +103,7 @@ function fixName(firstName, lastName, email) {
 
   // Detect "Last, First" format: if firstName has comma OR lastName is a single initial
   if (fn.includes(',')) {
-    // "Broker, J." → might be Last, First
+    // "Broker, J." -> might be Last, First
     const parts = fn.split(',').map(p => p.trim());
     if (parts.length === 2) {
       // Swap: first part is last name, second is first name
@@ -133,7 +128,7 @@ function fixName(firstName, lastName, email) {
         fn = emailFirst.charAt(0).toUpperCase() + emailFirst.slice(1);
       }
     } else if (words.length === 1 && words[0].length > 2) {
-      // Single word like "jbroker" — try to split if last name matches
+      // Single word like "jbroker" - try to split if last name matches
       const word = words[0];
       if (ln && word.includes(ln.toLowerCase())) {
         const prefix = word.replace(ln.toLowerCase(), '');
@@ -148,7 +143,7 @@ function fixName(firstName, lastName, email) {
   fn = fn.replace(/^["']|["']$/g, '').trim();
   ln = ln.replace(/^["']|["']$/g, '').trim();
 
-  // Fix doubled first names: "Jane Jane" → "Jane"
+  // Fix doubled first names: "Jane Jane" -> "Jane"
   if (fn.includes(' ')) {
     const parts = fn.split(/\s+/);
     if (parts.length === 2 && parts[0].toLowerCase() === parts[1].toLowerCase()) {
@@ -156,7 +151,7 @@ function fixName(firstName, lastName, email) {
     }
   }
 
-  // Fix first name containing last name: "Jane Broker" in firstName → split
+  // Fix first name containing last name: "Jane Broker" in firstName -> split
   if (fn.includes(' ') && !ln) {
     const parts = fn.split(/\s+/);
     if (parts.length === 2) {
@@ -165,7 +160,7 @@ function fixName(firstName, lastName, email) {
     }
   }
 
-  // Fix doubled last names: "Broker Broker" → "Broker"
+  // Fix doubled last names: "Broker Broker" -> "Broker"
   if (ln.includes(' ')) {
     const parts = ln.split(/\s+/);
     if (parts.length === 2 && parts[0].toLowerCase() === parts[1].toLowerCase()) {
@@ -173,7 +168,7 @@ function fixName(firstName, lastName, email) {
     }
   }
 
-  // Fix last name duplicated in first name: fn="John Broker" ln="Broker" → fn="John" ln="Broker"
+  // Fix last name duplicated in first name: fn="John Broker" ln="Broker" -> fn="John" ln="Broker"
   if (fn.includes(' ') && ln) {
     const parts = fn.split(/\s+/);
     if (parts.length === 2 && parts[1].toLowerCase() === ln.toLowerCase()) {
@@ -184,7 +179,7 @@ function fixName(firstName, lastName, email) {
   return { firstName: fn, lastName: ln };
 }
 
-// ── Valid contact types ───────────────────────────────────────
+// Valid contact types
 
 // Edit to match your CRM's contact-type picklist.
 const validTypes = [
@@ -215,7 +210,7 @@ function resolveType(suggestedType, forwarderInstruction) {
   return suggestedType || '';
 }
 
-// ── Subject-named contact injection ──────────────────────────
+// Subject-named contact injection
 // If the email subject names a specific person (e.g., "... - Jane Broker")
 // and that person's email is in the headers but they weren't extracted by AI,
 // inject them deterministically. The AI often ignores header-only contacts.
@@ -276,7 +271,7 @@ for (const pattern of subjectPatterns) {
   }
 }
 
-// ═══ PROCESS EACH CONTACT ═══════════════════════════════════
+// PROCESS EACH CONTACT
 
 const validatedContacts = [];
 let needsWebResearch = false;
@@ -300,14 +295,14 @@ for (const contact of contacts) {
     }
   }
 
-  // Bare domain → company name (e.g., "exampletrailerleasing.com" → "Example Trailer Leasing")
+  // Bare domain -> company name (e.g., "exampletrailerleasing.com" -> "Example Trailer Leasing")
   if (contact.company && /^[a-z0-9][-a-z0-9]*\.(com|net|org|co|io|us|uk|ca|de|fr|au|biz|info)$/i.test(contact.company.trim())) {
     const rawDomain = contact.company.trim();
     contact.company = splitDomainCompany(rawDomain.replace(/\.[a-z]+$/i, ''));
     contact._companyDerived = true;
   }
 
-  // Company enrichment — split domain-derived names
+  // Company enrichment - split domain-derived names
   if (contact._companyDerived || !contact.company) {
     contact.company = splitDomainCompany(contact.company || '');
   }
@@ -334,23 +329,23 @@ for (const contact of contacts) {
   const fnLen = (contact.firstName || '').trim().length;
   const lnLen = (contact.lastName || '').trim().length;
   if (fnLen <= 3 && lnLen === 0 && !contact.email) {
-    // Single short word with no last name and no email — almost certainly garbage
+    // Single short word with no last name and no email - almost certainly garbage
     continue;
   }
   if (fnLen <= 2 && lnLen <= 2) {
-    // Both parts are initials or fragments — skip
+    // Both parts are initials or fragments - skip
     continue;
   }
 
   if (!hasContactInfo) {
-    // Stub contact — needs web research
+    // Stub contact - needs web research
     contact.isStub = true;
     contact.needsWebResearch = true;
     contact.confidence = 'low';
     needsWebResearch = true;
   }
 
-  // Clean up garbage titles — phrases that aren't real job titles
+  // Clean up garbage titles - phrases that aren't real job titles
   if (contact.title) {
     const garbageTitles = ['part of the network', 'management', 'n/a', 'none', 'unknown',
       'not specified', 'not available', 'contact', 'person', 'individual'];
@@ -408,12 +403,12 @@ for (const contact of contacts) {
   validatedContacts.push(contact);
 }
 
-// ── Singular instruction filter ───────────────────────────────
+// Singular instruction filter
 // If the forwarder said "her", "him", "this person", "add [Name]" (singular),
 // keep only the BEST contact (most complete fields, highest confidence).
 // This prevents over-extraction from CC headers in multi-party emails.
 // EXCEPTION: If the subject line names a person who is NOT the best-scored contact,
-// the subject person is likely also a target — don't filter down to 1.
+// the subject person is likely also a target - don't filter down to 1.
 const singularInstruction = /\b(her|him|this\s+person|this\s+contact|this\s+one|add\s+[A-Z][a-z]+\s+)/i.test(forwarderInstruction);
 const pluralInstruction = /\b(both|all|them|everyone|each|two|three|these|2|3)\b/i.test(forwarderInstruction);
 
@@ -446,7 +441,7 @@ if (singularInstruction && !pluralInstruction && !subjectImpliesMultiple && vali
   validatedContacts.push(best);
 }
 
-// ── Output ────────────────────────────────────────────────────
+// Output
 
 return [{
   json: {

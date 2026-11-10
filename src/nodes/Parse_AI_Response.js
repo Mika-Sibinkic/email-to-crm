@@ -1,243 +1,19 @@
-// Parse AI Response v3.33 — stub-creation ANTI-DROP GUARD (stub-name regression fix, 2026-04-23)
+// Parse AI Response (single-stage pipeline)
 //
-// v3.33 CHANGES (minimal, one regression + stub field preservation):
-//   OBSERVED FAILURE (2026-04-22 sanity batch exec 1448): "FW: example listing" body contains
-//     "Mr. John Broker / Founder/Head of Sales / assistant@example-broker.com / Mobile: 555-010-0199"
-//   v3.32 flow: Ollama returns 0 → stub creation → email local-part 'assistant' splits to single
-//     token [assistant] → stub firstName/lastName empty → Validate Contact Type ghost-filter drops
-//     the stub (if (!firstName && !lastName) return false). Baseline (pre-v3.32) extracted the contact.
-//     Verified real regression 2026-04-23: 3 re-fires, 3/3 misses (execs 1487/1488/1490).
-//   FIX: new helper deriveNameFromBodyNear(body, email, forwarderEmail) — when local-part doesn't
-//     yield first+last, scan ±5 lines around the email for "Mr./Ms./Dr. First Last" or standalone
-//     "First Last" on its own line. Also captures Mobile/Office phone and a short job-title line
-//     between the name and the email. Excludes own staff, forwarder name, branding, and
-//     common English/industry words to avoid reopening the ghost-contact leak v3.27 closed.
-//   FIELD PROPAGATION: stub push now passes frag.mobile + frag.jobTitle through (v3.32 hardcoded
-//     these to '' even though surrounding code set them). Fixes the case above to get 555-010-0199 captured.
+// Turns the local model's JSON reply into contact records, then checks each field
+// against the email text so a value the model made up never reaches the CRM. Most of
+// this file is a signature scanner that runs whether or not the model succeeded: it
+// reads the lines around each external email address for name, title, company,
+// phones, and address, and merges what it finds with the model's answer.
 //
-// v3.32 SIGNATURE SCANNER PHONE REGEX EXTENDED
-// Observed failures (Apr 20 2026):
-//   Contact A         signature: "O 555-010-0101" / "C  555-010-0102"   (single-letter labels)
-//   Contact B         signature: "O |  555.010.0103" / "M |  555.010.0104"  (letter + pipe)
-//   Contact C         signature: "(c) 555.010.0105"                     (parenthesized letter)
-// None matched the prior regex:
-//   (?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|Office(?:\s*Phone)?|Business|Direct\s+Line)\s*[:\s]?\s*(...)
-// Changes:
-//  1. Add standalone "O" (office) to phone regex — mirroring existing "P"/"T" standalone
-//  2. Add standalone "C" (cell) to mobile regex — mirroring existing "M" standalone
-//  3. Add parenthesized-letter prefixes (t)(p)(o) for phone, (m)(c) for mobile
-//  4. Widen separator from [:\s]? to [:|\s]* to accept "|" (and zero-or-more)
-//  5. Anchor label with \b word-boundary to avoid false positives on "Director"/"Top"/etc.
-// Patched at 5 locations: primary signature scanner (before-email at line ~756 & ~792),
-//   after-email scanner (~989 & ~1016), and TLD-less fallback scanner (~1181 & ~1188).
+// Input: one Ollama response per email, index-matched to Email Parser's items.
+// Output: { contacts: [...], contactCount, ...email metadata } per email.
 //
-// Parse AI Response v3.30b — TLD-less email recovery with web verification
-// v3.29 CHANGE LOG:
-// - FIX 1: Emails without TLD (e.g., "jane.broker@examplegroup") are now resolved by
-//   probing common TLDs (.com, .net, .org, .co, .ca, .io) and verifying each candidate by
-//   fetching the homepage and checking if the company name from the email appears on the page.
-//   The verified domain is used — no guesswork. Falls back to MX-first candidate if web
-//   verification fails, and .com as last resort.
-//   Observed failure: Jane Broker (The Example Group) → email="", zohoSkipped=true,
-//   because jane.broker@examplegroup didn't match the TLD-requiring email regex.
-//
-// Parse AI Response v3.27 — name-aware pipe-split + phone dedup + ghost contact filter
-// v3.27 CHANGE LOG:
-// - FIX 1: Pipe-split title now detects when first part is the contact's name and skips it.
-//   "Jane Broker | Director | Finance | Example Specialist Sectors" → title="Director", company="Example Specialist Sectors"
-//   Observed failure: Jane Broker → jobTitle contained full name + title pipe string
-// - FIX 2: Phone dedup — if phone and mobile are the same number, clear mobile.
-//   Observed failure: Jane Broker → Phone and Mobile both 1-555-010-0106
-// - FIX 3: Ghost contact filter — remove contacts with very short names and no email.
-//   Observed failure: a broker email → "Wiz" and "Wry" extracted as ghost contacts
-//
-// Parse AI Response v3.26 — Name dedup, punctuation strip, title/company cleanup, OCR dedup
-// v3.26 CHANGE LOG:
-// - FIX 1: Full name-based dedup after merge — when multiple contacts share the same name,
-//   keep the one with the best data (most fields, non-generic email, highest confidence).
-//   Fixes triple-duplicate bug (#661).
-// - FIX 2: Name punctuation stripping + "Last, First" detection — strip trailing commas/semicolons
-//   from names, detect "Broker, J." pattern and swap to firstName="J." lastName="Broker".
-// - FIX 3: Title/Company pipe-split — smart splitting of "Title | Company" in either field,
-//   company===title dedup (derive from domain), company===person name cleanup.
-// - FIX 4: Drop incomplete PDF OCR duplicates — OCR contacts with no lastName AND no email
-//   are dropped when a better-sourced contact shares the same firstName.
-// - Added 'fraud','abuse','spam','security' to GENERIC_PREFIXES set.
-//
-// Parse AI Response v3.23 — Recursive contact completion: stub creation from fragments
-// v3.23: When all extraction paths produce 0 contacts but AI narrative or email body
-// contains identifiable fragments (name, company, email, phone, URL), create stub contacts
-// with needsWebResearch=true so the Web Research node can fill missing fields.
-//
-// Parse AI Response v3.21 — URL discovery for forwarded URL-only emails + AI narrative header fallback
-// CHANGE LOG v3.21:
-// - FIX 1: URL discovery activation for forwarded URL-only emails. When subject IS a URL
-//   (after stripping Fwd:/Fw:/FW:/Re: prefixes) and AI returns 0 contacts, urlDiscoveryMode
-//   now activates correctly. Also triggers when body is very short (<100 non-whitespace chars)
-//   and allUrls has entries. Observed failure: example-broker.com/our-crew/ not researched.
-// - FIX 2: AI narrative header fallback. When AI returns narrative text (aiParseError=true)
-//   mentioning contacts by email, but those emails only appear on From:/To:/Cc: header lines
-//   (so the scanner skips them), a fallback now extracts those contacts from the narrative.
-//   Observed failure: a header-only contact (execution 577) dropped — email only on To: line.
-//
-// Parse AI Response v3.20 — fullBody TDZ fix + LLC title guard + sales suffix + standalone phone
-// CHANGE LOG v3.20:
-// - FIX 1: fullBody temporal dead zone — const fullBody was declared at line ~1345 but used
-//   at line ~1280 (v3.17 firstName header fallback). Any contact with empty firstName caused
-//   ReferenceError: Cannot access 'fullBody' before initialization → 0 contacts returned.
-//   Observed failure: a contact with empty firstName → contactCount=0 (execution 458).
-// - FIX 2: LLC/Inc/Corp guard on title regex — lines containing corporate suffixes (LLC, Inc,
-//   Corp, LLP, Ltd) are company names, not job titles. "Example Principal Advisors, LLC" was
-//   matching title regex due to "Principal" + "Advisors" keywords.
-//   Observed failure: a contact → jobTitle="Example Principal Advisors, LLC" (execution 452).
-// - FIX 3: Added "sales" to businessSuffixes for inferCompanyFromDomain. "acmeequipmentsales.com"
-//   now splits to "Acme Equipment Sales" instead of "Acme Equipmentsales".
-//   Observed failure: a contact → company="Acme Equipmentsales".
-// - FIX 4: Standalone phone number detection — lines that are JUST a phone number (no label
-//   prefix like "Phone:" or "Office:") now captured as phone. Common in compact signatures.
-//   Observed failure: a bank contact → "555.010.0107" not captured (execution 460).
-//
-// CHANGE LOG v3.19:
-// - FIX 1: Merge guard — when scanner's firstName+lastName matches the jobTitle (e.g., "Vice President"),
-//   prefer AI's name instead. Scanner misidentified title as name for Jane O'Broker / Example Equipment.
-//   Observed failure: Example Equipment → firstName=Vice, lastName=President (execution 449).
-// - FIX 2: Smart quotes in name regex — Unicode apostrophes (\u2018, \u2019) now accepted.
-//   "Jane O\u2019Broker" was not matching the name pattern. Observed failure: O'Broker not detected.
-// - FIX 3: "Company:" label prefix detection in scanner. Lines starting with "Company:" now
-//   captured as company name directly. Previously relied on keyword matching which missed
-//   "EXAMPLE EQUIPMENT LEASING COMPANY" (no matching keywords like Bank/Capital/etc).
-//   Observed failure: company=Exampleco (domain inferred) instead of EXAMPLE EQUIPMENT LEASING COMPANY.
-// - FIX 4: "Direct Line" added to phone regex. "Direct Line: 555-010-0108" was not matched
-//   by any regex — "Direct" alone maps to mobile, but "Direct Line" is an office phone.
-//   Observed failure: 555-010-0108 only captured via AI, not scanner.
-// - FIX 5: Company keyword list expanded — added Leasing, Company, Equipment, Properties,
-//   Consulting, Development, Construction, Engineering, Technology, Systems.
-//
-// CHANGE LOG v3.18:
-// - FIX 1: "Direct" label now maps to mobile field (was phone). Convention: office=phone,
-//   direct/cell=mobile. "Direct" means the contact's personal direct dial.
-//   Observed failure: a contact → only office phone captured, direct number missed.
-// - FIX 2: Number-then-label phone patterns. Signatures like "555.010.0109 office" and
-//   "555.010.0110 direct" now captured. Previously only "Office: 555.010.0109" format worked.
-//   Observed failure: a contact → 0 phones extracted (labels after numbers).
-// - FIX 3: From-header body scan fallback. When external email appears ONLY in a From: header
-//   (not in signature), scanner now extracts name from header and scans the forwarded message
-//   body for phone, company, address. Fixes emails where contact info is in email body below
-//   headers, not in a traditional signature block.
-//   Observed failure: a contact → scanner returned 0 fields (email in From: header skipped).
-//
-// CHANGE LOG v3.17:
-// - FIX 1: isOwnCompanyPhone() now runs on ALL contact phone/mobile fields in the sanity check,
-//   not just during signature scanning. Fixes a bug where AI extracted an internal staff phone
-//   (555.010.0111) because it appeared in the forwarded email body.
-//   Observed failure: Jane Broker → phone = an internal staff mobile (execution 431).
-// - FIX 2: When AI returns empty firstName but has email, extract name from From/To/Cc
-//   headers in the email body. Fixes a bug where AI returned lastName="Broker"
-//   but missed firstName="Jane" (only appeared in "To: Jane Broker <JBroker@...>").
-//   Observed failure: Jane Broker → firstName="" (execution 431).
-//
-// CHANGE LOG v3.16:
-// - FIX 1: isPhoneNumber() vanity conversion now only applies when string starts with phone-like chars
-//   (digits, parens, +). "Example Brokers" no longer falsely detected as phone number.
-// - FIX 2: findDomainCorrelatedCompany allows trailing "." when preceded by Inc/Ltd/Corp/Co.
-//   "Example Logic, Inc." no longer rejected by sentence guard.
-// - FIX 3: Post-merge company guard + pipe-split re-applied after scanner-AI merge.
-// - FIX 4: Phone/mobile vanity digit counting for validation (DEAL=3325 counts as 4 digits).
-// - FIX 5: Bare vanity phone extraction in signature scanner.
-//
-// CHANGE LOG v3.15:
-// - FIX: BLACKLIST + PHONE-IN-COMPANY GUARDS NOW APPLIED TO AI OUTPUT
-//   v3.14 only applied these guards during signature scanning. The AI-extracted
-//   company field bypassed them entirely because companyInSource() returned true
-//   (the tagline IS in the email, inside the forwarder's signature). Now these guards run
-//   in both the normalization phase (before pipe-split) AND the validation phase.
-//   Observed failures: case A → company = own-company tagline, case B → company = phone number.
-//
-// CHANGE LOG v3.15:
-// - FIX 1: AI-EXTRACTED COMPANY GUARD — isPhoneNumber() and isOwnBranding()
-//   now run on AI-extracted company values BEFORE title-pipe split, not just signature scan.
-//   Fixes case B (company = phone) and case A (company = own-company tagline).
-// - FIX 2: DOMAIN CORRELATION SPACE-INSENSITIVE — findDomainCorrelatedCompany now
-//   matches after removing spaces, so "Example Logic" matches domain root "examplelogic".
-//
-// CHANGE LOG v3.14:
-// - FIX 1: OWN-COMPANY TAGLINE BLACKLIST — the firm's signature tagline was passing the
-//   company keyword regex because it contains company keywords.
-//   Added blacklist of known own-company taglines/branding strings.
-// - FIX 2: PHONE-IN-COMPANY GUARD — Company field sometimes receives phone numbers
-//   (e.g., "(555) 010-DEAL" as company). Reject company values that are primarily digits/phone chars.
-// - FIX 3: TITLE-PIPE SPLIT — When jobTitle contains "|", the second part is often the company
-//   (e.g., "Senior Sales Director | Example Brokers"). Split and extract company from pipe.
-// - FIX 4: INTERNATIONAL PHONE VALIDATION — phoneInSource was failing on international numbers
-//   like "+90 555 010 0 112". Now handles intl prefix and varied spacing.
-// - FIX 5: COUNTRY FIELD — Scanner now extracts country when present (e.g., "TURKEY" after city/state).
-//   State vs Country disambiguation for non-US values.
-// - FIX 6: DOMAIN-INFERRED COMPANY SPACING — "Acmeprivatewealth" from domain inference
-//   now gets camelCase splitting: "Acme Private Wealth".
-//
-// CHANGE LOG v3.13:
-// - CRITICAL: Changed $input.first() → $input.all() loop.
-//   When Ollama processes multiple extraction requests (one per email),
-//   each AI response is now parsed independently.
-// - prevData now uses index-correlated $('Email Parser').all()[_idx]
-//   instead of .first(), so each AI response references the correct email.
-// - Early returns (skip, AI failure) changed to allResults.push + continue.
-//
-// CHANGE LOG v3.12:
-// - v3.12: Added pipe-separated navigation link guard for company extraction.
-//   Lines like "VIDEOS  |  CREDIT APPLICATION  |" contain "Credit" (a company
-//   keyword) but are signature navigation bars, not company names. Any line with
-//   2+ pipe characters is now skipped. Applied in both before-email and after-email scans.
-//
-// CHANGE LOG v3.11:
-// - v3.11: SIX FIXES addressing all known scanner bugs (Feb 25):
-//
-//   FIX 1: NAME EXTRACTION — single-word email addresses like "jane@exampleco.com"
-//     Previously inferNameFromEmail returned {firstInitial:"a", lastHint:"nthony"} which
-//     never matched "Jane Broker". Now returns fullLocalAsFirst:"jane" which matches
-//     any candidate whose first name equals the full email local part. Fixes the
-//     "Example Co" → firstName bug (was grabbing company name as person name).
-//
-//   FIX 2: FALLBACK NAME PRIORITY — Always overwrite fallback with farthest-from-email match.
-//     In signatures, the person's name is at the TOP (farthest from email), company is closer.
-//     Previously only stored the FIRST fallback (closest = often company name).
-//     Now keeps overwriting so the topmost name candidate wins.
-//
-//   FIX 3: AFTER-EMAIL SCAN BOUNDARY — Stop scanning when hitting another person's email.
-//     Scanner was crossing from the contact's signature into the forwarder's own-company
-//     signature (15 lines after the email), picking up the forwarder's city/state/zip as the contact's city.
-//     Now stops the after-email scan when encountering any email address other than the
-//     current contact's email (signals a different person's signature block).
-//
-//   FIX 4: COMPANY NAME — Reject lines containing @ or starting with URL patterns.
-//     "JBROKER@EXAMPLE.BANK | EXAMPLELENDING.COM" was grabbed as company because it
-//     contains "BANK". Now skips any line with @ or http/www prefix for company extraction.
-//
-//   FIX 5: PHONE REGEX — Accept bare "P" prefix for phone numbers.
-//     "P 555-010-0113" is a common signature format. The regex previously required "Ph" or
-//     "Phone" minimum. Now matches "P" followed by separator + digits.
-//
-//   FIX 6: NAME-COMPANY COLLISION — Don't accept a name candidate that matches the already-
-//     extracted company name. Prevents lines like "Atlantic Holdings" from being stored as
-//     both company AND fallback person name.
-//
-// CHANGE LOG v3.10:
-//   FIX 1: REMOVED isOwnAddress() GUARD ENTIRELY.
-//   FIX 2: EXPANDED OWN_PHONES BLACKLIST with all team members.
-//
-// CHANGE LOG v3.9:
-//   FIX C: OWN-SIGNATURE CONTAMINATION GUARD
-//   FIX D: TITLE CASE NORMALIZATION
-//   FIX E: AI COMMENTARY GUARD
-// - v3.8: FIX PERSONAL-ONLY-CONTACTS REGRESSION — hasOnlyPersonalContacts → needsWebResearch = true
-// - v3.7: FIX PRIVATE BANK BUG via EMAIL-HINT-GUIDED NAME EXTRACTION
-// - v3.6: ALWAYS-ON SIGNATURE SCANNER replaces fallback-only approach
-// - v3.5: (Superseded) Fallback signature extraction
-// - v3.4: Comprehensive source-text validation
-// - v3.3: Fixed website enrichment order, phone label stripping, jobTitle/type echo detection
-// - Updated prevData node reference to current Email Parser1
+// Set the OWN_* constants (domains, phones, staff names, tagline) for your
+// organization. docs/edge-cases.md lists the signature formats this was tuned on.
 
-// ═══ v3.13: MULTI-ITEM WRAPPER — Process each AI response independently ═══
+// MULTI-ITEM WRAPPER - Process each AI response independently
+
 const allItems = $input.all();
 const allResults = [];
 // Pre-fetch Email Parser items for index-based correlation
@@ -249,17 +25,17 @@ try { emailParserItems = $('Email Parser').all(); } catch(e) {
 for (let _idx = 0; _idx < allItems.length; _idx++) {
 const _item = allItems[_idx];
 
-// ═══ SKIP_CHECK — Pass through skip signal ═══
+// SKIP_CHECK - Pass through skip signal
 if (_item.json.skip) {
   allResults.push({ json: _item.json });
   continue;
 }
 
-// ═══ OLLAMA_FAILURE_GUARD — Handle AI timeout/crash/garbage ═══
+// OLLAMA_FAILURE_GUARD - Handle AI timeout/crash/garbage
 const rawInput = _item.json;
 
-// Safe reference to Email Parser — use index-correlated item for multi-email support
-// v3.13: emailParserItems[_idx] gives us the Email Parser output that corresponds
+// Safe reference to Email Parser - use index-correlated item for multi-email support
+// emailParserItems[_idx] gives us the Email Parser output that corresponds
 // to THIS particular AI response (same position in the pipeline).
 let prevData = {};
 try {
@@ -288,30 +64,26 @@ if (rawInput.error || rawInput.statusCode >= 400 || (!rawInput.response && !rawI
     hasAttachments: prevData.hasAttachments || false,
     attachmentHints: prevData.attachmentHints || []
   }});
-  continue;  // v3.13: continue to next item instead of returning
+  continue;  // continue to next item instead of returning
 }
 
-// ═══════════════════════════════════════════════════════════════
-// v3.6: DETERMINISTIC SIGNATURE SCANNER
+// DETERMINISTIC SIGNATURE SCANNER
 // Runs on EVERY email. Extracts contacts from signature blocks
-// using regex — fast, reliable, no AI hallucination possible.
-// ═══════════════════════════════════════════════════════════════
+// using regex - fast, reliable, no AI hallucination possible.
 
-// v3.9: TITLE CASE NORMALIZATION
-// "JANE BROKER" → "Jane Broker", "PRIVATE BANK" → "Private Bank"
+// TITLE CASE NORMALIZATION
+// "JANE BROKER" -> "Jane Broker", "PRIVATE BANK" -> "Private Bank"
 // Only converts when the ENTIRE string is uppercase (won't touch "McDonald" or "De La Cruz")
 function toTitleCase(str) {
   if (!str || str.length < 2) return str;
   // Check if ALL alphabetic chars are uppercase
   const alphaChars = str.replace(/[^a-zA-Z]/g, '');
   if (alphaChars.length < 2 || alphaChars !== alphaChars.toUpperCase()) return str;
-  // Convert: "JANE BROKER" → "Jane Broker"
+  // Convert: "JANE BROKER" -> "Jane Broker"
   return str.toLowerCase().replace(/(?:^|\s|[-'])\w/g, c => c.toUpperCase());
 }
 
-// ═══════════════════════════════════════════════════════════════
-// v3.9 + v3.10: OWN-COMPANY PHONE NUMBER BLACKLIST
-// ═══════════════════════════════════════════════════════════════
+// OWN-COMPANY PHONE NUMBER BLACKLIST
 // Populate with the firm's own phone numbers (last 10 digits) so they are never captured as contact phones.
 const OWN_PHONES = new Set([
   // Office lines
@@ -338,7 +110,7 @@ function isOwnCompanyPhone(phoneStr) {
   return OWN_PHONES.has(last10);
 }
 
-// v3.33 ANTI-DROP GUARD — when email local-part yields no derivable name, scan body lines
+// ANTI-DROP GUARD - when email local-part yields no derivable name, scan body lines
 // near the email for a "Mr./Ms./Dr. First Last" or standalone "First Last" pattern. Fixes
 // unmatched-local-part class: body has 'Mr. John Broker / Founder... / assistant@example-broker.com'
 // but local-part 'assistant' splits to single token, prior v3.32 stub had empty name and was
@@ -386,11 +158,11 @@ function deriveNameFromBodyNear(body, email, forwarderEmail) {
         } else if (/office|direct|phone|^o\b|^p\b|\(o\)|\(p\)|\(t\)/.test(labeled) && !phone) {
           phone = phoneMatch[0].trim();
         } else if (!phone && !mobile) {
-          // unlabeled phone near the email → fill phone slot
+          // unlabeled phone near the email -> fill phone slot
           phone = phoneMatch[0].trim();
         }
       }
-      // JOB TITLE: a short line that's not a name, not a phone, not a URL — between name line and email line
+      // JOB TITLE: a short line that's not a name, not a phone, not a URL - between name line and email line
       if (!jobTitle && firstName && j > scanStart) {
         if (!/\d/.test(raw) && !raw.includes('@') && raw.length <= 60 && /^[A-Z]/.test(raw)
             && !raw.match(/^(?:Mr\.?|Ms\.?|Mrs\.?|Miss|Dr\.?|Prof\.?)?\s*[A-Z][a-zA-Z'’\-]+\s+[A-Z][a-zA-Z'’\-]+\s*$/)) {
@@ -405,7 +177,7 @@ function deriveNameFromBodyNear(body, email, forwarderEmail) {
   return { firstName: '', lastName: '', phone: '', mobile: '', jobTitle: '' };
 }
 
-// ═══ v3.14: OWN-COMPANY TAGLINE/BRANDING BLACKLIST ═══
+// OWN-COMPANY TAGLINE/BRANDING BLACKLIST
 // These strings appear in staff signatures and should NEVER be extracted as company names.
 const OWN_COMPANY_BLACKLIST = new Set([
   'your company tagline here',
@@ -424,10 +196,10 @@ function isOwnBranding(text) {
   return false;
 }
 
-// v3.16: Detect if a string is primarily a phone number (not a company)
-// v3.16 FIX: Only applies vanity conversion when the string starts with phone-like
+// Detect if a string is primarily a phone number (not a company)
+// Only applies vanity conversion when the string starts with phone-like
 // characters (digits, parens, +). Pure text like "Example Brokers" is NOT vanity-converted
-// because that would falsely turn all letters into digits (ratio 85% → false positive).
+// because that would falsely turn all letters into digits (ratio 85% -> false positive).
 function isPhoneNumber(str) {
   if (!str) return false;
   const trimmed = str.trim();
@@ -438,7 +210,7 @@ function isPhoneNumber(str) {
   const rawDigits = str.replace(/\D/g, '');
   if (rawDigits.length >= 7 && rawDigits.length / str.length > 0.4) return true;
   // Vanity conversion ONLY if string starts with a phone-like prefix
-  // e.g., "(555) 010-DEAL" or "1-555-GET-DEAL" — NOT "Example Brokers"
+  // e.g., "(555) 010-DEAL" or "1-555-GET-DEAL" - NOT "Example Brokers"
   if (/^[\d(+]/.test(trimmed)) {
     const vanityMap = {A:2,B:2,C:2,D:3,E:3,F:3,G:4,H:4,I:4,J:5,K:5,L:5,M:6,N:6,O:6,P:7,Q:7,R:7,S:7,T:8,U:8,V:8,W:9,X:9,Y:9,Z:9};
     const vanityConverted = str.replace(/[A-Za-z]/g, ch => vanityMap[ch.toUpperCase()] || ch);
@@ -448,7 +220,7 @@ function isPhoneNumber(str) {
   return false;
 }
 
-// ═══ v3.29: ASYNC TLD RESOLVER — web-verified domain resolution ═══
+// ASYNC TLD RESOLVER - web-verified domain resolution
 // When an email has no TLD (e.g., "jane.broker@examplegroup"), probe common TLDs
 // and verify by fetching the homepage + checking if the company name appears.
 async function resolveTldLessEmail(tldLessEmail, companyHint) {
@@ -461,7 +233,7 @@ async function resolveTldLessEmail(tldLessEmail, companyHint) {
   const companyLower = (companyHint || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
   const companyWords = companyLower.split(/\s+/).filter(w => w.length >= 3);
 
-  // Phase 1: DNS MX check — which TLDs can actually receive mail?
+  // Phase 1: DNS MX check - which TLDs can actually receive mail?
   const mxCandidates = [];
   await Promise.all(CANDIDATE_TLDS.map(async (tld) => {
     try {
@@ -475,7 +247,7 @@ async function resolveTldLessEmail(tldLessEmail, companyHint) {
   if (mxCandidates.length === 0) return localPart + '@' + domain + '.com'; // absolute fallback
   if (mxCandidates.length === 1) return localPart + '@' + domain + '.' + mxCandidates[0].tld;
 
-  // Phase 2: Multiple MX candidates — verify by homepage content + company name match
+  // Phase 2: Multiple MX candidates - verify by homepage content + company name match
   function fetchPage(url, timeout) {
     return new Promise((resolve) => {
       const req = https.get(url, { timeout, headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
@@ -543,13 +315,13 @@ function scanSignatures(body, excludeForwarder) {
   const emailRegex = /[\w.+-]+@[\w.-]+\.\w{2,}/g;
   const allEmails = [...new Set((body.match(emailRegex) || []).map(e => e.toLowerCase()))];
 
-  // v3.29: Capture TLD-less emails for later async verification
+  // Capture TLD-less emails for later async verification
   // These appear when Outlook truncates the display or domain has no public TLD
   const tldLessRegex = /[\w.+-]+@[a-zA-Z][\w-]{2,}(?=[\s,;>)\]"']|$)/g;
   const tldLessCandidates = (body.match(tldLessRegex) || [])
     .map(e => e.toLowerCase())
     .filter(e => !allEmails.some(full => full.startsWith(e))); // Not already captured with TLD
-  // Store for async resolution later — don't guess TLD here
+  // Store for async resolution later - don't guess TLD here
   const _pendingTldLess = [];
   for (const candidate of tldLessCandidates) {
     const domain = candidate.split('@')[1];
@@ -574,19 +346,17 @@ function scanSignatures(body, excludeForwarder) {
            !GENERIC_PREFIXES.has(localPart.toLowerCase());
   });
 
-  // ═══════════════════════════════════════════════════════════════
-  // v3.7 + v3.11: Infer name hints from the email local part
-  // "jane.a.broker" → { firstHint: "jane", lastHint: "broker" }
-  // "jbroker" → { firstInitial: "j", lastHint: "broker" }
-  // v3.11: "jane" → { firstInitial: "j", lastHint: "ane", fullLocalAsFirst: "jane" }
+  // Infer name hints from the email local part
+  // "jane.a.broker" -> { firstHint: "jane", lastHint: "broker" }
+  // "jbroker" -> { firstInitial: "j", lastHint: "broker" }
+  // "jane" -> { firstInitial: "j", lastHint: "ane", fullLocalAsFirst: "jane" }
   //   fullLocalAsFirst allows matching when the entire local part IS a first name
-  // ═══════════════════════════════════════════════════════════════
   function inferNameFromEmail(email) {
     const local = email.split('@')[0].toLowerCase().replace(/^\d+/, '').replace(/\d+$/, '');
     const parts = local.split(/[._-]/);
 
     if (parts.length >= 3) {
-      // first.middle.last or first.m.last — take first and last significant parts
+      // first.middle.last or first.m.last - take first and last significant parts
       const sig = parts.filter(p => p.length > 1);
       if (sig.length >= 2) return { firstHint: sig[0], lastHint: sig[sig.length - 1] };
     }
@@ -596,20 +366,20 @@ function scanSignatures(body, excludeForwarder) {
       if (parts[1].length === 1) return { firstHint: parts[0], lastInitial: parts[1] };
     }
     if (parts.length === 1 && local.length > 3) {
-      // v3.11 FIX 1: Single word like "jane" or "jbroker"
+      // Single word like "jane" or "jbroker"
       // Could be: (a) full first name "jane@exampleco.com"
       //           (b) first initial + last "jbroker@somecompany.com"
       // Return BOTH interpretations so nameMatchesHints can try each
       return {
         firstInitial: local[0],
         lastHint: local.substring(1),
-        fullLocalAsFirst: local  // v3.11: try entire local as first name
+        fullLocalAsFirst: local  // try entire local as first name
       };
     }
     return null;
   }
 
-  // v3.7 + v3.11: Check if a candidate name matches email-derived hints
+  // Check if a candidate name matches email-derived hints
   function nameMatchesHints(first, last, nick, hints) {
     if (!hints) return false;
     const fL = first.toLowerCase(), lL = last.toLowerCase(), nL = (nick || '').toLowerCase();
@@ -621,7 +391,7 @@ function scanSignatures(body, excludeForwarder) {
       if (firstOk && lastOk) return true;
     }
 
-    // Match 2: First initial + last (e.g., "jbroker@..." → J. Broker)
+    // Match 2: First initial + last (e.g., "jbroker@..." -> J. Broker)
     if (hints.firstInitial && hints.lastHint) {
       if ((fL[0] === hints.firstInitial || (nL && nL[0] === hints.firstInitial)) && lL === hints.lastHint)
         return true;
@@ -633,7 +403,7 @@ function scanSignatures(body, excludeForwarder) {
         return true;
     }
 
-    // v3.11 FIX 1: Full local part IS the first name (e.g., "jane@exampleco.com")
+    // Full local part IS the first name (e.g., "jane@exampleco.com")
     // Accept any candidate whose first name matches the entire email local part
     if (hints.fullLocalAsFirst) {
       if (fL === hints.fullLocalAsFirst || nL === hints.fullLocalAsFirst)
@@ -643,19 +413,17 @@ function scanSignatures(body, excludeForwarder) {
     return false;
   }
 
-  // ═══════════════════════════════════════════════════════════════
-  // v3.12: DOMAIN-BASED COMPANY INFERENCE
+  // DOMAIN-BASED COMPANY INFERENCE
   // The email domain is the single most reliable signal for company identity.
-  // "jbroker@example.bank" → "Example Bank"
-  // "jane@exampleco.com" → tries to find "Example Co" in nearby lines
+  // "jbroker@example.bank" -> "Example Bank"
+  // "jane@exampleco.com" -> tries to find "Example Co" in nearby lines
   //
   // THREE-LAYER STRATEGY:
-  //   Layer 1 — Domain correlation: scan lines for text matching the domain root
+  //   Layer 1 - Domain correlation: scan lines for text matching the domain root
   //             "Example Bank" line + domain "example" = match
-  //   Layer 2 — Keyword scanning: existing regex approach (Bank, Capital, etc.)
-  //   Layer 3 — Domain inference: synthesize name from domain + TLD
+  //   Layer 2 - Keyword scanning: existing regex approach (Bank, Capital, etc.)
+  //   Layer 3 - Domain inference: synthesize name from domain + TLD
   //             example + .bank = "Example Bank"
-  // ═══════════════════════════════════════════════════════════════
   const MEANINGFUL_TLDS = {
     'bank': 'Bank', 'insurance': 'Insurance', 'financial': 'Financial',
     'capital': 'Capital', 'fund': 'Fund', 'investments': 'Investments',
@@ -692,18 +460,18 @@ function scanSignatures(body, excludeForwarder) {
       if (/^(?:T(?:el)?|P(?:h(?:one)?)?|Office|Direct|Mobile|Cell|Fax|M\s)\s*[:\s]?\s*[\d(+]/i.test(line)) continue;
       // Check if this line contains the domain root word
       // e.g., line="Example Bank" contains "example"
-      // v3.15: Space-insensitive match — "Example Logic" matches "examplelogic"
+      // Space-insensitive match - "Example Logic" matches "examplelogic"
       const lineNoSpaces = line.toLowerCase().replace(/\s+/g, '');
       if (line.toLowerCase().includes(rootLower) || lineNoSpaces.includes(rootLower)) {
         // Extra check: the line should look like a company name, not a sentence
-        // v3.16 FIX: Allow trailing "." when preceded by common abbreviations (Inc., Ltd., Corp., Co., etc.)
+        // Allow trailing "." when preceded by common abbreviations (Inc., Ltd., Corp., Co., etc.)
         const trimmedLine = line.trim();
         const endsWithSentencePunct = /[.!?]$/.test(trimmedLine) && !/(?:Inc|Ltd|Corp|Co|Jr|Sr|Esq|Dr|Mr|Mrs|Ms|LLC|LLP|P\.?C|L\.?C)\.\s*$/i.test(trimmedLine);
         if (!endsWithSentencePunct && !/^(good|hi |hello|please|thank|best|regard|we |the |a )/i.test(line)) {
           // If line has pipes, extract just the segment containing the domain root
           if (line.includes('|')) {
             const segments = line.split('|').map(s => s.trim()).filter(s => s.length > 0);
-            // v3.16: Space-insensitive segment matching — "Example Brokers" matches "examplebrokers"
+            // Space-insensitive segment matching - "Example Brokers" matches "examplebrokers"
             const match = segments.find(s => {
               const sLower = s.toLowerCase();
               const sNoSpaces = sLower.replace(/\s+/g, '');
@@ -724,10 +492,10 @@ function scanSignatures(body, excludeForwarder) {
     if (!info) return '';
     const { root, tld } = info;
     if (root.length < 3) return '';
-    // v3.18: Iterative word splitting — "acmeprivatewealth" → "Acme Private Wealth"
+    // Iterative word splitting - "acmeprivatewealth" -> "Acme Private Wealth"
     // Scans for known business suffixes and splits at each boundary, handling multiple words
     let name = root;
-    // v3.20: Added 'sales' — "acmeequipmentsales" → "Acme Equipment Sales"
+    // Added 'sales' - "acmeequipmentsales" -> "Acme Equipment Sales"
     const businessSuffixes = ['private', 'wealth', 'capital', 'financial', 'group', 'partners', 'advisors', 'advisory', 'management', 'holdings', 'investments', 'consulting', 'services', 'solutions', 'global', 'international', 'national', 'insurance', 'realty', 'mortgage', 'lending', 'credit', 'trust', 'fund', 'asset', 'bank', 'logic', 'sales', 'properties', 'development', 'construction', 'engineering', 'technology', 'systems', 'industries', 'equipment', 'leasing', 'enterprises', 'resources', 'associates', 'company', 'design', 'logistics', 'transport', 'trading', 'supply', 'energy', 'media', 'broker', 'air'];
     // Split iteratively: find leftmost suffix, split, repeat on remaining parts
     function splitOnSuffixes(str) {
@@ -800,7 +568,7 @@ function scanSignatures(body, excludeForwarder) {
       // Skip if this occurrence is on a header line (From:, To:, Cc:, Sent:)
       const lineStart = body.lastIndexOf('\n', emailIdx) + 1;
       const linePrefix = body.substring(lineStart, emailIdx).trim().toLowerCase();
-      // "email:" prefix is a signature line, NOT a header — don't skip it
+      // "email:" prefix is a signature line, NOT a header - don't skip it
       if (/^(from|to|cc|bcc|sent|date|subject)\s*:/i.test(linePrefix)) {
         continue;
       }
@@ -815,7 +583,7 @@ function scanSignatures(body, excludeForwarder) {
       let phone = '', mobile = '', city = '', state = '', country = '';
       const nameHints = inferNameFromEmail(extEmail);
 
-      // v3.7: Extract name from email headers as a reliable backup
+      // Extract name from email headers as a reliable backup
       let headerFirst = '', headerLast = '';
       const escapedEmail = extEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const headerPattern = new RegExp('From:\\s*"?([^"<]+)"?\\s*<' + escapedEmail + '>', 'i');
@@ -843,15 +611,15 @@ function scanSignatures(body, excludeForwarder) {
         if (/confidential|privilege|disclaimer|intended only/i.test(line)) continue;
         if (line.length > 200) continue; // Skip long paragraphs
 
-        // v3.11 FIX 5: Phone — added "P" as standalone prefix
+        // Phone - added "P" as standalone prefix
         // Handles: "P 555-010-0113", "Ph: 555-1234", "Phone: 555-1234",
         //          "Tel: 555-1234", "Office: 555-1234", "Direct: 555-1234"
-        // v3.16: Also handles bare vanity numbers like "(555) 010-DEAL" or "(555) 011-DEAL"
-        // v3.7: Exclude "Cell Phone" lines (handled by mobile regex below)
-        // v3.9: Skip own-company phone numbers
+        // Also handles bare vanity numbers like "(555) 010-DEAL" or "(555) 011-DEAL"
+        // Exclude "Cell Phone" lines (handled by mobile regex below)
+        // Skip own-company phone numbers
         if (!phone && !/\bCell\b/i.test(line)) {
-          // v3.18: Removed "Direct" — now maps to mobile by convention (office=phone, direct=mobile)
-          // v3.19 FIX 4: Added "Direct Line" — this is an office direct line, not mobile
+          // Removed "Direct" - now maps to mobile by convention (office=phone, direct=mobile)
+          // Added "Direct Line" - this is an office direct line, not mobile
           const phoneMatch = line.match(/(?:\b(?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?)?|Business|Direct\s+Line)\b|\((?:[tpo])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
           if (phoneMatch) {
             const candidate = phoneMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
@@ -859,7 +627,7 @@ function scanSignatures(body, excludeForwarder) {
               phone = candidate;
             }
           }
-          // v3.16: Bare vanity phone — "(555) 010-DEAL" or "1-555-GET-DEAL"
+          // Bare vanity phone - "(555) 010-DEAL" or "1-555-GET-DEAL"
           // Line starts with phone-like chars and contains a mix of digits and uppercase letters
           if (!phone) {
             const vanityMatch = line.match(/^(\(?\d{3}\)?[\s.\-]?\d{2,3}[\s.\-]?[A-Z]{2,}(?:\s*[-]\s*\([^)]+\))?)/i);
@@ -874,7 +642,7 @@ function scanSignatures(body, excludeForwarder) {
               }
             }
           }
-          // v3.18: Number-then-label pattern — "555.010.0109 office"
+          // Number-then-label pattern - "555.010.0109 office"
           if (!phone) {
             const phoneSuffix = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:office|business|main|work)\b/i);
             if (phoneSuffix && !isOwnCompanyPhone(phoneSuffix[1])) {
@@ -883,10 +651,10 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // Mobile/Cell/Direct — handles "Cell:", "Cell Phone:", "M ", "Mobile:", "Direct:", etc.
-        // v3.18: Added "Direct" — convention: office=phone, direct/cell=mobile
-        // v3.19: "Direct Line" handled above in phone regex; standalone "Direct" stays as mobile
-        // v3.9: Skip own-company phone numbers
+        // Mobile/Cell/Direct - handles "Cell:", "Cell Phone:", "M ", "Mobile:", "Direct:", etc.
+        // Added "Direct" - convention: office=phone, direct/cell=mobile
+        // "Direct Line" handled above in phone regex; standalone "Direct" stays as mobile
+        // Skip own-company phone numbers
         if (!mobile) {
           const mobileMatch = line.match(/(?:\b(?:M(?:obile)?|C(?:ell(?:\s*Phone)?)?|Direct(?!\s+Line))\b|\((?:[mc])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
           if (mobileMatch) {
@@ -895,7 +663,7 @@ function scanSignatures(body, excludeForwarder) {
               mobile = candidate;
             }
           }
-          // v3.18: Number-then-label pattern — "555.010.0110 direct"
+          // Number-then-label pattern - "555.010.0110 direct"
           if (!mobile) {
             const mobileSuffix = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:direct|cell|mobile)\b/i);
             if (mobileSuffix && !isOwnCompanyPhone(mobileSuffix[1])) {
@@ -904,10 +672,10 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // v3.20 FIX: Standalone phone number fallback — lines that ARE just a phone number
+        // Standalone phone number fallback - lines that ARE just a phone number
         // e.g., "555.010.0107" on its own line in a signature block
         // Only triggers when no labeled phone was found yet. Must have 7+ digits, no letters.
-        // Observed failure: a bank contact → "555.010.0107" line not captured (exec 460).
+        // Observed failure: a bank contact -> "555.010.0107" line not captured (exec 460).
         if (!phone && !mobile) {
           const standalonePhone = line.match(/^([\d(+][\d\s.()\-]{6,}\d)\s*$/);
           if (standalonePhone) {
@@ -919,7 +687,7 @@ function scanSignatures(body, excludeForwarder) {
         }
 
         // Title: lines containing common title keywords
-        // v3.20 FIX: Skip lines containing LLC/Inc/Corp/LLP/Ltd — those are company names, not titles
+        // Skip lines containing LLC/Inc/Corp/LLP/Ltd - those are company names, not titles
         // Observed failure: "Example Principal Advisors, LLC" matched as title (has "Principal"+"Advisors")
         if (!jobTitle && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|Commercial|VP\b|SVP\b|EVP\b|AVP\b|Sr\b)/i.test(line)) {
           // Make sure it's a short title line, not a sentence, and not a company name
@@ -929,7 +697,7 @@ function scanSignatures(body, excludeForwarder) {
         }
 
         // Company: lines that look like a company name
-        // v3.19 FIX 3: Explicit "Company:" label prefix — highest priority company detection
+        // Explicit "Company:" label prefix - highest priority company detection
         if (!companyName) {
           const companyLabel = line.match(/^(?:Company|Firm|Organization|Employer)\s*:\s*(.+)/i);
           if (companyLabel) {
@@ -939,13 +707,13 @@ function scanSignatures(body, excludeForwarder) {
             }
           }
         }
-        // v3.11 FIX 4: Skip lines containing @ (email addresses) or URL patterns
+        // Skip lines containing @ (email addresses) or URL patterns
         //   "JBROKER@EXAMPLE.BANK | EXAMPLELENDING.COM" contains "BANK" but is NOT a company name
         if (!companyName && line.length < 80 && line.length > 2) {
           if (/@/.test(line) || /^https?:\/\//i.test(line) || /^www\./i.test(line)) {
-            // Skip — this is an email address or URL line, not a company name
+            // Skip - this is an email address or URL line, not a company name
           } else if ((line.match(/\|/g) || []).length >= 2) {
-            // v3.12: SMART PIPE GUARD — pipe-separated lines are usually nav links
+            // SMART PIPE GUARD - pipe-separated lines are usually nav links
             // ("VIDEOS | CREDIT APPLICATION | CONTACT US") but could contain a
             // company name segment ("Home | Example Bank | Contact").
             // Check if any segment correlates with the email domain root before
@@ -961,7 +729,7 @@ function scanSignatures(body, excludeForwarder) {
             // If no domain match, skip the whole line (it's nav links)
           } else if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Real Estate|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|American|Pacific|Atlantic|Southern|Northern|Western|Eastern|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
             // Make sure it's not a sentence, email header, or tagline
-            // v3.16: Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
+            // Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
             const kwLineEndsPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|Jr|Sr|Esq|LLC|LLP|P\.?C|L\.?C)\.\s*$/i.test(line.trim());
             if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwLineEndsPunct && !/^\d/.test(line)) {
               if (!isOwnBranding(line) && !isPhoneNumber(line)) {
@@ -971,18 +739,18 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // ═══ v3.7 + v3.11: EMAIL-HINT-GUIDED NAME DETECTION ═══
+        // EMAIL-HINT-GUIDED NAME DETECTION
         if (line.length < 60) {
           let candFirst = '', candLast = '', candNick = '';
 
           // Handle "Last, First" format
-          // v3.19 FIX 2: Accept Unicode smart quotes (\u2018\u2019) in names like O'Broker
+          // Accept Unicode smart quotes (\u2018\u2019) in names like O'Broker
           const commaName = line.match(/^([A-Z][a-zA-Z'\u2018\u2019-]+),\s+([A-Z][a-zA-Z'\u2018\u2019-]+(?:\s+[A-Z]\.?)?)\s*$/);
           if (commaName) {
             candLast = commaName[1];
             candFirst = commaName[2].split(/\s+/)[0];
           } else {
-            // Handle "First (Nick) Last" — e.g., "Jane (Janie) Broker"
+            // Handle "First (Nick) Last" - e.g., "Jane (Janie) Broker"
             const nameWithNick = line.match(/^([A-Z][a-zA-Z'\u2018\u2019-]+)\s+\(([A-Za-z]+)\)\s+([A-Z][a-zA-Z'\u2018\u2019-]+)\s*$/);
             if (nameWithNick) {
               candFirst = nameWithNick[1];
@@ -999,17 +767,17 @@ function scanSignatures(body, excludeForwarder) {
           }
 
           if (candFirst && candLast) {
-            // v3.11 FIX 6: Don't accept as name if it matches the company we already found
+            // Don't accept as name if it matches the company we already found
             const fullCand = (candFirst + ' ' + candLast).toLowerCase();
             if (companyName && fullCand === companyName.toLowerCase()) {
-              // This line is the company name, not a person — skip
+              // This line is the company name, not a person - skip
             } else if (nameHints && nameMatchesHints(candFirst, candLast, candNick, nameHints)) {
-              // Hint-confirmed match — accept immediately
+              // Hint-confirmed match - accept immediately
               firstName = candFirst;
               lastName = candLast;
               nickname = candNick;
             } else {
-              // v3.11 FIX 2: Always overwrite fallback — farthest from email wins
+              // Always overwrite fallback - farthest from email wins
               // In signatures, the person's name is at the TOP of the block (farthest
               // from email address). The company name is closer. By always overwriting,
               // we ensure "Jane Broker" (top) beats "Example Co" (middle).
@@ -1020,8 +788,8 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // City, State from address line — handles "City, ST 12345" and "City ST, 12345"
-        // v3.10: REMOVED isOwnAddress guard — rely on phone blacklist only
+        // City, State from address line - handles "City, ST 12345" and "City ST, 12345"
+        // REMOVED isOwnAddress guard - rely on phone blacklist only
         if (!city) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
@@ -1029,7 +797,7 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // v3.14: COUNTRY FIELD — detect country names in signature
+        // COUNTRY FIELD - detect country names in signature
         if (!country) {
           const countryMatch = line.match(/\b(TURKEY|CANADA|UNITED KINGDOM|UK|AUSTRALIA|GERMANY|FRANCE|BRAZIL|MEXICO|INDIA|JAPAN|CHINA|SOUTH KOREA|ITALY|SPAIN|NETHERLANDS|SWITZERLAND|SWEDEN|NORWAY|DENMARK|IRELAND|SINGAPORE|HONG KONG|NEW ZEALAND|ISRAEL|UAE|UNITED ARAB EMIRATES|QATAR|BAHRAIN|KUWAIT|SAUDI ARABIA|SOUTH AFRICA|CAYMAN ISLANDS|BERMUDA|BAHAMAS|COLOMBIA|CHILE|ARGENTINA|PERU)\b/i);
           if (countryMatch) {
@@ -1037,7 +805,7 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
 
-        // v3.14: STATE/COUNTRY DISAMBIGUATION
+        // STATE/COUNTRY DISAMBIGUATION
         // If "state" value is actually a country name, move it to country
         if (state && !country) {
           const COUNTRIES = new Set(['turkey', 'canada', 'united kingdom', 'uk', 'australia', 'germany', 'france', 'brazil', 'mexico', 'india', 'japan', 'china', 'italy', 'spain', 'netherlands', 'switzerland', 'sweden', 'norway', 'denmark', 'ireland', 'singapore', 'hong kong', 'new zealand', 'israel', 'uae', 'united arab emirates', 'qatar', 'bahrain', 'kuwait', 'saudi arabia', 'south africa', 'cayman islands', 'bermuda', 'bahamas', 'colombia', 'chile', 'argentina', 'peru']);
@@ -1048,7 +816,7 @@ function scanSignatures(body, excludeForwarder) {
         }
       }
 
-      // v3.7: Name priority chain — hint-matched > header-extracted > fallback
+      // Name priority chain - hint-matched > header-extracted > fallback
       if (!firstName && headerFirst && headerLast) {
         firstName = headerFirst;
         lastName = headerLast;
@@ -1065,10 +833,10 @@ function scanSignatures(body, excludeForwarder) {
         const line = afterLines[i];
         if (/^(From:|To:|Cc:|Date:|Subject:|Sent:|-----)/i.test(line)) break;
 
-        // v3.11 FIX 3: BOUNDARY — Stop scanning if we hit an own-company staff email
+        // BOUNDARY - Stop scanning if we hit an own-company staff email
         // This prevents crossing from the contact's signature into the forwarder's own-company signature
         // and picking up the forwarder's city as the contact's city.
-        // Only breaks on @yourcompany.com emails — NOT on other external emails,
+        // Only breaks on @yourcompany.com emails - NOT on other external emails,
         // because the forwarder sometimes pastes contact info in non-standard order with
         // multiple emails, personal backups, etc. We only need to guard against
         // the forwarder's own-company signature bleeding into the contact's data.
@@ -1079,18 +847,18 @@ function scanSignatures(body, excludeForwarder) {
         );
         if (hitsOwnSig) break;
 
-        // v3.9: Own-company phone guard applies to after-email scan too
-        // v3.11 FIX 5: Same "P" prefix fix as above
-        // v3.16: Bare vanity phone extraction
+        // Own-company phone guard applies to after-email scan too
+        // Same "P" prefix fix as above
+        // Bare vanity phone extraction
         if (!phone && !/\bCell\b/i.test(line)) {
-          // v3.18: Removed "Direct" — now maps to mobile by convention (office=phone, direct=mobile)
-          // v3.19 FIX 4: Added "Direct Line" — office phone, not mobile
+          // Removed "Direct" - now maps to mobile by convention (office=phone, direct=mobile)
+          // Added "Direct Line" - office phone, not mobile
           const phoneMatch = line.match(/(?:\b(?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?)?|Business|Direct\s+Line)\b|\((?:[tpo])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
           if (phoneMatch) {
             const candidate = phoneMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
             if (!isOwnCompanyPhone(candidate)) phone = candidate;
           }
-          // v3.16: Bare vanity phone in after-email scan
+          // Bare vanity phone in after-email scan
           if (!phone) {
             const vanityMatch = line.match(/^(\(?\d{3}\)?[\s.\-]?\d{2,3}[\s.\-]?[A-Z]{2,}(?:\s*[-]\s*\([^)]+\))?)/i);
             if (vanityMatch) {
@@ -1103,26 +871,26 @@ function scanSignatures(body, excludeForwarder) {
               }
             }
           }
-          // v3.18: Number-then-label pattern — "555.010.0109 office"
+          // Number-then-label pattern - "555.010.0109 office"
           if (!phone) {
             const phoneSuffix = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:office|business|main|work)\b/i);
             if (phoneSuffix && !isOwnCompanyPhone(phoneSuffix[1])) phone = phoneSuffix[1];
           }
         }
         if (!mobile) {
-          // v3.18: Added "Direct" — convention: direct/cell=mobile
-          // v3.19: Negative lookahead excludes "Direct Line" (handled by phone regex)
+          // Added "Direct" - convention: direct/cell=mobile
+          // Negative lookahead excludes "Direct Line" (handled by phone regex)
           const mobileMatch = line.match(/(?:\b(?:M(?:obile)?|C(?:ell(?:\s*Phone)?)?|Direct(?!\s+Line))\b|\((?:[mc])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
           if (mobileMatch) {
             const candidate = mobileMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
             if (!isOwnCompanyPhone(candidate)) mobile = candidate;
           }
-          // v3.18: Number-then-label pattern — "555.010.0110 direct"
+          // Number-then-label pattern - "555.010.0110 direct"
           if (!mobile) {
             const mobileSuffix = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:direct|cell|mobile)\b/i);
             if (mobileSuffix && !isOwnCompanyPhone(mobileSuffix[1])) mobile = mobileSuffix[1];
           }
-          // v3.16: Bare vanity as mobile (second vanity number in signature = mobile/toll-free)
+          // Bare vanity as mobile (second vanity number in signature = mobile/toll-free)
           if (!mobile && phone) {
             const vanityMatch = line.match(/^(\(?\d{3}\)?[\s.\-]?\d{2,3}[\s.\-]?[A-Z]{2,}(?:\s*[-]\s*\([^)]+\))?)/i);
             if (vanityMatch) {
@@ -1136,20 +904,20 @@ function scanSignatures(body, excludeForwarder) {
             }
           }
         }
-        // v3.11 FIX 3: City/state — same boundary applies (won't reach here if boundary hit above)
+        // City/state - same boundary applies (won't reach here if boundary hit above)
         if (!city) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
             city = cityState[1]; state = cityState[2];
           }
         }
-        // v3.11 FIX 4: Same @ guard for company in after-email scan
-        // v3.12: Smart pipe guard + domain correlation (same as before-email scan)
+        // Same @ guard for company in after-email scan
+        // Smart pipe guard + domain correlation (same as before-email scan)
         if (!companyName && line.length < 80 && line.length > 2) {
           if (/@/.test(line) || /^https?:\/\//i.test(line) || /^www\./i.test(line)) {
-            // Skip — email/URL line
+            // Skip - email/URL line
           } else if ((line.match(/\|/g) || []).length >= 2) {
-            // v3.12: Smart pipe guard — check for domain-correlated segment first
+            // Smart pipe guard - check for domain-correlated segment first
             const domInfo = extractDomainRoot(extEmail);
             if (domInfo && domInfo.root.length >= 3) {
               const segments = line.split('|').map(s => s.trim()).filter(s => s.length > 0);
@@ -1159,7 +927,7 @@ function scanSignatures(body, excludeForwarder) {
               }
             }
           } else if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Real Estate|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|American|Pacific|Atlantic|Southern|Northern|Western|Eastern|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
-            // v3.16: Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
+            // Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
             const kwAfterEndsPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|Jr|Sr|Esq|LLC|LLP|P\.?C|L\.?C)\.\s*$/i.test(line.trim());
             if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwAfterEndsPunct && !/^\d/.test(line)) {
               if (!isOwnBranding(line) && !isPhoneNumber(line)) {
@@ -1170,13 +938,13 @@ function scanSignatures(body, excludeForwarder) {
         }
       }
 
-      // ═══ v3.12: THREE-LAYER COMPANY FALLBACK ═══
+      // THREE-LAYER COMPANY FALLBACK
       // If keyword scanning didn't find a company name, try domain-based methods
       if (!companyName) {
         const domainInfo = extractDomainRoot(extEmail);
         if (domainInfo) {
           // Layer 1: Search lines for text correlating with the email domain
-          // e.g., domain "example" → find line "Example Bank"
+          // e.g., domain "example" -> find line "Example Bank"
           const correlated = findDomainCorrelatedCompany(lines, domainInfo.root);
           if (correlated) {
             companyName = correlated;
@@ -1196,7 +964,7 @@ function scanSignatures(body, excludeForwarder) {
         }
       }
 
-      // Score this extraction — pick the best one across all occurrences
+      // Score this extraction - pick the best one across all occurrences
       let score = 0;
       if (firstName) score += 3;
       if (lastName) score += 3;
@@ -1209,14 +977,14 @@ function scanSignatures(body, excludeForwarder) {
       if (score > bestScore && (firstName || lastName)) {
         bestScore = score;
         bestContact = {
-          // v3.9: Title Case normalization — "JANE BROKER" → "Jane Broker"
+          // Title Case normalization - "JANE BROKER" -> "Jane Broker"
           firstName: toTitleCase(firstName),
           lastName: toTitleCase(lastName),
           nickname,
           email: extEmail,
           phone, mobile,
           companyName,
-          // v3.9: Title Case for job titles too — "EQUIPMENT FINANCE MANAGER" → "Equipment Finance Manager"
+          // Title Case for job titles too - "EQUIPMENT FINANCE MANAGER" -> "Equipment Finance Manager"
           jobTitle: toTitleCase(jobTitle),
           city, state,
           address: '', country: country || '',
@@ -1233,11 +1001,11 @@ function scanSignatures(body, excludeForwarder) {
       results.push(bestContact);
     }
 
-    // ═══ v3.18: FROM-HEADER BODY SCAN FALLBACK ═══
+    // FROM-HEADER BODY SCAN FALLBACK
     // When external email appears ONLY in From: header of a forwarded message (not in a
     // signature), the position loop above skips it. This fallback extracts the contact name
     // from the From: header and scans the forwarded email body for phone, address, company.
-    // Observed failure: a contact (exec 424) — email only in "From: Jane Broker <jane@...>"
+    // Observed failure: a contact (exec 424) - email only in "From: Jane Broker <jane@...>"
     if (!bestContact) {
       const esc = extEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const fromRe = new RegExp('From:[^\\n]*<?' + esc + '>?', 'i');
@@ -1289,7 +1057,7 @@ function scanSignatures(body, excludeForwarder) {
             const mm = mm1 || mm2;
             if (mm && !isOwnCompanyPhone(mm[1])) fbMobile = mm[1];
           }
-          // v3.20: Standalone phone fallback (same as primary scanner)
+          // Standalone phone fallback (same as primary scanner)
           if (!fbPhone && !fbMobile) {
             const sp = line.match(/^([\d(+][\d\s.()\-]{6,}\d)\s*$/);
             if (sp) {
@@ -1309,7 +1077,7 @@ function scanSignatures(body, excludeForwarder) {
             const cm = line.match(/\b(TURKEY|CANADA|UNITED KINGDOM|UK|AUSTRALIA|GERMANY|FRANCE|BRAZIL|MEXICO|INDIA|JAPAN|CHINA|SOUTH KOREA|ITALY|SPAIN|NETHERLANDS|SWITZERLAND|SWEDEN|NORWAY|DENMARK|IRELAND|SINGAPORE|HONG KONG|NEW ZEALAND|ISRAEL|UAE|UNITED ARAB EMIRATES|QATAR|BAHRAIN|KUWAIT|SAUDI ARABIA|SOUTH AFRICA|CAYMAN ISLANDS|BERMUDA|BAHAMAS|COLOMBIA|CHILE|ARGENTINA|PERU)\b/i);
             if (cm) fbCountry = cm[1];
           }
-          // Website — v3.21: Exclude own-company domains
+          // Website - v3.21: Exclude own-company domains
           if (!fbWebsite && /^(?:www\.|https?:\/\/)/i.test(line)) {
             const urlLower = line.trim().toLowerCase();
             const isOwnUrl = /yourcompany\.com/i.test(urlLower);
@@ -1329,7 +1097,7 @@ function scanSignatures(body, excludeForwarder) {
             }
           }
           // Title
-          // v3.20: Added LLC/Inc/Corp guard (same as primary scanner)
+          // Added LLC/Inc/Corp guard (same as primary scanner)
           if (!fbTitle && line.length < 100 && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|VP\b|SVP\b|EVP\b)/i.test(line)) {
             if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line)) {
               fbTitle = line;
@@ -1369,18 +1137,17 @@ function scanSignatures(body, excludeForwarder) {
   return { contacts: results, pendingTldLess: _pendingTldLess };
 }
 
-// v3.13: Use just the current item from the outer loop (not re-reading all items)
+// Use just the current item from the outer loop (not re-reading all items)
 const items = [_item];
 const results = [];
 
-
-let _outerTldLessPending = []; // v3.30b: outer-scope for post-inner-for TLD resolution
+let _outerTldLessPending = []; // outer-scope for post-inner-for TLD resolution
 for (const item of items) {
   const data = item.json;
   let jsonText = '';
 
   try {
-    // ── Step 1: Extract raw text from AI response ──
+    // Step 1: Extract raw text from AI response
     if (data.message && data.message.content) {
       jsonText = data.message.content;
     } else if (data.response) {
@@ -1393,13 +1160,13 @@ for (const item of items) {
       jsonText = JSON.stringify(data);
     }
 
-    // ── Step 2: Strip markdown code fences ──
+    // Step 2: Strip markdown code fences
     jsonText = jsonText
       .replace(/```json\s*/gi, '')
       .replace(/```\s*/gi, '')
       .trim();
 
-    // ── Step 3: Extract JSON from response text ──
+    // Step 3: Extract JSON from response text
     let jsonMatch = null;
 
     // Strategy A: Find outermost array [...]
@@ -1436,7 +1203,7 @@ for (const item of items) {
 
     if (jsonMatch) jsonText = jsonMatch;
 
-    // v3.12 CRITICAL FIX: Wrap JSON.parse in its own try-catch so the scanner
+    // Wrap JSON.parse in its own try-catch so the scanner
     // can still run when the AI returns prose instead of JSON. Previously, the
     // JSON.parse throw propagated to the outer catch which returned contacts: []
     // and the scanner (line ~718) never got a chance to execute.
@@ -1448,10 +1215,10 @@ for (const item of items) {
     } catch (parseErr) {
       aiParseError = true;
       aiErrorMessage = parseErr.message;
-      // Don't throw — fall through so the scanner can run
+      // Don't throw - fall through so the scanner can run
     }
 
-    // ── Step 4: Normalize to contacts array ──
+    // Step 4: Normalize to contacts array
     let contacts = [];
     if (parsed) {
       if (Array.isArray(parsed)) {
@@ -1466,24 +1233,24 @@ for (const item of items) {
     // Filter out any entries that are clearly not contact objects
     contacts = contacts.filter(c => c && typeof c === 'object' && !Array.isArray(c));
 
-    // v3.20 FIX: Declare fullBody early — needed by v3.17 firstName header fallback (line ~1280)
+    // Declare fullBody early - needed by v3.17 firstName header fallback (line ~1280)
     // Previously declared at line ~1345 (personal domain filter), causing ReferenceError
-    // when any contact had empty firstName. Observed failure: a contact with empty firstName → 0 contacts (exec 458).
+    // when any contact had empty firstName. Observed failure: a contact with empty firstName -> 0 contacts (exec 458).
     const fullBody = prevData.fullBody || '';
 
-    // ═══ FIELD NORMALIZATION — Map AI field names to pipeline field names ═══
+    // FIELD NORMALIZATION - Map AI field names to pipeline field names
     for (const contact of contacts) {
-      // company → companyName (pipeline standard)
+      // company -> companyName (pipeline standard)
       if (contact.company && !contact.companyName) {
         contact.companyName = contact.company;
       }
 
-      // title → jobTitle (pipeline standard)
+      // title -> jobTitle (pipeline standard)
       if (contact.title && !contact.jobTitle) {
         contact.jobTitle = contact.title;
       }
 
-      // Handle "name" field → firstName + lastName
+      // Handle "name" field -> firstName + lastName
       if (contact.name && (!contact.firstName || !contact.lastName)) {
         const nameParts = contact.name.trim().split(/\s+/);
         if (nameParts.length >= 2) {
@@ -1494,32 +1261,32 @@ for (const item of items) {
         }
       }
 
-      // ═══ v3.15: CLEAR BAD COMPANY BEFORE PIPE SPLIT ═══
+      // CLEAR BAD COMPANY BEFORE PIPE SPLIT
       // Must run before title-pipe split so the split can fire as fallback
       if (contact.companyName && (isOwnBranding(contact.companyName) || isPhoneNumber(contact.companyName))) {
         contact.companyName = '';
         contact.company = '';
       }
 
-      // ═══ v3.15: AI-EXTRACTED COMPANY GUARD ═══
+      // AI-EXTRACTED COMPANY GUARD
       // Guard BEFORE pipe split so pipe split can provide company as fallback
       if (contact.companyName && (isOwnBranding(contact.companyName) || isPhoneNumber(contact.companyName))) {
         contact.companyName = '';
         contact.company = '';
       }
 
-      // ═══ v3.14 + v3.27: TITLE-PIPE SPLIT (name-aware) ═══
-      // "Senior Sales Director | Example Brokers" → title = "Senior Sales Director", company = "Example Brokers"
-      // "Jane Broker | Director | Finance | Example Co" → title = "Director", company = "Example Co"
+      // TITLE-PIPE SPLIT (name-aware)
+      // "Senior Sales Director | Example Brokers" -> title = "Senior Sales Director", company = "Example Brokers"
+      // "Jane Broker | Director | Finance | Example Co" -> title = "Director", company = "Example Co"
       if (contact.jobTitle && contact.jobTitle.includes('|')) {
         const parts = contact.jobTitle.split('|').map(p => p.trim()).filter(p => p.length > 0);
         if (parts.length >= 2) {
-          // v3.27: Check if first part is the contact's name — if so, skip it
+          // Check if first part is the contact's name - if so, skip it
           const _fullNameLower = ((contact.firstName || '') + ' ' + (contact.lastName || '')).trim().toLowerCase();
           const _firstPartLower = parts[0].toLowerCase();
           const _lnLower = (contact.lastName || '').toLowerCase();
           const _titleKW = /\b(?:officer|director|president|manager|chief|head|lead|senior|junior|vice|vp|svp|evp|ceo|cfo|cto|coo|partner|counsel|advisor|analyst|specialist|coordinator|engineer|architect|consultant|associate|assistant)\b/i;
-          // If first part contains a title keyword, it's NOT a name — safe to keep as title
+          // If first part contains a title keyword, it's NOT a name - safe to keep as title
           let _isNameFirst = false;
           if (!_titleKW.test(_firstPartLower)) {
             _isNameFirst = _fullNameLower && (
@@ -1539,7 +1306,7 @@ for (const item of items) {
         }
       }
 
-      // ═══ v3.3: PHONE LABEL STRIPPING ═══
+      // PHONE LABEL STRIPPING
       function cleanPhoneLabel(phoneStr) {
         if (!phoneStr) return phoneStr;
         return phoneStr
@@ -1563,7 +1330,7 @@ for (const item of items) {
         contact.mobile = cleanPhoneLabel(contact.mobile);
       }
 
-      // ═══ v3.3: JOB TITLE / TYPE ECHO DETECTION ═══
+      // JOB TITLE / TYPE ECHO DETECTION
       if (contact.jobTitle && contact.type) {
         const titleNorm = contact.jobTitle.toLowerCase().trim();
         const typeNorm = contact.type.toLowerCase().trim();
@@ -1583,17 +1350,17 @@ for (const item of items) {
         contact.country = '';
       }
 
-      // website: leave empty for now — enriched below per-contact
+      // website: leave empty for now - enriched below per-contact
       if (!contact.website) {
         contact.website = '';
       }
 
-      // v3.9: Title Case normalization for AI-extracted names
+      // Title Case normalization for AI-extracted names
       if (contact.firstName) contact.firstName = toTitleCase(contact.firstName);
       if (contact.lastName) contact.lastName = toTitleCase(contact.lastName);
       if (contact.jobTitle) contact.jobTitle = toTitleCase(contact.jobTitle);
 
-      // v3.17: Fallback — extract name from email headers (From/To/Cc) when AI returns empty firstName
+      // Fallback - extract name from email headers (From/To/Cc) when AI returns empty firstName
       if (!contact.firstName && contact.email) {
         const escEmail = contact.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const headerNameRe = new RegExp('(?:From|To|Cc):[^<]*?([A-Z][a-zA-Z.\'\\-]+(?:\\s+[A-Z][a-zA-Z.\'\\-]+)+)\\s*<?(?:[^<]*,\\s*)?<?["\']?' + escEmail, 'i');
@@ -1627,12 +1394,12 @@ for (const item of items) {
       contact.confidence = contact.confidence || '';
       contact.website = contact.website || '';
 
-      // v3.26: Strip trailing punctuation from names
+      // Strip trailing punctuation from names
       contact.firstName = (contact.firstName || '').replace(/[,;:]+$/, '').trim();
       contact.lastName = (contact.lastName || '').replace(/[,;:]+$/, '').trim();
 
-      // v3.26: Detect "Last, First" pattern — e.g., "Broker, J." stored as firstName="Broker," lastName="J."
-      // If firstName contains a comma, it's likely "Last, First" format — swap them
+      // Detect "Last, First" pattern - e.g., "Broker, J." stored as firstName="Broker," lastName="J."
+      // If firstName contains a comma, it's likely "Last, First" format - swap them
       if (contact.firstName && contact.firstName.includes(',')) {
         const parts = (contact.firstName + ' ' + contact.lastName).split(',').map(s => s.trim());
         if (parts.length === 2 && parts[0] && parts[1]) {
@@ -1644,8 +1411,8 @@ for (const item of items) {
       // Clean up alias fields to avoid confusion
       if (contact.name) delete contact.name;
 
-      // v3.25: Fix zip-in-state — if state looks like a zip code, move it to zip
-      // and clear state. Do NOT try to infer state from city — many city names
+      // Fix zip-in-state - if state looks like a zip code, move it to zip
+      // and clear state. Do NOT try to infer state from city - many city names
       // exist in multiple states (Miami FL/OH/AZ, Portland OR/ME, etc.)
       if (contact.state && /^\d{4,5}(-\d{4})?$/.test(contact.state.trim())) {
         if (!contact.zip) contact.zip = contact.state;
@@ -1662,13 +1429,13 @@ for (const item of items) {
         // Valid: 2-letter abbreviation or full state/province name (3+ alpha chars)
         const isValidState = /^[A-Za-z]{2}$/.test(s) || (/^[A-Za-z\s]{3,}$/.test(s) && s.length <= 30);
         if (!isValidState) {
-          // Not a recognizable state format — clear it
+          // Not a recognizable state format - clear it
           contact.state = '';
         }
       }
     }
 
-    // ═══ POST-PROCESSING: Filter out non-contacts ═══
+    // POST-PROCESSING: Filter out non-contacts
 
     // 1. Remove contacts matching the forwarder's email
     const forwarderEmail = (prevData.forwarderEmail || '').toLowerCase();
@@ -1690,7 +1457,7 @@ for (const item of items) {
     //    the actual person who forwarded (e.g., a personal gmail.com address) isn't
     //    caught by filter #1. But they're still a chain participant, not a contact.
     //
-    //    We can't simply filter all From: header emails — legitimate external
+    //    We can't simply filter all From: header emails - legitimate external
     //    contacts like Jane Broker also appear in From: lines in the inner message.
     //
     //    TARGETED APPROACH: Filter contacts with PERSONAL email domains (gmail,
@@ -1720,9 +1487,7 @@ for (const item of items) {
       return true;
     });
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.6: ALWAYS-ON SIGNATURE SCANNER + AI MERGE
-    // ═══════════════════════════════════════════════════════════════
+    // ALWAYS-ON SIGNATURE SCANNER + AI MERGE
 
     const _scanResult = scanSignatures(prevData.fullBody || '', forwarderEmail);
     const scannedContacts = _scanResult.contacts || _scanResult; // backward compat
@@ -1749,8 +1514,8 @@ for (const item of items) {
       const ai = aiByEmail.get(key);
 
       if (ai) {
-        // Both found this contact — merge (scanner wins for name/phone, AI wins for type)
-        // v3.19 FIX 1: If scanner's name matches the job title, it's a misidentified title — prefer AI
+        // Both found this contact - merge (scanner wins for name/phone, AI wins for type)
+        // If scanner's name matches the job title, it's a misidentified title - prefer AI
         let useFirstName = sc.firstName || ai.firstName;
         let useLastName = sc.lastName || ai.lastName;
         if (sc.firstName && sc.lastName && sc.jobTitle) {
@@ -1800,7 +1565,7 @@ for (const item of items) {
       });
     }
 
-    // v3.22: Deduplicate no-email AI contacts against scanner contacts by name
+    // Deduplicate no-email AI contacts against scanner contacts by name
     const alreadyMergedNames = new Set(
       [...mergedByEmail.values()].map(c => ((c.firstName || '') + ' ' + (c.lastName || '')).toLowerCase().trim())
     );
@@ -1810,7 +1575,7 @@ for (const item of items) {
     });
     contacts = [...mergedByEmail.values(), ...dedupedNoEmail];
 
-    // v3.26: Full name-based dedup — when multiple contacts share the same name,
+    // Full name-based dedup - when multiple contacts share the same name,
     // keep the one with the best data. Fixes triple-duplicate bug (#661).
     const nameGroups = new Map();
     for (const c of contacts) {
@@ -1865,7 +1630,7 @@ for (const item of items) {
       if (!key && !contacts.includes(c)) contacts.push(c);
     }
 
-    // ═══ v3.21 FIX: AI NARRATIVE HEADER FALLBACK ═══
+    // AI NARRATIVE HEADER FALLBACK
     // When AI returned narrative text (not JSON) and mentioned email addresses that the
     // scanner missed because they only appear on From:/To:/Cc: header lines, extract
     // those contacts as a fallback. Observed failure: header-only contact (exec 577).
@@ -1935,7 +1700,7 @@ for (const item of items) {
       }
     }
 
-    // v3.26: Post-merge title/company cleanup
+    // Post-merge title/company cleanup
     const TITLE_KEYWORDS = /president|director|manager|officer|founder|partner|member|professional|advisor|broker|sales|marketing|vp|svp|ceo|cfo|coo|cto|licensed|managing|senior|executive|associate|consultant|specialist|principal|chairman|head|lead|coordinator/i;
 
     for (const contact of contacts) {
@@ -1959,7 +1724,7 @@ for (const item of items) {
         }
       }
 
-      // Fix 3b: Company === Title — clear company, derive from domain
+      // Fix 3b: Company === Title - clear company, derive from domain
       if (contact.companyName && contact.jobTitle &&
           contact.companyName.trim().toLowerCase() === contact.jobTitle.trim().toLowerCase()) {
         // Title is more likely correct for role descriptions
@@ -1970,14 +1735,14 @@ for (const item of items) {
           if (domain) {
             const domainBase = domain.split('.')[0];
             if (domainBase && domainBase.length > 2) {
-              // Capitalize: "examplebank" → "Examplebank"
+              // Capitalize: "examplebank" -> "Examplebank"
               contact.companyName = domainBase.charAt(0).toUpperCase() + domainBase.slice(1);
             }
           }
         }
       }
 
-      // Fix 3c: Company is the person's name — clear it
+      // Fix 3c: Company is the person's name - clear it
       if (contact.companyName && contact.firstName && contact.lastName) {
         const compLower = contact.companyName.toLowerCase().trim();
         const nameLower = (contact.firstName + ' ' + contact.lastName).toLowerCase().trim();
@@ -1997,7 +1762,7 @@ for (const item of items) {
       }
     }
 
-    // v3.26: Drop incomplete PDF OCR duplicates
+    // Drop incomplete PDF OCR duplicates
     // If a PDF_OCR contact has no lastName AND no email, and another contact
     // shares the same firstName with higher confidence, drop the OCR contact
     contacts = contacts.filter((c, idx) => {
@@ -2018,7 +1783,7 @@ for (const item of items) {
       return true;
     });
 
-    // ═══ v3.16: POST-MERGE COMPANY GUARD + PIPE SPLIT ═══
+    // POST-MERGE COMPANY GUARD + PIPE SPLIT
     // The merge may have restored bad company values from the scanner.
     // Re-apply the same guards that ran during normalization.
     for (const contact of contacts) {
@@ -2055,15 +1820,15 @@ for (const item of items) {
       }
     }
 
-    // ═══ v3.6 + v3.16: PHONE/MOBILE SANITY CHECK ═══
-    // v3.16: Count vanity letters as digits for validation (DEAL=3325 = 4 more digits)
+    // PHONE/MOBILE SANITY CHECK
+    // Count vanity letters as digits for validation (DEAL=3325 = 4 more digits)
     function countPhoneDigits(phoneStr) {
       if (!phoneStr) return 0;
       const vanityMap = {A:2,B:2,C:2,D:3,E:3,F:3,G:4,H:4,I:4,J:5,K:5,L:5,M:6,N:6,O:6,P:7,Q:7,R:7,S:7,T:8,U:8,V:8,W:9,X:9,Y:9,Z:9};
       const converted = phoneStr.replace(/[A-Za-z]/g, ch => vanityMap[ch.toUpperCase()] || ch);
       return converted.replace(/\D/g, '').length;
     }
-    // v3.16: Normalize vanity phone to digits for Zoho storage
+    // Normalize vanity phone to digits for Zoho storage
     function normalizeVanityPhone(phoneStr) {
       if (!phoneStr) return phoneStr;
       // Only convert if it contains a mix of digits and letters in phone-like pattern
@@ -2073,7 +1838,7 @@ for (const item of items) {
     }
     for (const contact of contacts) {
       if (contact.phone) {
-        // v3.17: Block own-company staff phones from leaking into contact records
+        // Block own-company staff phones from leaking into contact records
         if (isOwnCompanyPhone(contact.phone)) {
           contact.infoNotes = contact.infoNotes || [];
           contact.infoNotes.push('Cleared own-company internal phone "' + contact.phone + '"');
@@ -2093,7 +1858,7 @@ for (const item of items) {
         }
       }
       if (contact.mobile) {
-        // v3.17: Block own-company staff phones from leaking into contact records
+        // Block own-company staff phones from leaking into contact records
         if (isOwnCompanyPhone(contact.mobile)) {
           contact.infoNotes = contact.infoNotes || [];
           contact.infoNotes.push('Cleared own-company internal mobile "' + contact.mobile + '"');
@@ -2113,7 +1878,7 @@ for (const item of items) {
       }
     }
 
-    // ═══ v3.27: PHONE DEDUP ═══
+    // PHONE DEDUP
     // If phone and mobile are the same number, clear mobile
     for (const contact of contacts) {
       if (contact.phone && contact.mobile) {
@@ -2125,7 +1890,7 @@ for (const item of items) {
       }
     }
 
-    // ═══ v3.27: GHOST CONTACT FILTER ═══
+    // GHOST CONTACT FILTER
     // Remove contacts with very short names and no email (AI parsing artifacts like "Wiz", "Wry")
     contacts = contacts.filter(c => {
       const _fn = (c.firstName || '').trim();
@@ -2146,7 +1911,7 @@ for (const item of items) {
       }
     }
 
-    // 3a. OWN-COMPANY STAFF NAME EXCLUSION — catch when AI extracts internal staff
+    // 3a. OWN-COMPANY STAFF NAME EXCLUSION - catch when AI extracts internal staff
     // Populate with the firm's own staff so their signatures are never extracted as contacts.
     const OWN_EMPLOYEE_FIRST_NAMES = new Set(['alex', 'pat', 'taylor', 'morgan', 'casey']);
     const OWN_EMPLOYEE_LAST_NAMES = new Set(['example', 'sample', 'placeholder', 'demo']);
@@ -2221,7 +1986,7 @@ for (const item of items) {
       return true;
     });
     
-    // If ALL contacts were filtered (only channel addresses found), 
+    // If ALL contacts were filtered (only channel addresses found),
     // and there's a real company name in the body, flag for web research
     if (preChannelCount > 0 && contacts.length === 0) {
       // The email had contacts but they were all distribution channels.
@@ -2229,7 +1994,7 @@ for (const item of items) {
       // Web Research will pick this up via the DISTRIBUTION_CHANNEL_TARGET classification.
     }
 
-    // 3a2. OWN-COMPANY SIGNATURE GUARD — catch when scanner grabs own-company tagline as company
+    // 3a2. OWN-COMPANY SIGNATURE GUARD - catch when scanner grabs own-company tagline as company
     const OWN_COMPANY_PATTERNS = [
       /your\s+company\s+tagline\s+here/i,
       /yourcompany/i,
@@ -2244,8 +2009,8 @@ for (const item of items) {
         const domain = email.split('@')[1] || '';
         const domainBase = domain.split('.')[0] || '';
         if (domain && !['gmail.com','hotmail.com','icloud.com','yahoo.com'].includes(domain)) {
-          // v3.21: Smart word splitting for domain-derived company names
-          // e.g. "acmeproperties" → "Acme Properties"
+          // Smart word splitting for domain-derived company names
+          // e.g. "acmeproperties" -> "Acme Properties"
           const bizWords = ['properties','capital','financial','group','holdings',
             'securities','partners','advisors','advisory','wealth','management','solutions',
             'corp','enterprises','insurance','realty','mortgage','lending',
@@ -2277,7 +2042,7 @@ for (const item of items) {
       }
     }
 
-    // 3b. TITLE-AS-NAME GUARD — catch when AI puts title in name fields
+    // 3b. TITLE-AS-NAME GUARD - catch when AI puts title in name fields
     // e.g., firstName: "Vice", lastName: "President" or firstName: "Director", lastName: "of Sales"
     const TITLE_PATTERNS = [
       /^(?:vice|senior|junior|executive|assistant|associate|managing|regional|chief)$/i,
@@ -2313,7 +2078,7 @@ for (const item of items) {
           contact.firstName = recoveredFirst;
           contact.lastName = recoveredLast;
         } else {
-          // Can't recover from email — flag for review
+          // Can't recover from email - flag for review
           contact.needsReview = true;
           contact.reviewReason = (contact.reviewReason ? contact.reviewReason + ' | ' : '') + 
             'TITLE_AS_NAME: AI extracted "' + fullName + '" as name — likely a title, not a person name';
@@ -2332,10 +2097,10 @@ for (const item of items) {
       contacts[MAX_CONTACTS - 1].infoNotes.push(excess + ' additional contact(s) found but capped at ' + MAX_CONTACTS + ' — add remaining manually');
     }
 
-    // ═══ v3.3: SMART WEBSITE ENRICHMENT ═══
+    // SMART WEBSITE ENRICHMENT
     const personalDomains = ['gmail.com','yahoo.com','hotmail.com','outlook.com','aol.com','icloud.com','me.com','live.com','msn.com','protonmail.com'];
 
-    // v3.21: Own-company domains excluded from auto-website
+    // Own-company domains excluded from auto-website
     const ownDomains = ['yourcompany.com'];
     for (const contact of contacts) {
       if (!contact.website && contact.email) {
@@ -2353,16 +2118,14 @@ for (const item of items) {
             contact.website = prevData.primaryUrl;
           }
         } catch (e) {
-          // URL parsing failed — skip
+          // URL parsing failed - skip
         }
       }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.25: NAME RECOVERY — derive missing names from email/subject/body
+    // NAME RECOVERY - derive missing names from email/subject/body
     // When Ollama returns empty firstName/lastName but has email/company,
     // try multiple strategies to recover the name.
-    // ═══════════════════════════════════════════════════════════════
     for (const contact of contacts) {
       if ((!contact.firstName || !contact.lastName) && contact.email) {
         const emailLocal = contact.email.split('@')[0] || '';
@@ -2389,7 +2152,7 @@ for (const item of items) {
             }
           }
         }
-        // Strategy 1b: Single-part email (jane@domain) — use as firstName, find lastName in context
+        // Strategy 1b: Single-part email (jane@domain) - use as firstName, find lastName in context
         else if (emailParts.length === 1 && emailParts[0].length >= 2) {
           const emailName = emailParts[0].charAt(0).toUpperCase() + emailParts[0].slice(1).toLowerCase();
           if (bodyLower.includes(emailName.toLowerCase()) || subjectLower.includes(emailName.toLowerCase())) {
@@ -2429,7 +2192,7 @@ for (const item of items) {
           for (const line of bodyLines.slice(0, 10)) {
             const trimmed = line.trim();
             if (trimmed.toLowerCase().includes(contact.lastName.toLowerCase()) && trimmed.length < 60) {
-              // Line contains the lastName — extract firstName(s) before it
+              // Line contains the lastName - extract firstName(s) before it
               const lastIdx = trimmed.toLowerCase().indexOf(contact.lastName.toLowerCase());
               if (lastIdx > 0) {
                 const beforeLast = trimmed.substring(0, lastIdx).trim();
@@ -2447,11 +2210,9 @@ for (const item of items) {
       }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    // v3.4: COMPREHENSIVE SOURCE-TEXT VALIDATION
-    // ═══════════════════════════════════════════════════════════════
+    // COMPREHENSIVE SOURCE-TEXT VALIDATION
 
-    // v3.24: Include inline image OCR text in source validation
+    // Include inline image OCR text in source validation
     // Try multiple methods to get OCR text
     let inlineOcr = '';
     try { inlineOcr = $('Prepare Extraction Request').first().json.inlineOcrText || ''; } catch(e) {}
@@ -2490,7 +2251,7 @@ for (const item of items) {
       }
       // Strategy 3: Try consecutive digit sequences of 4+ from the phone
       // This catches "+90 555 010 0 112" where digits are "905550100112"
-      // and source has "555 010 0 112" — check if any 7+ consecutive digit substring exists
+      // and source has "555 010 0 112" - check if any 7+ consecutive digit substring exists
       for (let len = Math.min(digits.length, 10); len >= 7; len--) {
         for (let start = 0; start <= digits.length - len; start++) {
           const sub = digits.substring(start, start + len);
@@ -2526,9 +2287,9 @@ for (const item of items) {
       contact.unverifiedFields = [];
       contact.clearedFields = [];
 
-      // ── Validate email ──
+      // Validate email
       if (contact.email) {
-        // v3.23: Flag generic/role-based emails but KEEP them — they may be the only contact
+        // Flag generic/role-based emails but KEEP them - they may be the only contact
         // (sole proprietors, small businesses, etc.). Web research may find a personal email later.
         const emailLocal = (contact.email.split('@')[0] || '').toLowerCase();
         const GENERIC_PREFIXES = new Set(['info', 'sales', 'support', 'admin', 'contact', 'contacts',
@@ -2544,7 +2305,7 @@ for (const item of items) {
           contact.clearedFields = contact.clearedFields || [];
           contact.clearedFields.push({ field: 'email', hadValue: contact.email, reason: 'generic email — kept but flagging for research' });
         }
-        // v3.22: Reject obviously invalid email values (AI hallucinations like "(hidden)", "N/A", etc.)
+        // Reject obviously invalid email values (AI hallucinations like "(hidden)", "N/A", etc.)
         else if (/^[^a-zA-Z0-9]|[\(\)\[\]{}]/.test(contact.email) || 
                  /^(hidden|redacted|n\/a|none|unknown|private|confidential|removed|withheld)/i.test(contact.email) ||
                  !contact.email.includes('@') || contact.email.length < 5) {
@@ -2557,7 +2318,7 @@ for (const item of items) {
         else if (valueInSource(contact.email)) {
           contact.verifiedFields.push('email');
         } else {
-          // v3.24: Name-email correlation — if email matches verified name + company domain, trust it
+          // Name-email correlation - if email matches verified name + company domain, trust it
           const emailLocal = (contact.email.split('@')[0] || '').toLowerCase();
           const emailDomain = (contact.email.split('@')[1] || '').toLowerCase().split('.')[0];
           const nameInLocal = (contact.firstName && emailLocal.includes(contact.firstName.toLowerCase())) ||
@@ -2566,7 +2327,7 @@ for (const item of items) {
             contact.companyName.toLowerCase().replace(/[^a-z]/g, '').substring(0, 6));
           
           if (nameInLocal && companyInDomain) {
-            // Email pattern matches name + company — high confidence it's real
+            // Email pattern matches name + company - high confidence it's real
             contact.verifiedFields.push('email');
             contact.infoNotes = contact.infoNotes || [];
             contact.infoNotes.push('Email validated via name-domain correlation (matches name + company)');
@@ -2579,7 +2340,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate firstName ──
+      // Validate firstName
       if (contact.firstName) {
         if (nameInSource(contact.firstName)) {
           contact.verifiedFields.push('firstName');
@@ -2589,7 +2350,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate lastName ──
+      // Validate lastName
       if (contact.lastName) {
         if (nameInSource(contact.lastName)) {
           contact.verifiedFields.push('lastName');
@@ -2599,7 +2360,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate phone ──
+      // Validate phone
       if (contact.phone) {
         if (phoneInSource(contact.phone)) {
           contact.verifiedFields.push('phone');
@@ -2609,7 +2370,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate mobile ──
+      // Validate mobile
       if (contact.mobile) {
         if (phoneInSource(contact.mobile)) {
           contact.verifiedFields.push('mobile');
@@ -2619,7 +2380,7 @@ for (const item of items) {
         }
       }
 
-      // ── v3.27: BARE DOMAIN → COMPANY NAME CONVERSION ──
+      // BARE DOMAIN -> COMPANY NAME CONVERSION
       // When company looks like a raw domain (e.g., "exampletrailerleasing.com"),
       // strip the TLD and run word splitting to get a proper name.
       if (contact.companyName && /^[a-z0-9][-a-z0-9]*\.(com|net|org|co|io|us|uk|ca|de|fr|au|biz|info)$/i.test(contact.companyName.trim())) {
@@ -2664,8 +2425,8 @@ for (const item of items) {
         contact.infoNotes.push('Converted bare domain "' + rawDomain + '" to company name "' + splitResult + '"');
       }
 
-      // ── Validate companyName ──
-      // v3.15: Own-company branding blacklist + phone-in-company guard (applied to AI output)
+      // Validate companyName
+      // Own-company branding blacklist + phone-in-company guard (applied to AI output)
       if (contact.companyName) {
         if (isOwnBranding(contact.companyName)) {
           contact.clearedFields.push({ field: 'companyName', hadValue: contact.companyName, reason: 'Own-company branding/tagline' });
@@ -2677,7 +2438,7 @@ for (const item of items) {
           contact.company = '';
         }
       }
-      // v3.9: AI COMMENTARY GUARD
+      // AI COMMENTARY GUARD
       if (contact.companyName) {
         const compLower = contact.companyName.toLowerCase();
         const isAiCommentary = /(?:does not appear|not found|this funding|please note|no (?:company|information|data)|unknown|n\/a|none|not available|not provided|see above|see below|refer to)/i.test(contact.companyName);
@@ -2696,7 +2457,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate jobTitle ──
+      // Validate jobTitle
       if (contact.jobTitle) {
         if (valueInSource(contact.jobTitle)) {
           contact.verifiedFields.push('jobTitle');
@@ -2706,7 +2467,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate city ──
+      // Validate city
       if (contact.city) {
         if (valueInSource(contact.city)) {
           contact.verifiedFields.push('city');
@@ -2716,7 +2477,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate state ──
+      // Validate state
       if (contact.state) {
         if (valueInSource(contact.state, 2)) {
           contact.verifiedFields.push('state');
@@ -2726,7 +2487,7 @@ for (const item of items) {
         }
       }
 
-      // ── Post-merge state→country promotion ──
+      // Post-merge state->country promotion
       // If state holds a country name (e.g., AI returned state="TURKEY"), promote it
       if (contact.state && !contact.country) {
         const COUNTRIES_POST = new Set(['turkey', 'canada', 'united kingdom', 'uk', 'australia', 'germany', 'france', 'brazil', 'mexico', 'india', 'japan', 'china', 'south korea', 'italy', 'spain', 'netherlands', 'switzerland', 'sweden', 'norway', 'denmark', 'ireland', 'singapore', 'hong kong', 'new zealand', 'israel', 'uae', 'united arab emirates', 'qatar', 'bahrain', 'kuwait', 'saudi arabia', 'south africa', 'cayman islands', 'bermuda', 'bahamas', 'colombia', 'chile', 'argentina', 'peru']);
@@ -2736,7 +2497,7 @@ for (const item of items) {
         }
       }
 
-      // ── Validate address ──
+      // Validate address
       if (contact.address) {
         const addressParts = contact.address.match(/\d+\s+[A-Za-z]+/);
         if (addressParts && sourceLower.includes(addressParts[0].toLowerCase())) {
@@ -2749,20 +2510,20 @@ for (const item of items) {
         }
       }
 
-      // ── Compute verification score ──
+      // Compute verification score
       const totalFields = contact.verifiedFields.length + contact.unverifiedFields.length + contact.clearedFields.length;
       contact.verificationScore = totalFields > 0
         ? Math.round((contact.verifiedFields.length / totalFields) * 100)
         : 0;
 
-      // ── If verification score is critically low, flag the entire contact ──
+      // If verification score is critically low, flag the entire contact
       if (contact.verificationScore < 50 && totalFields >= 3) {
         contact.confidence = 'low';
         contact.infoNotes = contact.infoNotes || [];
         contact.infoNotes.push('LOW VERIFICATION: Only ' + contact.verificationScore + '% of fields found in source text');
       }
 
-      // ── If email was unverified AND other fields are also unverified, skip Zoho ──
+      // If email was unverified AND other fields are also unverified, skip Zoho
       if (contact.unverifiedFields.includes('email') && contact.verificationScore < 50) {
         contact.skipZohoUpsert = true;
         contact.infoNotes = contact.infoNotes || [];
@@ -2770,8 +2531,8 @@ for (const item of items) {
       }
     }
 
-    // ── Step 4b: LAST RESORT STUB CREATION — create stubs from any identifiable fragments ──
-    // v3.23: Recursive contact completion — create stubs from any fragments
+    // Step 4b: LAST RESORT STUB CREATION - create stubs from any identifiable fragments
+    // Recursive contact completion - create stubs from any fragments
     // Runs ONLY when all extraction paths (AI JSON, retry, scanner, merge, narrative fallback)
     // produced zero contacts. Even a single field (name, company, URL) is enough to create
     // a stub that the Web Research node can enrich.
@@ -2788,9 +2549,9 @@ for (const item of items) {
         const narrative = jsonText;
 
         // Scan for names: **BoldName**, firstName: Name, or capitalized 2-3 word near keywords
-        // NOTE: Do NOT use /i flag — name capture groups must start with actual uppercase
+        // NOTE: Do NOT use /i flag - name capture groups must start with actual uppercase
         const namePatterns = [
-          // **Jane O'Broker** — bold markdown names (most reliable in AI narratives)
+          // **Jane O'Broker** - bold markdown names (most reliable in AI narratives)
           /\*\*([A-Z][a-z]+(?:[-'\u2019][A-Z][a-z]+)?(?:\s+[A-Z](?:[-'\u2019]?[A-Za-z]+)){1,2})\*\*/g,
           /\*\*(?:Name|Contact|Person)\*\*\s*[:\-]?\s*([A-Z][a-z]+(?:\s+[A-Z][a-z'-]+){1,2})/g,
           /(?:firstName|first_name)\s*[:\-]?\s*["']?([A-Z][a-z]+)["']?/g,
@@ -2812,7 +2573,7 @@ for (const item of items) {
               break;
             } else if (validParts.length === 1 && validParts[0].length >= 2) {
               stubFirstName = validParts[0];
-              // Don't break — try to find a fuller match
+              // Don't break - try to find a fuller match
             }
           }
         }
@@ -2823,7 +2584,7 @@ for (const item of items) {
           /\*\*(?:Company|Organization|Firm)\*\*\s*[:\-]?\s*([A-Z][A-Za-z\s&.,'-]+?(?:Ltd\.?|Limited|LLC|Inc\.?|Corp\.?|Group|International|Capital|Finance|Leasing|Partners|Associates))\b/gi,
           // "company: Example Leasing Limited" with explicit label
           /(?:company|organization|firm)\s*[:\-]\s*([A-Z][A-Za-z\s&'-]+?(?:Ltd\.?|Limited|LLC|Inc\.?|Corp\.?|Group|International|Capital|Finance|Leasing|Partners|Associates))\b/gi,
-          // "of Example Leasing Limited's" — preposition + company name ending at corporate suffix
+          // "of Example Leasing Limited's" - preposition + company name ending at corporate suffix
           /(?:joining|at|from|of|for)\s+([A-Z][A-Za-z\s&'-]+?(?:Ltd\.?|Limited|LLC|Inc\.?|Corp\.?|Group|International|Capital|Finance|Leasing|Partners|Associates))\b/gi,
           // Fallback: "company: Any Company Name" ending at newline/period (no suffix required)
           /(?:company)\s*[:\-]\s*([A-Z][A-Za-z\s&'-]{2,50}?)(?:\n|\.|\s*$)/gi,
@@ -2879,7 +2640,7 @@ for (const item of items) {
           if (GENERIC_STUB.has(beLocal.toLowerCase())) continue;
           if (be === (forwarderEmail || '').toLowerCase()) continue;
 
-          // Try to derive name from email local part (e.g., john.doe@ → John Doe)
+          // Try to derive name from email local part (e.g., john.doe@ -> John Doe)
           let beFirst = '', beLast = '';
           let bePhone = '', beMobile = '', beTitle = '';
           let nameSource = 'email_body';
@@ -2888,7 +2649,7 @@ for (const item of items) {
             beFirst = localParts[0].charAt(0).toUpperCase() + localParts[0].slice(1);
             beLast = localParts[1].charAt(0).toUpperCase() + localParts[1].slice(1);
           } else {
-            // v3.33: ANTI-DROP GUARD — local-part doesn't yield name; scan body lines near the email
+            // ANTI-DROP GUARD - local-part doesn't yield name; scan body lines near the email
             const nearby = deriveNameFromBodyNear(stubBody, be, forwarderEmail);
             if (nearby.firstName && nearby.lastName) {
               beFirst = nearby.firstName;
@@ -2964,14 +2725,14 @@ for (const item of items) {
       }
     }
 
-    // ── Step 5: Build output ──
+    // Step 5: Build output
     const hasRealContact = contacts.some(c => !!(c.email || (c.firstName && c.lastName)));
     const shouldForceResearch = !hasRealContact && prevData.hasUrls;
     const allCleared = contacts.flatMap(c => c.clearedFields || []);
     const anyLowConfidence = contacts.some(c => c.confidence === 'low');
     const anyBlocked = contacts.some(c => c.skipZohoUpsert);
 
-    // v3.8: URL-PRESENT RESEARCH TRIGGER
+    // URL-PRESENT RESEARCH TRIGGER
     const PERSONAL_DOMAINS_CHECK = new Set(['gmail.com','yahoo.com','hotmail.com','outlook.com',
       'aol.com','icloud.com','me.com','live.com','msn.com','protonmail.com','mail.com',
       'zoho.com','yandex.com','gmx.com','comcast.net','att.net','verizon.net']);
@@ -2983,7 +2744,7 @@ for (const item of items) {
         return PERSONAL_DOMAINS_CHECK.has(cDomain);
       });
 
-    // v3.21 FIX: URL discovery activation for forwarded URL-only emails
+    // URL discovery activation for forwarded URL-only emails
     // When subject IS a URL (after stripping Fwd:/Fw:/FW:/Re: prefixes) and 0 contacts found,
     // or when body is very short and allUrls has entries, activate URL discovery mode.
     let urlDiscoveryActivated = false;
@@ -3047,7 +2808,7 @@ for (const item of items) {
         skipZohoUpsert: false,
         extractionStrategy: urlDiscoveryActivated ? 'URL_DISCOVERY' : (prevData.extractionStrategy || 'BODY_ONLY'),
         aiSkipped: false,
-        // v3.12: Report AI parse failure even when scanner recovered contacts
+        // Report AI parse failure even when scanner recovered contacts
         parseError: aiParseError,
         errorMessage: aiParseError ? aiErrorMessage : '',
         rawResponse: aiParseError ? (jsonText || '').substring(0, 2000) : '',
@@ -3060,16 +2821,16 @@ for (const item of items) {
           (effectiveHasUrls && contacts.length === 0) ||
           hasOnlyPersonalContacts ||
           // Trigger research when contact has name+company but no email
-          // Mirrors the manual workflow — find missing info online
+          // Mirrors the manual workflow - find missing info online
           contacts.some(c => (c.firstName || c.lastName) && c.companyName && !c.email) ||
-          // v3.23: Trigger research for any stub contact needing enrichment
+          // Trigger research for any stub contact needing enrichment
           contacts.some(c => c.extractionMethod === 'STUB_FROM_FRAGMENTS'),
         hasBlockedContacts: anyBlocked,
         totalFieldsCleared: allCleared.length
       }
     });
   } catch (error) {
-    // v3.2.9f: Try partial JSON recovery for truncated AI output
+    // Try partial JSON recovery for truncated AI output
     // If Ollama truncated mid-array, extract whatever complete objects exist
     let recoveredContacts = [];
     try {
@@ -3120,7 +2881,7 @@ for (const item of items) {
   }
 }
 
-// ═══ v3.29: ASYNC TLD RESOLUTION — resolve TLD-less emails before output ═══
+// ASYNC TLD RESOLUTION - resolve TLD-less emails before output
 // For contacts with no email, check if we have a TLD-less candidate and resolve it
 if (_outerTldLessPending.length > 0) {
   for (const r of results) {
@@ -3138,7 +2899,7 @@ if (_outerTldLessPending.length > 0) {
           localPart.includes(contact.lastName?.toLowerCase() || '###')
         );
         if (nameMatch) {
-          // Found a match — mark for async resolution
+          // Found a match - mark for async resolution
           contact._tldLessEmail = candidate;
           contact._companyHint = contact.companyName || contact.company || '';
           break;
@@ -3182,9 +2943,9 @@ if (_outerTldLessPending.length > 0) {
   }
 }
 
-// v3.13: Collect this email's results into the allResults array
+// Collect this email's results into the allResults array
 for (const r of results) { allResults.push(r); }
 
-} // ← end of for (let _idx = 0; _idx < allItems.length; _idx++) loop
+} // <- end of for (let _idx = 0; _idx < allItems.length; _idx++) loop
 
 return allResults;

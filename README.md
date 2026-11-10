@@ -1,89 +1,113 @@
 # Email-to-CRM
 
-An on-premises AI pipeline that turns forwarded emails into clean CRM contacts. Staff forward an email to one intake mailbox; a few minutes later the contact is in the CRM and a confirmation lands in their inbox with a one-click undo. Nobody retypes a signature block, and no email content ever leaves your own network.
+An n8n workflow that reads emails forwarded to one mailbox, extracts the people in them with a small language model running on your own hardware, and upserts them into Zoho CRM. The person who forwarded the email gets a confirmation listing what was saved, with a link that undoes it for 24 hours.
 
-## What it does
+Email bodies never go to a hosted AI service. The model runs in Ollama next to n8n, on a mini-PC on the office network. The only outbound traffic is the contact record sent to Zoho and the confirmation email.
 
-- **Time.** A forwarded email is the whole workflow. Name, email, phone numbers, company, title, country, and contact type are extracted, checked, and upserted into Zoho without anyone opening the CRM.
-- **Privacy.** Email bodies are parsed by language models running on a mini-PC inside your LAN. The only outbound traffic is the structured contact record going to Zoho and the confirmation email going back to the sender.
-- **Safety.** Every run is logged to a CSV and a spreadsheet before Zoho is touched. Every confirmation email carries a signed undo link that reverses the CRM write for 24 hours.
-- **Predictability.** When something cannot be extracted with confidence, the pipeline says so in the confirmation rather than guessing. When Zoho is unreachable, the contact is still logged and the sender still gets a confirmation that says exactly what happened.
+## Using it
 
-## Pipeline
+Forward an email to the intake mailbox. If you want, add one line above the forwarded message saying what type of contact it is:
 
-```
-Outlook intake mailbox
-  -> Map Outlook to Standard Format      normalize Graph payload, detect self-sent
-  -> Email Parser                        strip quoted history, isolate signature blocks,
-                                         separate the forwarder's instruction from the body
-  -> Chunk Splitter                      split long bodies into model-sized chunks
-  -> AI Micro-Extract (local LLM)        pull raw contact fragments per chunk
-  -> AI Identity Resolver (local LLM)    merge fragments into distinct people
-  -> Validate & Enrich                   deterministic checks: completeness, phone
-                                         normalization, domain-derived company names,
-                                         type assignment from the forwarder's note
-  -> Validate Contact Type               drop ghost contacts, recipient-list leaks,
-                                         your own staff, out-of-office bots
-  -> Format for CSV / Save to CSV        local audit trail written first
-  -> Append Developer Log / Zoho Log     spreadsheet rows for the team
-  -> Refresh Zoho Token -> Prepare Upsert -> Upsert Contact -> Fetch Zoho Contact
-  -> Prepare Confirmation Email          per-contact cards, warnings, signed undo link
-  -> Send Confirmation
+```text
+From:    Pat Staffer <pat@yourcompany.com>
+To:      contacts@yourcompany.com
+Subject: FW: Intro - Northwind Logistics
+
+Partner for Zoho
+
+---------- Forwarded message ----------
+From: Dana Reyes <dana.reyes@northwind-logistics.example>
+...
+Dana Reyes
+Director of Partnerships
+Northwind Logistics
+Office: (555) 010-0142
+Cell: (555) 010-0187
+Columbus, OH
 ```
 
-Extraction is split across two small local models on purpose. A single "read this email and give me JSON" prompt drifted on long forwards with several signatures; splitting into micro-extraction per chunk and a separate identity-resolution pass made the output stable enough that the deterministic layer could do the rest. Everything after the models is plain JavaScript with no probabilistic behavior, so a bad result can always be traced to a specific rule.
+The parser treats the line mentioning Zoho or CRM as the instruction. For the email above it produces:
 
-## Why on-prem and local models
+```json
+{
+  "forwarderInstruction": "Partner for Zoho",
+  "suggestedType": "Partner",
+  "forwarderPreamble": "Partner for Zoho\nPat Staffer\nYour Company"
+}
+```
 
-The design requirement is that email correspondence is never sent to a third-party AI service. The stack is n8n and Ollama in Docker on a Windows mini-PC on the office LAN. Models are pulled once and run on CPU. The trade-off is throughput (a long forward takes a minute or two rather than seconds), which is acceptable for a mailbox that receives tens of emails a day, not thousands. Remote administration goes through a private overlay network; nothing on the box is exposed to the public internet.
+That output is from running `workflows/test-workflow.json`'s Code nodes locally on this synthetic email. The type has to match the CRM picklist (`VALID_TYPES` in Validate Contact Type), and common variants are mapped through an alias table: "lender" becomes Financial Institution, "lawyer" becomes Attorney. Without a note, the type comes from the model's guess.
 
-## Graceful failure
+Each contact becomes one Zoho upsert, keyed on email:
 
-- **Model returns garbage.** The parser tolerates malformed JSON, fenced code blocks, and empty responses; the run continues with whatever fragments survived, and the confirmation flags the contact as incomplete.
-- **Nothing extractable.** The sender receives a "no contact found" confirmation with the reason (image-only body, auto-reply, forwarded newsletter).
-- **Zoho token refresh fails or the API is down.** The CSV and spreadsheet rows are already written; the confirmation states that Zoho was skipped so the record can be entered by hand.
-- **Attachment too large.** A size ceiling stops oversized PDFs from stalling the run; the confirmation says the attachment was not read.
-- **Machine reboots or a container dies.** A scheduled watchdog restarts the Docker stack and a hardening script keeps the box from sleeping, auto-updating mid-run, or coming back without the tunnel.
+| Zoho field | Comes from |
+|---|---|
+| `First_Name`, `Last_Name` | signature or header name |
+| `Email` | the contact's address (dedup key) |
+| `Title`, `Account_Name` | signature lines; company falls back to the email domain |
+| `Phone`, `Mobile` | labeled numbers in the signature (office vs. cell/direct) |
+| `Mailing_Street`, `Mailing_City`, `Mailing_State`, `Mailing_Country` | signature address, when present |
+| `Type` | the forwarder's note, else the model's guess |
+| `Description` | `Auto-imported via Email-to-CRM on <date>` |
 
-## Undo
+Fields that fail validation are left out of the request rather than written blank. Confirmation subjects look like `[CRM] Added 1 contact: Dana Reyes` (or Updated, Skipped, Error), `[CRM] 2 contact(s) added/updated, 1 skipped: ...`, or `[CRM] No Contact Found`.
 
-Each confirmation email includes a link containing the Zoho record id, the action taken (create or update), a timestamp, and an HMAC signature computed with a secret that lives only in the n8n environment. The webhook that receives the link verifies the signature and the 24-hour window before reversing the write. Links cannot be forged or replayed after expiry.
+## How it works
 
-## Repository map
+```mermaid
+flowchart TD
+    A[Outlook intake mailbox] --> B[Map Outlook to Standard Format<br/>drop self-sent, auto-replies, bounces]
+    B --> C[Email Parser<br/>split note from forwarded content]
+    C --> D[Chunk Splitter<br/>one block per person]
+    D --> E[AI Micro-Extract<br/>llama3.2:3b, per chunk]
+    E --> F[AI Identity Resolver<br/>llama3.2:3b, merge into people]
+    F --> G[Validate & Enrich<br/>Validate Contact Type]
+    G --> H[CSV backup + Excel log]
+    H --> I[Zoho upsert, one request per contact]
+    I --> J[Confirmation email with undo link]
+```
+
+That is the multi-stage workflow in `workflows/`. The single-stage design that runs in production makes one model call per email and puts the work in [`Parse_AI_Response.js`](src/nodes/Parse_AI_Response.js) instead: it checks each field the model returns against the email text, and a signature scanner fills in what the model missed. Its version of [`Validate_Contact_Type.js`](src/nodes/Validate_Contact_Type.js) also drops people who only appear on a forwarded To: or Cc: line, unless the note says "both of these", "the team", or names them.
+
+In both versions everything except the model calls is plain JavaScript in n8n Code nodes, so a wrong result can be traced to a rule, and your own staff and signature are filtered out before anything is saved.
+
+The CSV and Excel rows are written before Zoho is called. If the Zoho token refresh fails or the API is down, the contact is still in the log and the confirmation says Zoho was skipped. If nothing can be extracted (image-only body, auto-reply, newsletter), the forwarder gets a "No Contact Found" reply with the reason.
+
+The undo link carries the Zoho record IDs, the contact emails, and an expiry 24 hours out, signed with HMAC-SHA256 using `UNDO_SECRET`. It points at an `undo-contact` webhook; the workflow that receives it is not part of this export.
+
+Running on CPU is slow: a long forward takes a minute or two, which is fine for a mailbox that gets tens of emails a day.
+
+## What's in the repo
+
+There are two generations of the extraction logic, and they are at different stages:
 
 | Path | What it is |
 |---|---|
-| `workflows/production-workflow.json` | The n8n workflow: Outlook trigger through Zoho upsert and confirmation. Importable as-is; secrets are read from environment variables. |
-| `workflows/test-workflow.json` | Same pipeline behind a webhook with Zoho stubbed, used to replay captured emails during regression testing. |
-| `src/nodes/Parse_AI_Response.js` | The single-stage extraction node from the earlier pipeline generation: JSON repair, signature scanning, phone and name heuristics, anti-drop guards. The largest piece of deterministic logic in the system. |
-| `src/nodes/Validate_Contact_Type.js` | Ghost-contact and recipient-list filtering, staff exclusion, contact-type assignment against a configurable picklist. |
-| `src/nodes/Prepare_Zoho_Fetch.js` | Builds one fetch per successful upsert so multi-contact confirmations show the right record. |
-| `src/nodes/Detect_Image_Primary.js` | Detects image-only bodies (business-card photos) so they can be routed or flagged instead of returning nothing. |
-| `src/stages/stage2_parse_identity_response.js` | Parses the identity-resolver model output into contact records. |
-| `src/stages/stage3_validate_and_enrich.js` | The deterministic validation and enrichment stage. |
-| `infra/onprem-windows/` | PowerShell hardening and watchdog scripts for the mini-PC, plus their runbook. |
-| `docker-compose.yml`, `.env.example` | Container stack and the environment variables the workflow expects. |
+| `src/nodes/Parse_AI_Response.js` | Single-stage extraction node (one prompt, then a large deterministic signature scanner). This is the design the production deployment runs; the file is a slightly older revision. |
+| `src/nodes/Validate_Contact_Type.js` | Contact filtering and type assignment for the single-stage path. |
+| `src/nodes/Prepare_Zoho_Fetch.js`, `src/nodes/Detect_Image_Primary.js` | One Zoho fetch per upserted contact; detection of image-only bodies such as business-card photos. |
+| `workflows/production-workflow.json` | The multi-stage version (chunk, extract, resolve identities). A prototype, not what production runs. |
+| `workflows/test-workflow.json` | The same pipeline behind a webhook with Zoho stubbed out, for replaying emails. |
+| `src/stages/` | Two stages of the multi-stage version as standalone files. |
+| `infra/onprem-windows/` | PowerShell scripts that keep the Windows host recovering on its own after a reboot, with a runbook. |
+| `docs/` | A decision record for the host setup, and [the signature formats the parser was tuned on](docs/edge-cases.md). |
 
-Two generations of the extraction logic are included: the single-stage node in `src/nodes/` that ran in production first, and the multi-stage decomposition in `workflows/` and `src/stages/` that replaced one large prompt with two small ones plus a deterministic layer.
+> [!WARNING]
+> The multi-stage prototype is not reliable on names yet. Running the synthetic email above twice with `llama3.2:3b`, the first run swapped Dana Reyes's first and last name, and the second put the forwarder's name (Pat Staffer) on Dana's email and phone. The forwarder's note also reaches the identity-resolver prompt but is not carried into its output, so the type is assigned without it. The single-stage node keeps the note and cross-checks names against the email address and signature; it has not been rerun on this example.
 
-## Deploying
+## Setting it up
 
-1. Start n8n and Ollama (see `docker-compose.yml`), pull the two models referenced in the workflow's HTTP Request nodes.
-2. Create n8n credentials for the Outlook mailbox and the Excel workbook; the workflow references them by name.
-3. Set the environment variables listed in `.env.example` on the n8n container. `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN` and `UNDO_SECRET` are required; `N8N_BLOCK_ENV_ACCESS_IN_NODE=false` lets Code nodes read them.
-4. Import `workflows/production-workflow.json`, attach the credentials, and activate it.
-5. On Windows, register `infra/onprem-windows/stack-watchdog.ps1` as a Scheduled Task and run `harden.ps1` once as administrator.
-
-## Configuring for your organization
-
-Each Code node carries its own constants (n8n Code nodes cannot share imports). Before deploying, set:
-
-- `OWN_DOMAINS`, the intake mailbox address, and the staff-exclusion lists, so your own people and signatures are never extracted as contacts.
-- `VALID_TYPES` and the alias table in Validate Contact Type, to match your CRM's contact-type picklist.
-- The `[CRM]` confirmation subject tag, if you want a different one (the self-sent filter in Map Outlook to Standard Format matches it).
+1. Copy `.env.example` to `.env` and fill in `N8N_ENCRYPTION_KEY`, `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN`, and `UNDO_SECRET`. `N8N_BLOCK_ENV_ACCESS_IN_NODE=false` lets Code nodes read them.
+2. `docker compose up -d`. The warmup container pulls `llama3.2:3b` and keeps it loaded.
+3. In n8n, create Microsoft Outlook and Microsoft Excel credentials and import a workflow from `workflows/`.
+4. Replace the placeholders for your organization. Each Code node has its own copy because n8n Code nodes cannot import from each other:
+   - your domain (`yourcompany.com`), intake address (`intake@example.com`), and staff names in the `OWN_*` constants and the two prompts, so your own people are never saved as contacts;
+   - `VALID_TYPES` and `TYPE_ALIASES` in Validate Contact Type, to match your CRM picklist;
+   - the `[CRM]` subject tag, if you change it, everywhere it appears (Prepare Confirmation Email sets it; Map Outlook to Standard Format and Chunk Splitter filter on it).
+5. On a Windows host, run `infra/onprem-windows/harden.ps1` once as administrator. It registers the watchdog task, disables sleep and hibernate, and blocks forced update reboots. Details are in [the runbook](infra/onprem-windows/README.md).
 
 ## Provenance
 
-Generalized from a production deployment. Run history, audit logs, replay harnesses, and the regression fixtures built from real forwarded emails stay private. Secrets were never part of the design: Zoho OAuth values and the undo-signing key are read from environment variables. Names, domains, phone numbers, hostnames, and the original contact-type taxonomy were replaced with placeholders.
+This is a cleaned-up export of a private repository that serves a live deployment. The run history, audit logs, replay harness, and regression fixtures built from real emails stay private. Names, domains, phone numbers, hostnames, and the original contact-type list were replaced with placeholders. Secrets are read from the environment and were never in the code.
 
-Built by Mika Sibinkic (Null Systems), with Claude used as a pair programmer for node code, regression tooling, and this export.
+Written by Mika Sibinkic (Null Systems). Claude was used as a pair programmer on the node code, the regression tooling, and this export, and commits it helped with carry a `Co-Authored-By` trailer.

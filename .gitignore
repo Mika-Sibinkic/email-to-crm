@@ -1,4 +1,4 @@
-# Email-to-CRM — exclude runtime artifacts, credentials, and bulky data
+# Email-to-CRM - exclude runtime artifacts, credentials, and bulky data
 
 # Credentials
 .env
@@ -9,7 +9,7 @@
 .zoho_access_token.txt
 .zoho_creds.json
 
-# Audit sessions: executions, replay inputs/outputs, CRM snapshots, traces — never exported
+# Audit sessions: executions, replay inputs/outputs, CRM snapshots, traces - never exported
 audit/
 
 # Captured email fixtures and screenshots

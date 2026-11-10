@@ -1,29 +1,24 @@
-// Detect Image-Primary Body — v3.34 (vision pipeline gating)
+// Detect Image-Primary Body
 //
-// Runs after Email Parser. Reads the email's body HTML and decides whether the
-// vision path should fire. Sets imageMode=true when:
-//   - text content (HTML stripped, signatures removed) has < THIN_BODY_CHARS useful chars, AND
-//   - body has at least one <img> tag whose src is on the safe-list (not a social icon
-//     and not a tracking pixel), AND
-//   - no usable EXTERNAL email or phone is already present in the text body.
+// Runs after Email Parser and decides whether the vision path should run. Sets
+// imageMode=true when all three hold:
+//   - the text body (HTML and signatures removed) has fewer than THIN_BODY_CHARS
+//     useful characters,
+//   - the body has at least one <img> that is not a social icon or tracking pixel,
+//   - no external email or phone is already in the text.
+// The last check exists because when the signature already has the contact, the
+// text path finds it and the vision path only adds noise.
 //
-// The third condition is important — if the email's signature already contains the
-// real contact, the existing text path will catch it and the vision path adds noise.
-//
-// Outputs (when imageMode=true):
-//   imageMode: true
-//   visionImageUrls: [string, ...]   (max 5, ordered by preference)
-//   visionDetectionReason: '...'     (audit log)
-//
-// Outputs (when imageMode=false):
-//   imageMode: false  (existing pipeline continues unchanged)
+// Output when imageMode=true: visionImageUrls (up to 5, best first) and
+// visionDetectionReason for the log. Otherwise imageMode=false and nothing else
+// changes.
 
 const THIN_BODY_CHARS = 800;
 const MIN_IMAGE_HINT_BYTES = 20 * 1024;
 const MAX_IMAGES = 5;
 
 // Allow-list: image hosts we trust to fetch from (a marketing-platform CDN,Microsoft/Google CDNs, public webfonts CDNs).
-// Anything else is dropped — defends against malicious/inappropriate URLs.
+// Anything else is dropped - defends against malicious/inappropriate URLs.
 const SAFE_IMAGE_HOST_PATTERNS = [
   /^https?:\/\/[a-z0-9.-]*\.filesafe\.space\//i,
   /^https?:\/\/[a-z0-9.-]*\.googleapis\.com\//i,
@@ -111,7 +106,7 @@ for (const item of allItems) {
   const textPhones = (textOnly.match(phoneRegex) || []);
   const externalPhone = textPhones.some(p => {
     const digits = p.replace(/\D/g, '').slice(-10);
-    // crude internal phone exclusion — populate with the firm's own phone numbers (last 10 digits)
+    // crude internal phone exclusion - populate with the firm's own phone numbers (last 10 digits)
     return !['5550100101','5550100102','5550100103','5550100104','5550100105','5550100106','5550100107'].includes(digits);
   });
 
