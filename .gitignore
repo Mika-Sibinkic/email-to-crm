@@ -1,0 +1,37 @@
+# Email-to-CRM — exclude runtime artifacts, credentials, and bulky data
+
+# Credentials
+.env
+.env.*
+!.env.example
+*.env
+*-tunnel.env
+.zoho_access_token.txt
+.zoho_creds.json
+
+# Audit sessions: executions, replay inputs/outputs, CRM snapshots, traces — never exported
+audit/
+
+# Captured email fixtures and screenshots
+*.eml
+*.png
+
+# Python bytecode
+**/__pycache__/
+*.pyc
+
+# Bulky cache/temp JSONs
+*cache*.json
+progress.json
+batch_pid.txt
+
+# Old node-fix tempfiles
+node-fix-parse-ai-response-*.js
+
+# OS / sync-collision cruft
+.DS_Store
+* 2.*
+* 2/
+* 2
+*.b64
+.gitignore 2

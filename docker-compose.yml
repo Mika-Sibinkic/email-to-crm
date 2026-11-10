@@ -1,0 +1,91 @@
+# Reconstructed from the deployment notes for portfolio purposes; the production compose file is not exported.
+#
+# Stack as documented in the infra notes: four containers on one Docker network,
+# all `restart: unless-stopped`, on a Windows 11 host running Docker Desktop.
+#   n8n            -> host port 5678 (the only host-bound service)
+#   ollama         -> 11434, Docker-network only (never exposed on the host)
+#   ollama-warmup  -> sidecar sharing the model store; pulls/keeps the extraction models warm
+#   cf-bypass      -> host port 8191, Cloudflare-challenge fetcher for public web research
+#
+# Production runs a locally built image tagged `email-to-crm-n8n:latest`; its base is n8nio/n8n.
+# The warmup sidecar's exact command is not in the notes; the one below is a plausible stand-in.
+# Values come from .env (see .env.example).
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: email-to-crm-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    env_file:
+      - .env
+    environment:
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PORT: ${N8N_PORT:-5678}
+      N8N_PROTOCOL: ${N8N_PROTOCOL:-http}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: ${N8N_BLOCK_ENV_ACCESS_IN_NODE:-false}
+      WEBHOOK_URL: ${WEBHOOK_URL:-http://localhost:5678/}
+      WEBHOOK_BASE_URL: ${WEBHOOK_BASE_URL:-http://localhost:5678}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-UTC}
+      NODE_ENV: ${NODE_ENV:-production}
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://ollama:11434}
+      UNDO_SECRET: ${UNDO_SECRET}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - ollama
+    networks:
+      - extractor
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: email-to-crm-ollama
+    restart: unless-stopped
+    expose:
+      - "11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - extractor
+
+  ollama-warmup:
+    image: ollama/ollama:latest
+    container_name: email-to-crm-ollama-warmup
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        sleep 15
+        ollama pull llama3.2:3b
+        ollama pull gemma3:4b
+        while true; do
+          ollama run llama3.2:3b "ok" > /dev/null 2>&1
+          sleep 600
+        done
+    networks:
+      - extractor
+
+  cf-bypass:
+    image: ghcr.io/sarperavci/cloudflarebypassforscraping:latest
+    container_name: email-to-crm-cf-bypass
+    restart: unless-stopped
+    ports:
+      - "8191:8191"
+    networks:
+      - extractor
+
+volumes:
+  n8n_data:
+  ollama_data:
+
+networks:
+  extractor:
+    driver: bridge
