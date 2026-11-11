@@ -694,7 +694,8 @@ function scanSignatures(body, excludeForwarder) {
         // Observed failure: "Example Principal Advisors, LLC" matched as title (has "Principal"+"Advisors")
         if (!jobTitle && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|Commercial|VP\b|SVP\b|EVP\b|AVP\b|Sr\b)/i.test(line)) {
           // Make sure it's a short title line, not a sentence, and not a company name
-          if (line.length < 100 && !/[.!?]$/.test(line.trim()) && !/^(good|it was|i |please|looking|best|hi |hello|dear|just |thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line)) {
+          // URL and address lines are skipped: "www.examplebrokers.example" contains "broker".
+          if (line.length < 100 && !/[.!?]$/.test(line.trim()) && !/^(good|it was|i |please|looking|best|hi |hello|dear|just |thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim())) {
             jobTitle = line;
           }
         }
@@ -1107,7 +1108,7 @@ function scanSignatures(body, excludeForwarder) {
           // Title
           // Added LLC/Inc/Corp guard (same as primary scanner)
           if (!fbTitle && line.length < 100 && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|VP\b|SVP\b|EVP\b)/i.test(line)) {
-            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line)) {
+            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim())) {
               fbTitle = line;
             }
           }
@@ -1786,8 +1787,10 @@ for (const item of items) {
         if (val.includes(' | ') || val.includes(' | ')) {
           const parts = val.split(/\s*[|]\s*/);
           if (parts.length === 2) {
-            const hasTitleA = TITLE_KEYWORDS.test(parts[0]);
-            const hasTitleB = TITLE_KEYWORDS.test(parts[1]);
+            // A part ending in a legal suffix is the company even if it holds a title word ("Example Brokers LLC").
+            const isLegalName = p => /\b(?:LLC|LLP|PLLC|Inc|Corp|Ltd)\.?$/i.test(p.trim());
+            const hasTitleA = TITLE_KEYWORDS.test(parts[0]) && !isLegalName(parts[0]);
+            const hasTitleB = TITLE_KEYWORDS.test(parts[1]) && !isLegalName(parts[1]);
             if (hasTitleA && !hasTitleB) {
               contact.jobTitle = parts[0];
               if (!contact.companyName || contact.companyName === val) contact.companyName = parts[1];
@@ -2732,6 +2735,10 @@ for (const item of items) {
           contact.state = '';
         }
       }
+      // CRM country picklists hold full names; signatures and prose often abbreviate.
+      const COUNTRY_FULL_NAMES = { 'uk': 'United Kingdom', 'u.k.': 'United Kingdom', 'uae': 'United Arab Emirates', 'u.a.e.': 'United Arab Emirates' };
+      const fullCountry = COUNTRY_FULL_NAMES[(contact.country || '').trim().toLowerCase()];
+      if (fullCountry) contact.country = fullCountry;
 
       // Validate address
       if (contact.address) {

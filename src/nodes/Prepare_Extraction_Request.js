@@ -360,10 +360,11 @@ function detectInstructionScope(preamble, rawInstruction, forwarderInstruction, 
   }
 
   // Names in the note: "add Jane", "Jane Doe for Zoho", "Jane as Family Office".
+  // No 'i' flag: the name must be capitalized, or "pls add to crm" and "iPhone Add as" read as names.
   const namePatterns = [
     /\b(?:add|put|log|enter|get|include)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/g,
-    /([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:for|to|in|into)\s+(?:zoho|crm|z\b)/gi,
-    /([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:as\s+(?:a\s+)?)/gi
+    /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:[Ff]or|[Tt]o|[Ii]n|[Ii]nto)\s+(?:[Zz][Oo][Hh][Oo]|[Cc][Rr][Mm]|[Zz]\b)/g,
+    /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+(?:[Aa]s\s+(?:[Aa]\s+)?)/g
   ];
 
   // Type words, so "Financial Institution for Zoho" is not read as a person's name.
@@ -377,8 +378,10 @@ function detectInstructionScope(preamble, rawInstruction, forwarderInstruction, 
 
   const preambleOriginal = preamble + ' ' + rawInstruction;
   const foundNames = [];
+  // A single first name right after "add" ("Pls add Priya to Zoho") is a name even without a surname.
+  const verbNames = new Set();
 
-  for (const pattern of namePatterns) {
+  for (const [i, pattern] of namePatterns.entries()) {
     let match;
     pattern.lastIndex = 0;
     while ((match = pattern.exec(preambleOriginal)) !== null) {
@@ -386,6 +389,7 @@ function detectInstructionScope(preamble, rawInstruction, forwarderInstruction, 
       const nameParts = name.toLowerCase().split(/\s+/);
       if (nameParts.every(p => skipWords.has(p))) continue;
       if (name.length >= 3) foundNames.push(name);
+      if (i === 0) verbNames.add(name);
     }
   }
 
@@ -396,12 +400,12 @@ function detectInstructionScope(preamble, rawInstruction, forwarderInstruction, 
     for (const part of nameParts) {
       if (part.length >= 3 && !skipWords.has(part)) {
         const nameRegex = new RegExp('\\b' + part + '\\b', 'i');
-        if (nameRegex.test(preambleOriginal)) {
-          const contextRegex = new RegExp('\\b(' + part + '(?:\\s+[A-Z][a-z]+)?)\\b', 'i');
-          const contextMatch = preambleOriginal.match(contextRegex);
-          if (contextMatch && !foundNames.includes(contextMatch[1].trim())) {
-            foundNames.push(contextMatch[1].trim());
-          }
+        const partMatch = preambleOriginal.match(nameRegex);
+        if (partMatch) {
+          // Only a capitalized next word is a surname ("Tom is already in there" names Tom).
+          const surname = preambleOriginal.slice(partMatch.index + part.length).match(/^\s+([A-Z][a-z]+)\b/);
+          const name = partMatch[0] + (surname ? ' ' + surname[1] : '');
+          if (!foundNames.includes(name)) foundNames.push(name);
         }
       }
     }
@@ -425,7 +429,7 @@ function detectInstructionScope(preamble, rawInstruction, forwarderInstruction, 
         return nameWords.some(nw => nw.length >= 3 && localParts.some(lp => lp.includes(nw) || nw.includes(lp)));
       });
       const looksLikeName = nameWords.length >= 2 && nameWords.some(w => w.length >= 3 && !actionWords.has(w));
-      return matchesEmail || looksLikeName;
+      return matchesEmail || looksLikeName || verbNames.has(name);
     });
     if (validatedNames.length > 0) {
       return { scope: 'NAMED_PERSON', details: validatedNames.join(', ') };

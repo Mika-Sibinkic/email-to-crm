@@ -56,7 +56,8 @@ const TYPE_ALIASES = {
   "funding source": "Financial Institution", "fund source": "Financial Institution",
   "family office": "Family Office", "escrow": "Service Provider",
   "escrow agent": "Service Provider",
-  "vendor": "Service Provider"
+  "vendor": "Service Provider",
+  "cpa": "Service Provider", "accountant": "Service Provider", "accounting": "Service Provider"
 };
 
 // Edit to match your CRM's contact-type picklist.
