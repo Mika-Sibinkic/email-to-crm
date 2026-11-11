@@ -299,7 +299,7 @@ An undo webhook for another CRM would act on that CRM's record IDs, which Prepar
 
 ## License
 
-The source is public. No license to copy, modify or deploy it is granted; see [NOTICE.md](NOTICE.md).
+MIT. See [LICENSE](LICENSE).
 
 ## Provenance
 
