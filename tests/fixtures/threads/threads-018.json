@@ -1,0 +1,62 @@
+{
+  "id": "threads-018",
+  "category": "threads",
+  "split": "train",
+  "description": "Apple Mail macOS forward with nothing typed; UK signature with +44 (0) trunk-prefix numbers and a postcode address",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB514CFD53E0A3247C6CCB691CAB51107BA9CEAAA=",
+    "internetMessageId": "<514CFD53-E0A3-247C-6CCB-691CAB51107B@yourcompany.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA4819A8BF7E609474DB65=",
+    "receivedDateTime": "2026-11-04T11:48:30Z",
+    "sentDateTime": "2026-11-04T11:48:30Z",
+    "subject": "Fwd: UK leg - headline terms",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Begin forwarded message: From: Oliver Pennington < oliver.pennington@kestrelbridge.example > Subject: UK leg - headline terms Date: November 4, 2026 at 5:21:44 AM CST To: Alex Example < alex@yourcompany.com > Alex, Following our call, I'll send the headli",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body style=\"overflow-wrap: break-word; -webkit-nbsp-mode: space; line-break: after-white-space;\"><br id=\"lineBreakAtBeginningOfMessage\"><div><br><blockquote type=\"cite\"><div>Begin forwarded message:</div><br class=\"Apple-interchange-newline\"><div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\"><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, 1.0);\"><b>From: </b></span><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif;\">Oliver Pennington &lt;<a href=\"mailto:oliver.pennington@kestrelbridge.example\">oliver.pennington@kestrelbridge.example</a>&gt;<br></span></div><div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\"><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, 1.0);\"><b>Subject: </b></span><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif;\"><b>UK leg - headline terms</b><br></span></div><div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\"><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, 1.0);\"><b>Date: </b></span><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif;\">November 4, 2026 at 5:21:44 AM CST<br></span></div><div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\"><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, 1.0);\"><b>To: </b></span><span style=\"font-family: -webkit-system-font, Helvetica Neue, Helvetica, sans-serif;\">Alex Example &lt;<a href=\"mailto:alex@yourcompany.com\">alex@yourcompany.com</a>&gt;<br></span></div><br><div><div>Alex,</div>\n<div><br></div>\n<div>Following our call, I'll send the headline terms we can offer on the UK leg of the fleet refinancing by Friday. Happy to discuss once your credit team has had a look.</div>\n<div><br></div>\n<div>Kind regards,</div>\n<div><br></div>\n<div>Oliver Pennington</div>\n<div>Director, Asset Finance</div>\n<div>Kestrel Bridge Capital Ltd</div>\n<div>12 Wren Court, London EC2V 6AB, United Kingdom</div>\n<div>T +44 (0)20 7946 0321</div>\n<div>M +44 (0)7700 900417</div>\n<div><br></div>\n<div><span style=\"font-size:10px;color:#808080\">Kestrel Bridge Capital Ltd is registered in England and Wales (No. 00000000) and is authorised and regulated by the Financial Conduct Authority.</span></div></div></blockquote></div><br></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "oliver.pennington@kestrelbridge.example",
+        "firstName": "Oliver",
+        "lastName": "Pennington",
+        "phone": "+44 20 7946 0321",
+        "mobile": "+44 7700 900417",
+        "company": "Kestrel Bridge Capital Ltd",
+        "title": "Director, Asset Finance",
+        "city": "London",
+        "country": "United Kingdom"
+      }
+    ]
+  }
+}

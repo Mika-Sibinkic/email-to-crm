@@ -1,0 +1,63 @@
+{
+  "id": "threads-009",
+  "category": "threads",
+  "split": "train",
+  "description": "Gmail forward of a reply chain; newest message gives a new mobile that replaces the one in the quoted signature",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAABF8E1DA9D48EAD73A887505D714110CAFB5C1AAA=",
+    "internetMessageId": "<CAHf8e1da9d48+1272C02B4CE28A0DD00CB2@mail.gmail.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA5C11A94C19BC01507277=",
+    "receivedDateTime": "2026-11-06T15:55:20Z",
+    "sentDateTime": "2026-11-06T15:55:20Z",
+    "subject": "Fwd: Re: Hendricks portfolio - appraisal",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Pls update in crm w/ her new cell Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here ---------- Forwarded message --------- From: Nadi",
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Pls update in crm w/ her new cell<br clear=\"all\"><div><div dir=\"ltr\" class=\"gmail_signature\"><div dir=\"ltr\"><b>Pat Staffer</b><br>Managing Director | Your Company<br>Office (555) 010-0100 | Mobile (555) 010-0101<br>100 Main Street, Anytown, ST 00000<br>pat@yourcompany.com<br>Your Company Tagline Here</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Nadia Petrosyan</strong> <span dir=\"auto\">&lt;<a href=\"mailto:npetrosyan@summitridgeappraisal.example\">npetrosyan@summitridgeappraisal.example</a>&gt;</span><br>Date: Fri, Nov 6, 2026 at 9:41 AM<br>Subject: Re: Hendricks portfolio - appraisal<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\">Hi Pat,<br><br>The report for the Hendricks portfolio is final and in your inbox. Also, please note my new mobile number: (512) 555-0177. The old 0151 number goes away at the end of the month.<br><br>Nadia</div><br><div class=\"gmail_quote\"><div dir=\"ltr\" class=\"gmail_attr\">On Thu, Nov 5, 2026 at 3:04 PM Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt; wrote:<br></div><blockquote class=\"gmail_quote\" style=\"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex\"><div dir=\"ltr\">Thanks Nadia, any update on timing?<br><br><b>Pat Staffer</b><br>Managing Director | Your Company<br>Office (555) 010-0100 | Mobile (555) 010-0101<br>100 Main Street, Anytown, ST 00000<br>pat@yourcompany.com<br>Your Company Tagline Here</div><br><div class=\"gmail_quote\"><div dir=\"ltr\" class=\"gmail_attr\">On Wed, Oct 28, 2026 at 11:15 AM Nadia Petrosyan &lt;<a href=\"mailto:npetrosyan@summitridgeappraisal.example\">npetrosyan@summitridgeappraisal.example</a>&gt; wrote:<br></div><blockquote class=\"gmail_quote\" style=\"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex\"><div dir=\"ltr\">Pat,<br><br>We received the asset list and site contacts. Fieldwork is scheduled for next Tuesday and Wednesday; expect the draft report about a week after that.<br><br>Best,<br><br>--<br>Nadia Petrosyan, ASA<br>Managing Director, Valuation Services<br>Summit Ridge Appraisal Group<br>O 512.555.0138 | M 512.555.0151<br>Austin, TX<br>www.summitridgeappraisal.example</div></blockquote></div></blockquote></div>\n</div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "npetrosyan@summitridgeappraisal.example",
+        "firstName": "Nadia",
+        "lastName": "Petrosyan",
+        "phone": "512-555-0138",
+        "mobile": "512-555-0177",
+        "company": "Summit Ridge Appraisal Group",
+        "title": "Managing Director, Valuation Services",
+        "city": "Austin",
+        "state": "TX",
+        "type": "Service Provider"
+      }
+    ]
+  }
+}

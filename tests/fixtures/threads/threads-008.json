@@ -1,0 +1,63 @@
+{
+  "id": "threads-008",
+  "category": "threads",
+  "split": "holdout",
+  "description": "Outlook reply chain: newest message signed 'Greg / Sent from my iPhone', full signature only in the oldest quoted message, forwarder signature quoted in between",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB9EFE7A1448402742E99D06D4C31A0988CB96AAA=",
+    "internetMessageId": "<SA1PR11MB3A749EFE7A144840@SA1PR11MB3A74.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA3058677DB4DBCCA75093=",
+    "receivedDateTime": "2026-11-06T00:07:44Z",
+    "sentDateTime": "2026-11-06T00:07:44Z",
+    "subject": "FW: Halvorsen facility - participation",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add Greg to CRM - lender Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Greg Tolliver <gtolliver@cumberlandridgebank.example",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Greg to CRM - lender<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Greg Tolliver &lt;gtolliver@cumberlandridgebank.example&gt;<br>\n<b>Sent:</b> Thursday, November 5, 2026 5:58 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Re: Halvorsen facility - participation<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat, Monday at 10 works. Talk then.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Greg<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sent from my iPhone<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Sent:</b> Thursday, November 5, 2026 4:12 PM<br>\n<b>To:</b> Greg Tolliver &lt;gtolliver@cumberlandridgebank.example&gt;<br>\n<b>Subject:</b> RE: Halvorsen facility - participation<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Greg,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Appreciate the quick turn. Are you free Monday morning to walk through the borrowing base language?<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Greg Tolliver &lt;gtolliver@cumberlandridgebank.example&gt;<br>\n<b>Sent:</b> Thursday, November 5, 2026 2:40 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Halvorsen facility - participation<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Our credit committee approved the participation in the Halvorsen facility at $4MM. Term sheet attached in our portal; let me know if you have trouble accessing it.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Regards,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Greg Tolliver</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">SVP, Commercial Banking<o:p></o:p></p>\n<p class=\"MsoNormal\">Cumberland Ridge Bank<o:p></o:p></p>\n<p class=\"MsoNormal\">500 Church Street, 12th Floor<o:p></o:p></p>\n<p class=\"MsoNormal\">Knoxville, TN 37902<o:p></o:p></p>\n<p class=\"MsoNormal\">Office: 865-555-0127 | Cell: 865-555-0182<o:p></o:p></p>\n<p class=\"MsoNormal\">Member FDIC | Equal Housing Lender<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">CONFIDENTIALITY NOTICE: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message. Cumberland Ridge Bank does not accept liability for any errors or omissions in the contents of this message.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "gtolliver@cumberlandridgebank.example",
+        "firstName": "Greg",
+        "lastName": "Tolliver",
+        "phone": "865-555-0127",
+        "mobile": "865-555-0182",
+        "company": "Cumberland Ridge Bank",
+        "title": "SVP, Commercial Banking",
+        "city": "Knoxville",
+        "state": "TN",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

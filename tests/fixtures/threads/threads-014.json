@@ -1,0 +1,63 @@
+{
+  "id": "threads-014",
+  "category": "threads",
+  "split": "train",
+  "description": "Outlook web forward, note names one person; same-domain assistant on Cc and in the body is not a contact; pipe signature",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB1ABD85A86C0ADE7C7BCB733E22723CB973DBAAA=",
+    "internetMessageId": "<SA1PR11MBDE9E1ABD85A86C0A@SA1PR11MBDE9E.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQAB700886145B4AC95A1D7=",
+    "receivedDateTime": "2026-11-05T19:55:18Z",
+    "sentDateTime": "2026-11-05T19:55:18Z",
+    "subject": "FW: Next steps",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Please add Derek to zoho, Family Office Alex Example Associate | Your Company Mobile (555) 010-0102 alex@yourcompany.com Your Company Tagline Here From: Derek Lyle <dlyle@ashcombefo.example> Sent: Thursday, November 5, 2026 11:47 AM To: Alex Example <alex",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Please add Derek to zoho, Family Office</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><div><b>Alex Example</b></div>\n<div>Associate | Your Company</div>\n<div>Mobile (555) 010-0102</div>\n<div>alex@yourcompany.com</div>\n<div>Your Company Tagline Here</div></div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Derek Lyle &lt;dlyle@ashcombefo.example&gt;<br>\n<b>Sent:</b> Thursday, November 5, 2026 11:47 AM<br>\n<b>To:</b> Alex Example &lt;alex@yourcompany.com&gt;<br>\n<b>Cc:</b> Jenna Morales &lt;jmorales@ashcombefo.example&gt;<br>\n<b>Subject:</b> Next steps</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"direction: ltr;\">\n<div class=\"x_WordSection1\">\n<p class=\"x_MsoNormal\">Alex,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Thanks for the call this morning. I've copied Jenna Morales, my executive assistant, who manages my calendar. She'll find us an hour the week of the 16th.<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Best,<o:p></o:p></p>\n<p class=\"x_MsoNormal\">Derek<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Derek Lyle | Chief Investment Officer | Ashcombe Family Office<o:p></o:p></p>\n<p class=\"x_MsoNormal\">O: 206-555-0133 | 1201 Third Avenue, Suite 2800, Seattle, WA 98101<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">CONFIDENTIALITY NOTICE: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message. Ashcombe Family Office does not accept liability for any errors or omissions in the contents of this message.</span><o:p></o:p></p>\n</div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "dlyle@ashcombefo.example",
+        "firstName": "Derek",
+        "lastName": "Lyle",
+        "phone": "206-555-0133",
+        "mobile": "",
+        "company": "Ashcombe Family Office",
+        "title": "Chief Investment Officer",
+        "city": "Seattle",
+        "state": "WA",
+        "type": "Family Office"
+      }
+    ]
+  }
+}

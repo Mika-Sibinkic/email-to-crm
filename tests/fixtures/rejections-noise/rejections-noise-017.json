@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-017",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Newsletter sent straight to contacts@ by an outside list (preheader zwnj padding, VML button, sponsor block with a name, email and phone).",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA1115B9AD8E74AAA=",
+    "createdDateTime": "2026-11-10T11:00:03Z",
+    "lastModifiedDateTime": "2026-11-10T11:00:03Z",
+    "receivedDateTime": "2026-11-10T11:00:03Z",
+    "sentDateTime": "2026-11-10T11:00:03Z",
+    "hasAttachments": false,
+    "internetMessageId": "<1115B9AD8E7427388D80EE80@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Covenant-lite creeps down-market | The Private Credit Brief",
+    "bodyPreview": "Covenant-lite creeps into the lower middle market, plus three deals to watch.‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ View in browser Covenant-lite creeps down-market Sponsors ",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQAEF621A9B1B377068=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->\n<style type=\"text/css\">body{margin:0;padding:0}table,td{border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt}img{border:0;outline:none}@media only screen and (max-width:600px){.col{width:100%!important}}</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#f2f2f2\">\n<div style=\"display:none;font-size:1px;color:#f2f2f2;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden\">Covenant-lite creeps into the lower middle market, plus three deals to watch.&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>\n<table role=\"presentation\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#f2f2f2\"><tr><td align=\"center\">\n<!--[if mso]><table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\"><tr><td><![endif]-->\n<table role=\"presentation\" width=\"100%\" style=\"max-width:600px\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#ffffff\">\n<tr><td style=\"padding:12px 24px;font-family:Arial,sans-serif;font-size:11px;color:#888888\" align=\"right\"><a href=\"https://news.privatecreditbrief.example/view/8f3a2c?e=contacts%40yourcompany.com\" style=\"color:#888888\">View in browser</a></td></tr>\n<tr><td style=\"padding:0 24px\"><img src=\"https://cdn.privatecreditbrief.example/assets/masthead-600.png\" width=\"552\" alt=\"The Private Credit Brief\" style=\"display:block;width:100%;max-width:552px\"></td></tr>\n<tr><td style=\"padding:24px;font-family:Georgia,serif;font-size:22px;line-height:28px;color:#111111\"><b>Covenant-lite creeps down-market</b></td></tr>\n<tr><td style=\"padding:0 24px 16px;font-family:Arial,sans-serif;font-size:15px;line-height:23px;color:#333333\">Sponsors are pushing lighter maintenance covenants into deals well below the $50 million EBITDA line, and lenders competing for scarce new-issue volume are giving ground. Our survey of 140 recent financings found that roughly a third carried a single springing covenant or none at all.</td></tr>\n<tr><td style=\"padding:0 24px 16px;font-family:Arial,sans-serif;font-size:15px;line-height:23px;color:#333333\">Also this week: why unitranche pricing has stalled, a regional bank re-enters equipment finance, and our quarterly league tables.</td></tr>\n<tr><td style=\"padding:0 24px 24px\" align=\"left\">\n<!--[if mso]><v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" href=\"https://news.privatecreditbrief.example/c/8f3a2c/1\" style=\"height:40px;v-text-anchor:middle;width:200px;\" arcsize=\"10%\" stroke=\"f\" fillcolor=\"#0b4f8a\"><w:anchorlock/><center style=\"color:#ffffff;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;\">Read the full brief</center></v:roundrect><![endif]-->\n<!--[if !mso]><!-- --><a href=\"https://news.privatecreditbrief.example/c/8f3a2c/1\" style=\"background-color:#0b4f8a;border-radius:4px;color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:200px\">Read the full brief</a><!--<![endif]-->\n</td></tr>\n<tr><td style=\"padding:16px 24px;background-color:#f7f7f7;font-family:Arial,sans-serif;font-size:13px;line-height:20px;color:#555555\"><b>Advertise with us</b><br>Reach 40,000 credit professionals every Tuesday. Contact Jamie Ortiz, Partnerships Director<br>partnerships@privatecreditbrief.example | (212) 555-0190</td></tr>\n<tr><td style=\"padding:24px;font-family:Arial,sans-serif;font-size:11px;line-height:16px;color:#888888\" align=\"center\">You are receiving this email because contacts@yourcompany.com subscribed at privatecreditbrief.example.<br><a href=\"https://news.privatecreditbrief.example/unsubscribe?e=contacts%40yourcompany.com&amp;l=8f3a2c\" style=\"color:#888888\">Unsubscribe</a> | <a href=\"https://news.privatecreditbrief.example/preferences\" style=\"color:#888888\">Update preferences</a><br>The Private Credit Brief, 75 Varick Street, Floor 9, New York, NY 10013</td></tr>\n</table>\n<!--[if mso]></td></tr></table><![endif]-->\n</td></tr></table>\n<img src=\"https://news.privatecreditbrief.example/o/8f3a2c.gif\" width=\"1\" height=\"1\" alt=\"\" style=\"display:block\">\n</body></html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "The Private Credit Brief",
+        "address": "newsletter@news.privatecreditbrief.example"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "The Private Credit Brief",
+        "address": "newsletter@news.privatecreditbrief.example"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "UNSOLICITED",
+    "contacts": []
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "adversarial-019",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Name and company contain Cyrillic look-alike letters (U+0430, U+0410) and the title a Greek omicron, as pasted from a PDF; CRM values must be plain ASCII",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC002B0803428E32E74B8696EBBF3B148EA8F9D3D962AAA=",
+    "internetMessageId": "<MW4PR05MB2B08C508EAB20130@MW4PR05MB2B08.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC00E74B8696EBBF3B148EA8F9D3D962C508=",
+    "receivedDateTime": "2026-11-09T21:48:27Z",
+    "subject": "FW: Portfolio referrals",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style>\n</head>\n<body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Matteo as a partner, he will send us referrals.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;color:#595959\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Your Company</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#595959\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | <a href=\"https://www.yourcompany.com/\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b>From:</b> Matteo Rinaldi &lt;matteo.rinaldi@ardencap.example&gt; <br>\n<b>Sent:</b> Monday, November 9, 2026 3:31 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Portfolio referrals<o:p></o:p></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Following up on our call. We would like to refer two of our portfolio companies to you for growth capital; overviews to follow under NDA.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Regards,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b>Mаtteo Rinаldi</b><o:p></o:p></p>\n<p class=\"MsoNormal\">Investment Directοr<o:p></o:p></p>\n<p class=\"MsoNormal\">Аrden Cаpitаl Pаrtners<o:p></o:p></p>\n<p class=\"MsoNormal\">(555) 010-0128<o:p></o:p></p>\n<p class=\"MsoNormal\"><a href=\"mailto:matteo.rinaldi@ardencap.example\">matteo.rinaldi@ardencap.example</a><o:p></o:p></p>\n<p class=\"MsoNormal\">Charlotte, NC<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "matteo.rinaldi@ardencap.example",
+        "firstName": "Matteo",
+        "lastName": "Rinaldi",
+        "phone": "5550100128",
+        "title": "Investment Director",
+        "company": "Arden Capital Partners",
+        "city": "Charlotte",
+        "state": "NC",
+        "type": "Partner"
+      }
+    ]
+  }
+}

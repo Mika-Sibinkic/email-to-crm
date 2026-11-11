@@ -1,0 +1,57 @@
+{
+  "id": "phones-008",
+  "category": "phones",
+  "split": "holdout",
+  "description": "Compact signature with a bare unlabeled number on its own line (goes to Phone)",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD740032261227094195523146AAA=",
+    "internetMessageId": "<CAF740032261227+094195523146228587@mail.gmail.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA22858789310524683091=",
+    "receivedDateTime": "2026-11-06T22:03:17Z",
+    "sentDateTime": "2026-11-06T22:03:15Z",
+    "subject": "Fwd: Units",
+    "bodyPreview": "add to crm -- Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 ---------- Forwarded message --------- From: Jordan Pike < jordan@pikestreethol",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">add to crm<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div>Your Company</div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Jordan Pike</strong> <span dir=\"auto\">&lt;<a href=\"mailto:jordan@pikestreetholdings.example\">jordan@pikestreetholdings.example</a>&gt;</span><br>Date: Fri, Nov 6, 2026 at 1:20 PM<br>Subject: Units<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\">Pat - here is the info on the two units we discussed. Let me know if the numbers work for you.<div><br></div><div>Thanks,</div><div>Jordan</div><div><br></div><div>Jordan Pike</div><div>Pike Street Holdings</div><div>503.555.0187</div><div><a href=\"mailto:jordan@pikestreetholdings.example\">jordan@pikestreetholdings.example</a></div></div></div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "jordan@pikestreetholdings.example",
+        "firstName": "Jordan",
+        "lastName": "Pike",
+        "company": "Pike Street Holdings",
+        "phone": "503.555.0187",
+        "mobile": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-012",
+  "category": "adversarial",
+  "split": "holdout",
+  "description": "Bank compliance footer names a person (Chief Privacy Officer) with a role mailbox and a fraud hotline next to the real banker",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC008667AE7E44B5938FC48112C6F99FF2F682438CFEAAA=",
+    "internetMessageId": "<MW4PR05MB866780D7C5B55027@MW4PR05MB8667.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC00938FC48112C6F99FF2F682438CFE80D7=",
+    "receivedDateTime": "2026-11-10T16:55:39Z",
+    "subject": "FW: Participation approved",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)\">Add Rob, funding source.</div>\n<div class=\"elementToProof\" style=\"font-size:12pt\"><br></div>\n<div id=\"Signature\"><div style=\"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:10pt;color:rgb(0,0,0)\"><b>Pat Staffer</b><br>Managing Director<br><b>Your Company</b><br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br>100 Main Street, Anytown, ST 00000<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a></div></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Rob Delaney &lt;rdelaney@firstprairiebank.example&gt;<br><b>Sent:</b> Tuesday, November 10, 2026 10:21 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Participation approved</font><div>&nbsp;</div></div>\n<div><div style=\"font-family:Arial,sans-serif;font-size:10pt\"><p>Hi Pat,</p><p>Credit approved the participation at the terms we discussed. I will send the participation agreement over tomorrow for your review.</p><p>Rob</p><p><b>Rob Delaney</b><br>Vice President, Commercial Banking<br>First Prairie Bank<br>801 Grand Avenue, Des Moines, IA 50309<br>Office (555) 010-0185 | Mobile (555) 010-0186<br><a href=\"mailto:rdelaney@firstprairiebank.example\">rdelaney@firstprairiebank.example</a></p><p style=\"font-size:7pt;color:#808080\">First Prairie Bank, Member FDIC. Equal Housing Lender. First Prairie Bank will never ask for your password or account number by email. To report suspected fraud, call our Security Center at 1-555-010-0190 or email security@firstprairiebank.example. Privacy questions may be directed to our Chief Privacy Officer, Margaret Hollis, at privacy@firstprairiebank.example. This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed.</p></div></div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rdelaney@firstprairiebank.example",
+        "firstName": "Rob",
+        "lastName": "Delaney",
+        "phone": "5550100185",
+        "mobile": "5550100186",
+        "company": "First Prairie Bank",
+        "title": "Vice President, Commercial Banking",
+        "city": "Des Moines",
+        "state": "IA",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

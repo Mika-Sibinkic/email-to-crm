@@ -35,3 +35,6 @@ node-fix-parse-ai-response-*.js
 * 2
 *.b64
 .gitignore 2
+
+# Test harness model-reply cache
+tests/.cache/

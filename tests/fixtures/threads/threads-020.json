@@ -1,0 +1,63 @@
+{
+  "id": "threads-020",
+  "category": "threads",
+  "split": "holdout",
+  "description": "Outlook for Android forward, note names an off-picklist type ('Commercial realtor'); a real estate broker is a Broker",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB7841B8145CD0493280D77B691B7FCA377FE7AAA=",
+    "internetMessageId": "<SA1PR11MB50FB7841B8145CD0@SA1PR11MB50FB.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQADFF7BAC97F6636B125D9=",
+    "receivedDateTime": "2026-11-10T14:20:11Z",
+    "sentDateTime": "2026-11-10T14:20:11Z",
+    "subject": "Fw: Smyrna warehouse - equipment",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Commercial realtor for Zoho Get Outlook for Android From: Simone Achebe <sachebe@granitepeakcre.example> Sent: Tuesday, November 10, 2026 8:14:52 AM To: Pat Staffer <pat@yourcompany.com> Subject: Smyrna warehouse - equipment Pat, Following up on the wareh",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head>\n<body>\n<div dir=\"auto\">Commercial realtor for Zoho</div>\n<div dir=\"auto\"><br></div>\n<div id=\"ms-outlook-mobile-signature\" dir=\"auto\">Get <a href=\"https://aka.ms/AAb9ysg\">Outlook for Android</a></div>\n<div id=\"mail-editor-reference-message-container\" dir=\"auto\"><br>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Simone Achebe &lt;sachebe@granitepeakcre.example&gt;<br>\n<b>Sent:</b> Tuesday, November 10, 2026 8:14:52 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Smyrna warehouse - equipment</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"direction: ltr;\">\n<div class=\"x_WordSection1\">\n<p class=\"x_MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Following up on the warehouse in Smyrna. The tenant is open to a sale-leaseback of the racking and forklifts if you can finance the equipment piece. Can we set up a call?<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Simone<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Simone Achebe</span></b><o:p></o:p></p>\n<p class=\"x_MsoNormal\">Senior Vice President, Industrial Brokerage<o:p></o:p></p>\n<p class=\"x_MsoNormal\">Granite Peak Commercial Real Estate<o:p></o:p></p>\n<p class=\"x_MsoNormal\">M: 629-555-0147 | O: 629-555-0140<o:p></o:p></p>\n<p class=\"x_MsoNormal\">424 Church Street, Suite 2000, Nashville, TN 37219<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">Information contained herein has been obtained from sources deemed reliable but is not guaranteed. Licensed real estate broker in TN.</span><o:p></o:p></p>\n</div>\n</div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "sachebe@granitepeakcre.example",
+        "firstName": "Simone",
+        "lastName": "Achebe",
+        "phone": "629-555-0140",
+        "mobile": "629-555-0147",
+        "company": "Granite Peak Commercial Real Estate",
+        "title": "Senior Vice President, Industrial Brokerage",
+        "city": "Nashville",
+        "state": "TN",
+        "type": "Broker"
+      }
+    ]
+  }
+}

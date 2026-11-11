@@ -1,0 +1,51 @@
+{
+  "id": "companies-addresses-017",
+  "category": "companies-addresses",
+  "split": "train",
+  "description": "Department line (\"Commercial Equipment Finance Group\") sits above the employer (\"Northwest Bank & Trust\"); the domain is an abbreviation (nwbt) so it cannot pick between them.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADsBe220MKd5V_zXiVJpy5Wt8PbECHdwFm8IROmMHlfdhte8MDugvD-PBbwxpnN9f1p4T7pG1VpHEtXbnBuRfATLAAA=",
+    "internetMessageId": "<SA1PR11MB4947FE1E7B9BCBF23E80EAD973EA@SA1PR11MB4947.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQAJ695KMjKMgHs1M2rFUzPjE=",
+    "receivedDateTime": "2026-11-09T19:37:52Z",
+    "isDraft": false,
+    "subject": "FW: Fleet deal participation",
+    "bodyPreview": "Banker on the fleet deal, please add. Pat Staffer Managing Director Your Company Your Company Tagline Here 100 Main Street, Anytown, ST 00000 O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | www.yourcompany.com From: Grant Holloway <gholloway@nwb",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<!--[if !mso]><style>v\\:* {behavior:url(#default#VML);}\no\\:* {behavior:url(#default#VML);}\nw\\:* {behavior:url(#default#VML);}\n.shape {behavior:url(#default#VML);}\n</style><![endif]--><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;\n\tmso-ligatures:none;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Banker on the fleet deal, please add.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\"><span style=\"color:#0563C1\">pat@yourcompany.com</span></a> | <a href=\"https://www.yourcompany.com/\"><span style=\"color:#0563C1\">www.yourcompany.com</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Grant Holloway &lt;gholloway@nwbt.example&gt; <br>\n<b>Sent:</b> Monday, November 9, 2026 1:14 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> RE: Fleet deal participation<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">We can participate up to $4 million on the fleet deal. I will need the last two years of financials and the interim through September.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Grant<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Grant Holloway</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Senior Vice President</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Commercial Equipment Finance Group</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Northwest Bank &amp; Trust</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">800 Fifth Avenue, Suite 1500</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Seattle, WA 98104</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Office 206-555-0109</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:gholloway@nwbt.example\"><span style=\"color:#0563C1\">gholloway@nwbt.example</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">Member FDIC | Equal Housing Lender | NMLS #000000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">This message may contain confidential and/or privileged information. If you are not the addressee or authorized to receive this for the addressee, you must not use, copy, disclose, or take any action based on this message.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "gholloway@nwbt.example",
+        "firstName": "Grant",
+        "lastName": "Holloway",
+        "phone": "206-555-0109",
+        "company": "Northwest Bank & Trust",
+        "title": "Senior Vice President",
+        "city": "Seattle",
+        "state": "WA",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

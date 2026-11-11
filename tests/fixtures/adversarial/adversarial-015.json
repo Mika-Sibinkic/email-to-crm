@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-015",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Plain-text body: a hard wrap splits the mobile number across lines, and a table signature puts each label and value on its own line",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC005D9BAFBCF54DFFB0005A83CEBD5F160B02B9CA6BAAA=",
+    "internetMessageId": "<MW4PR05MB5D9BAF6ED7C45946@MW4PR05MB5D9B.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC00FFB0005A83CEBD5F160B02B9CA6BAF6E=",
+    "receivedDateTime": "2026-11-05T13:40:51Z",
+    "subject": "FW: Alderbrook - intro",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "text",
+      "content": "New lender contact, please add Christopher.\r\n\r\nPat Staffer\r\nManaging Director\r\nYour Company\r\nYour Company Tagline Here\r\nO (555) 010-0100 | M (555) 010-0101\r\n100 Main Street, Anytown, ST 00000\r\npat@yourcompany.com<mailto:pat@yourcompany.com>\r\n\r\n________________________________\r\nFrom: Christopher Vandermeer <c.vandermeer@alderbrookfunding.example>\r\nSent: Wednesday, November 4, 2026 4:26 PM\r\nTo: Pat Staffer <pat@yourcompany.com>\r\nSubject: Alderbrook - intro\r\n\r\nPat,\r\n\r\nGood to meet you at the conference. We are actively looking for\r\nsenior secured deals in the $2-10M range. Easiest way to reach me is my cell, (555)\r\n010-0144; the office line below goes through reception.\r\n\r\nChris\r\n\r\nChristopher Vandermeer\r\nSenior Credit Officer\r\n\r\nAlderbrook Funding\r\n\r\nMobile:\r\n(555) 010-0144\r\nOffice:\r\n(555) 010-0145\r\nEmail:\r\nc.vandermeer@alderbrookfunding.example\r\n\r\n1700 Lincoln Street\r\nSuite 300\r\nDenver, CO\r\n80202\r\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "c.vandermeer@alderbrookfunding.example",
+        "firstName": "Christopher",
+        "lastName": "Vandermeer",
+        "mobile": "5550100144",
+        "phone": "5550100145",
+        "company": "Alderbrook Funding",
+        "title": "Senior Credit Officer",
+        "city": "Denver",
+        "state": "CO",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

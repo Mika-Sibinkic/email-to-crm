@@ -1,0 +1,66 @@
+{
+  "id": "rejections-noise-025",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Outlook table signature emitted twice (mso-only and non-mso conditional comment copies), nbsp-glued cells and &#8209; non-breaking hyphens in phones.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA71ED22D47D79AAA=",
+    "createdDateTime": "2026-11-04T14:02:58Z",
+    "lastModifiedDateTime": "2026-11-04T14:02:58Z",
+    "receivedDateTime": "2026-11-04T14:02:58Z",
+    "sentDateTime": "2026-11-04T14:02:58Z",
+    "hasAttachments": false,
+    "internetMessageId": "<71ED22D47D7982D15F66D04D@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Great meeting you in Charlotte",
+    "bodyPreview": "Rowan runs the asset management side at Lattice Point, add as Management Company. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 100 Main Street, Anytown, ST 00000 www.yourcompany.com From: Rowan A",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA1EBCF5CB6D29EB94=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Rowan runs the asset management side at Lattice Point, add as Management Company.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.yourcompany.com\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"><b>From:</b> Rowan Achebe &lt;rowan.achebe@latticepointam.example&gt;<br>\n<b>Sent:</b> Wednesday, November 4, 2026 7:26 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Great meeting you in Charlotte<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Great meeting you at the conference. Sending my details as promised, and I'll call next week about the two portfolios we discussed.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Best,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<!--[if mso]><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\"><tr><td width=\"110\" valign=\"top\" style=\"width:82.5pt;padding:0in 7.5pt 0in 0in\"><img width=\"96\" height=\"96\" src=\"cid:image002.png@01DD5B10.A4C7E220\" alt=\"Lattice Point logo\"></td><td valign=\"top\" style=\"border-left:solid #0E5A8A 1.5pt;padding:0in 0in 0in 7.5pt\"><p class=\"MsoNormal\"><b><span style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">Rowan Achebe</span></b></p><p class=\"MsoNormal\"><span style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">Senior Vice President&nbsp;|&nbsp;Lattice Point Asset Management</span></p><p class=\"MsoNormal\"><span style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">O&nbsp;704.555.0153&nbsp;&nbsp;M&nbsp;704.555.0154</span></p></td></tr></table><![endif]-->\n<!--[if !mso]><!-- --><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;mso-hide:all\"><tr><td width=\"110\" valign=\"top\" style=\"padding:0 10px 0 0\"><img width=\"96\" height=\"96\" src=\"cid:image002.png@01DD5B10.A4C7E220\" alt=\"Lattice Point logo\"></td><td valign=\"top\" style=\"border-left:2px solid #0E5A8A;padding:0 0 0 10px\"><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B;font-size:11pt\"><b>Rowan&nbsp;Achebe</b></td></tr><tr><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">Senior&nbsp;Vice&nbsp;President&nbsp;|&nbsp;Lattice&nbsp;Point&nbsp;Asset&nbsp;Management</td></tr><tr><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\"><span style=\"color:#0E5A8A\"><b>O</b></span>&nbsp;&nbsp;(704)&nbsp;555&#8209;0153</td><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">&nbsp;&nbsp;<span style=\"color:#0E5A8A\"><b>M</b></span>&nbsp;&nbsp;(704)&nbsp;555&#8209;0154</td></tr><tr><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\">500&nbsp;South&nbsp;Tryon&nbsp;Street,&nbsp;Suite&nbsp;2200,&nbsp;Charlotte,&nbsp;NC&nbsp;28202</td></tr><tr><td style=\"font-family:Arial,sans-serif;font-size:9.0pt;color:#3B3B3B\"><a href=\"mailto:rowan.achebe@latticepointam.example\" style=\"color:#0E5A8A\">rowan.achebe@latticepointam.example</a>&nbsp;&nbsp;&#124;&nbsp;&nbsp;<a href=\"https://www.latticepointam.example\" style=\"color:#0E5A8A\">latticepointam.example</a></td></tr></table></td></tr></table><!--<![endif]-->\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.0pt;color:#7F7F7F\">Lattice Point Asset Management LLC is a registered investment adviser. Registration does not imply a certain level of skill or training.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rowan.achebe@latticepointam.example",
+        "firstName": "Rowan",
+        "lastName": "Achebe",
+        "phone": "(704) 555-0153",
+        "mobile": "(704) 555-0154",
+        "company": "Lattice Point Asset Management",
+        "title": "Senior Vice President",
+        "city": "Charlotte",
+        "state": "NC",
+        "type": "Management Company"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-001",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Sent Items copy of the workflow's own [CRM] confirmation, from contacts@ to the forwarder: must not loop back into extraction.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA3ECA3AC35DB6AAA=",
+    "createdDateTime": "2026-11-04T15:12:14Z",
+    "lastModifiedDateTime": "2026-11-04T15:12:14Z",
+    "receivedDateTime": "2026-11-04T15:12:14Z",
+    "sentDateTime": "2026-11-04T15:12:14Z",
+    "hasAttachments": false,
+    "internetMessageId": "<3ECA3AC35DB6DE6860E1859B@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "[CRM] Added 1 contact: Jordan Reyes",
+    "bodyPreview": "Source: FW: Crestline - equipment line intro 1 contact(s) extracted ✅ ADDED: Jordan Reyes Zoho Record: First Name: Jordan Last Name: Reyes Email: jordan.reyes@crestlinebrokers.example Phone: (469) 555-0112 Mobile: (469) 555-0113 Job Title: Senior Broker C",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEJAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQAF70831C492EDDDC2=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "text",
+      "content": "Source: FW: Crestline - equipment line intro\r\n1 contact(s) extracted\r\n\r\n✅ ADDED: Jordan Reyes\r\n\r\nZoho Record:\r\n  First Name: Jordan\r\n  Last Name: Reyes\r\n  Email: jordan.reyes@crestlinebrokers.example\r\n  Phone: (469) 555-0112\r\n  Mobile: (469) 555-0113\r\n  Job Title: Senior Broker\r\n  Company: Crestline Equipment Brokers\r\n  Type: Broker\r\n  City: Plano\r\n  State: TX\r\n  Description: Auto-imported via Email-to-CRM on 2026-11-04\r\n  Zoho ID: zoho-1\r\n  Created: 2026-11-04 15:12:09\r\n  Modified: 2026-11-04 15:12:09\r\n  Owner: Pat Staffer\r\n\r\nExtraction: SIGNATURE_SCAN | Confidence: high\r\n\r\nUndo this update (expires in 24hrs): https://n8n.example.internal/webhook/undo-contact?token=eyJwYXlsb2FkIjoie1wiem9ob0lkc1wiOltcInpvaG8tMVwiXX0iLCJzaWciOiJzeW50aGV0aWMifQ%3D%3D\r\n\r\n---\r\nEmail-to-CRM"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Your Company Contacts",
+        "address": "contacts@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Your Company Contacts",
+        "address": "contacts@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Pat Staffer",
+          "address": "pat@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "SELF_SENT",
+    "contacts": []
+  }
+}

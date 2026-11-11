@@ -1,0 +1,63 @@
+{
+  "id": "threads-007",
+  "category": "threads",
+  "split": "train",
+  "description": "Outlook desktop forward of a Gmail forward; two outside people with signatures, note names only Rachel",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB00D194C93D1EC38B0C1AD3CDF20ED43F5EACAAA=",
+    "internetMessageId": "<SA1PR11MB765100D194C93D1E@SA1PR11MB7651.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA3C1C0CFE42CAA7F12912=",
+    "receivedDateTime": "2026-10-30T19:40:12Z",
+    "sentDateTime": "2026-10-30T19:40:12Z",
+    "subject": "FW: Lunch follow-up",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add Rachel Lindqvist to the crm as a Partner. Tom is already in there. Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Tom Br",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Rachel Lindqvist to the crm as a Partner. Tom is already in there.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Tom Brandt &lt;tom@brandtcapitaladvisors.example&gt;<br>\n<b>Sent:</b> Friday, October 30, 2026 1:26 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Fwd: Lunch follow-up<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><p class=\"MsoNormal\"><div dir=\"ltr\">Pat, forwarding Rachel's note below. She runs a loan brokerage out of Atlanta and has deals that fit your box. I'll let you two connect.<br><br>Tom Brandt | Principal<br>Brandt Capital Advisors<br>(404) 555-0131<br><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Rachel Lindqvist</strong> <span dir=\"auto\">&lt;<a href=\"mailto:rachel@lindqvistfunding.example\">rachel@lindqvistfunding.example</a>&gt;</span><br>Date: Fri, Oct 30, 2026 at 11:08 AM<br>Subject: Lunch follow-up<br>To: Tom Brandt &lt;<a href=\"mailto:tom@brandtcapitaladvisors.example\">tom@brandtcapitaladvisors.example</a>&gt;<br></div><br><br><div dir=\"ltr\">Hi Tom,<br><br>Thanks again for lunch. As I mentioned, we place a steady flow of equipment loans in the $250K to $2MM range and are always looking for capital partners with a quick credit turn. Happy to be introduced to anyone you think is a fit.<br><br>Best,<br>Rachel<br><br>--<br>Rachel Lindqvist<br>Founder &amp; Managing Partner<br>Lindqvist Commercial Funding<br>3350 Peachtree Rd NE, Suite 1200<br>Atlanta, GA 30326<br>Office 404-555-0146 | Mobile 404-555-0193</div></div></div></p></div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rachel@lindqvistfunding.example",
+        "firstName": "Rachel",
+        "lastName": "Lindqvist",
+        "phone": "404-555-0146",
+        "mobile": "404-555-0193",
+        "company": "Lindqvist Commercial Funding",
+        "title": "Founder & Managing Partner",
+        "city": "Atlanta",
+        "state": "GA",
+        "type": "Partner"
+      }
+    ]
+  }
+}

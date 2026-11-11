@@ -1,0 +1,66 @@
+{
+  "id": "rejections-noise-014",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Forwarder forwards an NDR (\"FW: Undeliverable: ...\") with the contact's new details: a real update; the dead address in the NDR is not a contact.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAAA8B389769A1AAAA=",
+    "createdDateTime": "2026-11-10T14:31:09Z",
+    "lastModifiedDateTime": "2026-11-10T14:31:09Z",
+    "receivedDateTime": "2026-11-10T14:31:09Z",
+    "sentDateTime": "2026-11-10T14:31:09Z",
+    "hasAttachments": false,
+    "internetMessageId": "<A8B389769A1ABB023D2E6B30@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Undeliverable: Following up on the Harbor Street refinance",
+    "bodyPreview": "Dana's old address bounced, she moved to Harbor Point Advisors. Please update her record: Dana Whitfield, Senior Wealth Advisor Harbor Point Advisors dana@harborpointadvisors.example Cell (615) 555-0148 Nashville, TN Type: Investment Advisor Pat Staffer M",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA5CFF87ECEBE6BD9A=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Dana's old address bounced, she moved to Harbor Point Advisors. Please update her record:<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Dana Whitfield, Senior Wealth Advisor<o:p></o:p></p>\n<p class=\"MsoNormal\">Harbor Point Advisors<o:p></o:p></p>\n<p class=\"MsoNormal\">dana@harborpointadvisors.example<o:p></o:p></p>\n<p class=\"MsoNormal\">Cell (615) 555-0148<o:p></o:p></p>\n<p class=\"MsoNormal\">Nashville, TN<o:p></o:p></p>\n<p class=\"MsoNormal\">Type: Investment Advisor<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.yourcompany.com\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"><b>From:</b> Microsoft Outlook &lt;MicrosoftExchange329e71ec88ae4615bbc36ab6ce41109e@yourcompany.com&gt;<br>\n<b>Sent:</b> Tuesday, November 10, 2026 8:15 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Undeliverable: Following up on the Harbor Street refinance<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Your message to dana.whitfield@northwindridge.example couldn't be delivered.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">dana.whitfield wasn't found at northwindridge.example.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">pat     Office 365     dana.whitfield<o:p></o:p></p>\n<p class=\"MsoNormal\">Action Required                Recipient<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Unknown To address<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">How to Fix It<o:p></o:p></p>\n<p class=\"MsoNormal\">The address may be misspelled or may not exist. Try one or more of the following:<o:p></o:p></p>\n<p class=\"MsoNormal\">Retype the recipient's address, then resend the message.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Diagnostic information for administrators:<o:p></o:p></p>\n<p class=\"MsoNormal\">Generating server: PH0PR05MB7741.namprd05.prod.outlook.com<o:p></o:p></p>\n<p class=\"MsoNormal\">dana.whitfield@northwindridge.example<o:p></o:p></p>\n<p class=\"MsoNormal\">Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient not found by SMTP address lookup'<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "dana@harborpointadvisors.example",
+        "firstName": "Dana",
+        "lastName": "Whitfield",
+        "phone": "",
+        "mobile": "(615) 555-0148",
+        "company": "Harbor Point Advisors",
+        "title": "Senior Wealth Advisor",
+        "city": "Nashville",
+        "state": "TN",
+        "type": "Investment Advisor"
+      }
+    ]
+  }
+}

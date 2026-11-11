@@ -1,0 +1,50 @@
+{
+  "id": "companies-addresses-018",
+  "category": "companies-addresses",
+  "split": "train",
+  "description": "Website contact-form notification (label row, value row): company comes from an all-caps \"Company\" field; city, state and zip are separate fields.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADvMc3a7usV6XFh1qQj-wT71CjBBbAanWNjHZ3Gvis6DQmzSUjRTVqWPQE-MJpCTAuSdvEJONNprNRvqXKGK5SQDAAA=",
+    "internetMessageId": "<SA1PR11MB6825471689C0857B522C856F097C@SA1PR11MB6825.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQAjkgJx8-JrT_z9Vjc-LaoI1=",
+    "receivedDateTime": "2026-11-10T14:06:33Z",
+    "isDraft": false,
+    "subject": "FW: New submission from Contact Us",
+    "bodyPreview": "Web lead, please add. Pat Staffer Managing Director Your Company Your Company Tagline Here 100 Main Street, Anytown, ST 00000 O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | www.yourcompany.com From: Your Company Website <wordpress@yourcompany.c",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<!--[if !mso]><style>v\\:* {behavior:url(#default#VML);}\no\\:* {behavior:url(#default#VML);}\nw\\:* {behavior:url(#default#VML);}\n.shape {behavior:url(#default#VML);}\n</style><![endif]--><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;\n\tmso-ligatures:none;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Web lead, please add.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\"><span style=\"color:#0563C1\">pat@yourcompany.com</span></a> | <a href=\"https://www.yourcompany.com/\"><span style=\"color:#0563C1\">www.yourcompany.com</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Your Company Website &lt;wordpress@yourcompany.com&gt; <br>\n<b>Sent:</b> Tuesday, November 10, 2026 7:59 AM<br>\n<b>To:</b> info@yourcompany.com<br>\n<b>Subject:</b> New submission from Contact Us<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<table width=\"99%\" border=\"0\" cellpadding=\"1\" cellspacing=\"0\" bgcolor=\"#EAEAEA\"><tr><td>\n<table width=\"100%\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\" bgcolor=\"#FFFFFF\">\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Name</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">Dale Pruitt</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Email</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\"><a href=\"mailto:dpruitt@kestrelleasing.example\">dpruitt@kestrelleasing.example</a></font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Phone</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">(402) 555-0156</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Company</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">KESTREL EQUIPMENT LEASING COMPANY</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Title</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">President</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>City</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">Omaha</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>State</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">NE</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Zip</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">68102</font></td></tr>\n<tr bgcolor=\"#EAF2FA\"><td colspan=\"2\"><font style=\"font-family:sans-serif;font-size:12px\"><strong>Message</strong></font></td></tr>\n<tr bgcolor=\"#FFFFFF\"><td width=\"20\">&nbsp;</td><td><font style=\"font-family:sans-serif;font-size:12px\">We are a lessor looking for a funding partner on a $2.5M portfolio. Please call.</font></td></tr>\n</table>\n</td></tr></table>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "dpruitt@kestrelleasing.example",
+        "firstName": "Dale",
+        "lastName": "Pruitt",
+        "phone": "(402) 555-0156",
+        "company": "KESTREL EQUIPMENT LEASING COMPANY",
+        "title": "President",
+        "city": "Omaha",
+        "state": "NE"
+      }
+    ]
+  }
+}

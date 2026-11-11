@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-012",
+  "category": "rejections-noise",
+  "split": "holdout",
+  "description": "Exchange Online NDR (\"Undeliverable: RE: ...\") from the tenant's MicrosoftExchange system address at the own domain; body names the bounced address.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA568B75A1D186AAA=",
+    "createdDateTime": "2026-11-10T16:02:14Z",
+    "lastModifiedDateTime": "2026-11-10T16:02:14Z",
+    "receivedDateTime": "2026-11-10T16:02:14Z",
+    "sentDateTime": "2026-11-10T16:02:14Z",
+    "hasAttachments": true,
+    "internetMessageId": "<568B75A1D18631BB9989E253@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Undeliverable: RE: Financing documents",
+    "bodyPreview": "Your message to dana.whitfield@northwindridge.example couldn't be delivered. dana.whitfield wasn't found at northwindridge.example. contacts Office 365 dana.whitfield Action Required Recipient Unknown To address How to Fix It The address may be misspelled",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQAE1A7457D66356FE0=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style>.rfc822 { font-family:Consolas,monospace; }</style></head>\n<body>\n<div style=\"background-color:white\">\n<table style=\"width:100%;border-collapse:collapse\"><tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:15px;color:#000000;padding:20px 0 0 0\">Your message to <a href=\"mailto:dana.whitfield@northwindridge.example\">dana.whitfield@northwindridge.example</a> couldn't be delivered.</td></tr></table>\n<table style=\"width:100%\"><tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:30px;color:#c00000;padding-top:18px\"><b>dana.whitfield</b> wasn't found at northwindridge.example.</td></tr></table>\n<table style=\"width:100%;border-collapse:collapse;margin-top:20px\"><tr>\n<td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:15px;width:33%\">contacts</td><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:15px;width:33%;text-align:center\">Office 365</td><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:15px;width:33%;text-align:right\">dana.whitfield</td></tr>\n<tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:14px\">Action Required</td><td></td><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:14px;text-align:right\">Recipient</td></tr></table>\n<table style=\"width:100%;margin-top:18px\"><tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:17px;color:#c00000\">Unknown To address</td></tr></table>\n<table style=\"width:100%;margin-top:18px\"><tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:21px\"><b>How to Fix It</b></td></tr>\n<tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:16px\">The address may be misspelled or may not exist. Try one or more of the following:</td></tr>\n<tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:16px\"><ul><li>Retype the recipient's address, then resend the message.</li><li>If you're using the Auto-Complete List in Outlook, the recipient's address might be invalid. Remove the recipient from the Auto-Complete List, then resend the message.</li></ul></td></tr></table>\n<table style=\"width:100%;margin-top:18px\"><tr><td style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:14px\">Was this helpful? <a href=\"https://go.microsoft.com/fwlink/?LinkId=525920\">Send feedback to Microsoft</a>.</td></tr></table>\n<hr>\n<p style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:17px\"><b>Diagnostic information for administrators:</b></p>\n<p style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:14px\">Generating server: PH0PR05MB7741.namprd05.prod.outlook.com<br><br>dana.whitfield@northwindridge.example<br>Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound; Recipient dana.whitfield@northwindridge.example not found by SMTP address lookup'</p>\n<p style=\"font-family:'Segoe UI',Frutiger,Arial,sans-serif;font-size:14px\">Original message headers:</p>\n<pre class=\"rfc822\">Received: from PH0PR05MB7741.namprd05.prod.outlook.com (2603:10b6:510:12::9)\n by PH0PR05MB7741.namprd05.prod.outlook.com with HTTPS; Tue, 10 Nov 2026 16:02:11 +0000\nFrom: Your Company Contacts &lt;contacts@yourcompany.com&gt;\nTo: Dana Whitfield &lt;dana.whitfield@northwindridge.example&gt;\nSubject: RE: Financing documents\nThread-Topic: Financing documents\nDate: Tue, 10 Nov 2026 16:02:10 +0000\nMessage-ID: &lt;PH0PR05MB77418C2E10A4F0B9D1C7E4A2A1052@PH0PR05MB7741.namprd05.prod.outlook.com&gt;\nContent-Type: multipart/alternative; boundary=\"_000_PH0PR05MB7741_\"\nMIME-Version: 1.0\n</pre>\n</div>\n</body></html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Microsoft Outlook",
+        "address": "MicrosoftExchange329e71ec88ae4615bbc36ab6ce41109e@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Microsoft Outlook",
+        "address": "MicrosoftExchange329e71ec88ae4615bbc36ab6ce41109e@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "BOUNCE",
+    "contacts": []
+  }
+}

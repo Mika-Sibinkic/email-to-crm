@@ -1,0 +1,58 @@
+{
+  "id": "phones-015",
+  "category": "phones",
+  "split": "train",
+  "description": "Brazilian Tel.: and Cel.: labels with +55, nine-digit mobile; title and company split by a pipe",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD492280362157393884299309AAA=",
+    "internetMessageId": "<CAF492280362157+393884299309775578@mail.gmail.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA77557872263962335365=",
+    "receivedDateTime": "2026-11-05T20:14:02Z",
+    "sentDateTime": "2026-11-05T20:14:00Z",
+    "subject": "Fwd: Clientes - financiamento",
+    "bodyPreview": "Add Rafael to Zoho - Partner. -- Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 ---------- Forwarded message --------- From: Rafael Costa < ",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Add Rafael to Zoho - Partner.<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div>Your Company</div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Rafael Costa</strong> <span dir=\"auto\">&lt;<a href=\"mailto:rafael.costa@paulistacapital.example\">rafael.costa@paulistacapital.example</a>&gt;</span><br>Date: Thu, Nov 5, 2026 at 3:33 PM<br>Subject: Clientes - financiamento<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\"><div>Hi Pat,</div><div><br></div><div>Good speaking with you. We have two clients in São Paulo looking for USD financing in Q1. I can share details under NDA.</div><div><br></div><div>Abraços,</div><div><br></div><div><b>Rafael Costa</b></div><div>Diretor Comercial | Paulista Capital Ltda.</div><div>Tel.: +55 11 5555-0142 | Cel.: +55 11 95555-0143</div><div>Av. Paulista, 1000 - 12º andar - Bela Vista - São Paulo - SP - 01310-100</div><div><a href=\"mailto:rafael.costa@paulistacapital.example\">rafael.costa@paulistacapital.example</a></div></div></div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rafael.costa@paulistacapital.example",
+        "firstName": "Rafael",
+        "lastName": "Costa",
+        "company": "Paulista Capital Ltda.",
+        "phone": "+55 11 5555-0142",
+        "mobile": "+55 11 95555-0143",
+        "type": "Partner"
+      }
+    ]
+  }
+}

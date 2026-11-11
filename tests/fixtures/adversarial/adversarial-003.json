@@ -1,0 +1,55 @@
+{
+  "id": "adversarial-003",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Contact's reply has no signature; the forwarder's own quoted signature (phones, address) sits directly below it with no header line",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC00F8CF1FC87FFD78E77F0C80EBAB48D4F7DAEA9737AAA=",
+    "internetMessageId": "<MW4PR05MBF8CF79712D73EDB4@MW4PR05MBF8CF.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC0078E77F0C80EBAB48D4F7DAEA97377971=",
+    "receivedDateTime": "2026-11-04T13:10:55Z",
+    "subject": "FW: Term sheet review",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style>\n</head>\n<body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Marcus Bell from Copperfield Logistics as a customer. We meet Thursday.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;color:#595959\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Your Company</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#595959\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | <a href=\"https://www.yourcompany.com/\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b>From:</b> Marcus Bell &lt;mbell@copperfieldlogistics.example&gt; <br>\n<b>Sent:</b> Tuesday, November 3, 2026 6:12 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Re: Term sheet review<o:p></o:p></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sounds good, Thursday at 2 works for me. I will bring our controller.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Marcus<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sent from my iPhone<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<blockquote style=\"margin-top:5.0pt;margin-bottom:5.0pt\">\n<p class=\"MsoNormal\">On Nov 3, 2026, at 4:55 PM, Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt; wrote:<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Hi Marcus,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Would Thursday afternoon work to go over the term sheet in person? Our office is easy to find, parking is in the back.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat Staffer<o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\">O (555) 010-0100 | M (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a><o:p></o:p></p>\n</blockquote>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "mbell@copperfieldlogistics.example",
+        "firstName": "Marcus",
+        "lastName": "Bell",
+        "company": "Copperfield Logistics",
+        "phone": "",
+        "mobile": "",
+        "city": "",
+        "state": "",
+        "type": "Customer"
+      }
+    ]
+  }
+}

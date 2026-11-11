@@ -1,0 +1,52 @@
+{
+  "id": "companies-addresses-012",
+  "category": "companies-addresses",
+  "split": "holdout",
+  "description": "Insurance signature with a P.O. Box and ZIP+4 on one piped line, an \"Inc.\" company, a licensed-states line and a fax number.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADJfKlw9JdexSjN4SS-3TZFDpOobxWiwkV5ezPq6IxHkvTlormA1Ag7ySZ_3jxcUqDs3kbJvPY8tvzf0BxI5cTKvAAA=",
+    "internetMessageId": "<SA1PR11MB341892048A12CEF9A773DC58FB58@SA1PR11MB3418.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQAFtgPhgU6D6B4_--4gcNf5s=",
+    "receivedDateTime": "2026-11-06T20:40:25Z",
+    "isDraft": false,
+    "subject": "FW: COI for the new lease",
+    "bodyPreview": "Wade is our new insurance contact, please add. Pat Staffer Managing Director Your Company Your Company Tagline Here 100 Main Street, Anytown, ST 00000 O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | www.yourcompany.com From: Wade Tillman <wtillm",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<!--[if !mso]><style>v\\:* {behavior:url(#default#VML);}\no\\:* {behavior:url(#default#VML);}\nw\\:* {behavior:url(#default#VML);}\n.shape {behavior:url(#default#VML);}\n</style><![endif]--><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;\n\tmso-ligatures:none;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Wade is our new insurance contact, please add.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\"><span style=\"color:#0563C1\">pat@yourcompany.com</span></a> | <a href=\"https://www.yourcompany.com/\"><span style=\"color:#0563C1\">www.yourcompany.com</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Wade Tillman &lt;wtillman@harpethvalleyins.example&gt; <br>\n<b>Sent:</b> Friday, November 6, 2026 2:15 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> COI for the new lease<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">I can have the certificate of insurance to you by Friday once I have the lessor name and the serial numbers. Just reply with those and I will get it issued.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Thanks,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Wade Tillman, CIC</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Commercial Lines Producer</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Harpeth Valley Insurance Group, Inc.</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">P.O. Box 1187 | Franklin, TN 37065-1187</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Office 615.555.0143 | Cell 615.555.0144 | Fax 615.555.0145</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Licensed in TN, KY, AL and GA</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.harpethvalleyins.example/\"><span style=\"color:#0563C1\">www.harpethvalleyins.example</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">Coverage cannot be bound, altered or cancelled by e-mail or voicemail and is not in effect until confirmed in writing by an authorized representative.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "wtillman@harpethvalleyins.example",
+        "firstName": "Wade",
+        "lastName": "Tillman",
+        "phone": "615.555.0143",
+        "mobile": "615.555.0144",
+        "company": "Harpeth Valley Insurance Group, Inc.",
+        "title": "Commercial Lines Producer",
+        "city": "Franklin",
+        "state": "TN",
+        "type": "Insurance"
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-014",
+  "category": "adversarial",
+  "split": "train",
+  "description": "15 recipients across To/Cc; the note names two cc'd people whose details exist only on the Cc header line",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC00D72E859EFB60B3D1830B680D7BF204557B90E801AAA=",
+    "internetMessageId": "<MW4PR05MBD72E31F61E8720E6@MW4PR05MBD72E.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC00B3D1830B680D7BF204557B90E80131F6=",
+    "receivedDateTime": "2026-11-06T22:10:17Z",
+    "subject": "FW: Bayside - diligence team",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style>\n</head>\n<body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Please add Rhea Kapoor and Tomas Lindgren from the cc line, they are the Crestmoor deal team. Not Victor, he is already in.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;color:#595959\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Your Company</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#595959\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | <a href=\"https://www.yourcompany.com/\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b>From:</b> Victor Albrecht &lt;valbrecht@crestmoorpartners.example&gt; <br>\n<b>Sent:</b> Friday, November 6, 2026 3:44 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;; Alex Example &lt;alex@yourcompany.com&gt;; Diane Kessler &lt;dkessler@kesslerbaumcpa.example&gt;; Martin Oyelaran &lt;moyelaran@oyelaranlaw.example&gt;; Sofia Brandt &lt;sbrandt@titleshield.example&gt;<br>\n<b>Cc:</b> Rhea Kapoor &lt;rkapoor@crestmoorpartners.example&gt;; Tomas Lindgren &lt;tlindgren@crestmoorpartners.example&gt;; Crestmoor Deal Team &lt;dealteam@crestmoorpartners.example&gt;; Ian Fletcher &lt;ifletcher@crestmoorpartners.example&gt;; Beth Corrigan &lt;bcorrigan@crestmoorpartners.example&gt;; Nora Quill &lt;nquill@quillappraisal.example&gt;; Sam Ferro &lt;sferro@ferroenv.example&gt;; Leah Moss &lt;lmoss@kesslerbaumcpa.example&gt;; Ahmed Saleh &lt;asaleh@oyelaranlaw.example&gt;; Grant Hughes &lt;ghughes@titleshield.example&gt;<br>\n<b>Subject:</b> Bayside - diligence team<o:p></o:p></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">All,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Looping in Rhea and Tomas, who will run diligence for Crestmoor on the Bayside acquisition. Please keep them on all correspondence going forward; Ian and Beth will drop off after this week.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">We are targeting a signed LOI by November 20.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Victor<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b>Victor Albrecht</b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Partner<o:p></o:p></p>\n<p class=\"MsoNormal\">Crestmoor Partners<o:p></o:p></p>\n<p class=\"MsoNormal\">(555) 010-0191<o:p></o:p></p>\n<p class=\"MsoNormal\"><a href=\"mailto:valbrecht@crestmoorpartners.example\">valbrecht@crestmoorpartners.example</a><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rkapoor@crestmoorpartners.example",
+        "firstName": "Rhea",
+        "lastName": "Kapoor",
+        "company": "Crestmoor Partners"
+      },
+      {
+        "email": "tlindgren@crestmoorpartners.example",
+        "firstName": "Tomas",
+        "lastName": "Lindgren",
+        "company": "Crestmoor Partners"
+      }
+    ]
+  }
+}

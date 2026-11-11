@@ -1,0 +1,64 @@
+{
+  "id": "rejections-noise-018",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Forwarded research newsletter from a no-reply list address; the forwarder asks for the article author, whose details sit in an \"About the author\" box.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAABD9ECAF88ABBAAA=",
+    "createdDateTime": "2026-11-09T15:47:26Z",
+    "lastModifiedDateTime": "2026-11-09T15:47:26Z",
+    "receivedDateTime": "2026-11-09T15:47:26Z",
+    "sentDateTime": "2026-11-09T15:47:26Z",
+    "hasAttachments": false,
+    "internetMessageId": "<BD9ECAF88ABBF8D89D7B02C5@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Q4 Outlook: Private credit heads into 2027",
+    "bodyPreview": "Please add Avery Chen, she wrote the piece below. Industry Resource. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 100 Main Street, Anytown, ST 00000 www.yourcompany.com From: Meridian Research Pa",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA03A17B049B5B91F6=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Please add Avery Chen, she wrote the piece below. Industry Resource.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.yourcompany.com\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"><b>From:</b> Meridian Research Partners &lt;no-reply@mail.meridianresearch.example&gt;<br>\n<b>Sent:</b> Monday, November 9, 2026 6:00 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Q4 Outlook: Private credit heads into 2027<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<table role=\"presentation\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px\">\n<tr><td style=\"padding:16px 24px\"><img src=\"https://cdn.meridianresearch.example/email/logo-header.png\" width=\"180\" alt=\"Meridian Research Partners\"></td></tr>\n<tr><td style=\"padding:8px 24px;font-family:Arial,sans-serif;font-size:12px;color:#7a7a7a;text-transform:uppercase\">Quarterly Outlook &middot; Q4 2026</td></tr>\n<tr><td style=\"padding:8px 24px;font-family:Georgia,serif;font-size:24px;line-height:30px;color:#1a1a1a\">Private credit heads into 2027: tighter spreads, looser terms</td></tr>\n<tr><td style=\"padding:8px 24px;font-family:Arial,sans-serif;font-size:13px;color:#555555\">By Avery Chen, Senior Analyst</td></tr>\n<tr><td style=\"padding:8px 24px;font-family:Arial,sans-serif;font-size:15px;line-height:23px;color:#333333\">Direct lenders closed the third quarter with record dry powder and fewer places to put it. Spreads on first-lien unitranche loans compressed another 25 basis points, while documentation continued to drift in borrowers' favor. We expect both trends to continue through the first half of next year, with the notable exception of asset-based facilities, where lenders are still holding the line on borrowing-base reporting.</td></tr>\n<tr><td style=\"padding:8px 24px;font-family:Arial,sans-serif;font-size:15px;line-height:23px;color:#333333\">Three things to watch: whether bank partnerships keep pulling deal flow away from standalone funds, how quickly payment-in-kind toggles spread beyond sponsor-backed credits, and whether insurance capital keeps its appetite for investment-grade private placements.</td></tr>\n<tr><td style=\"padding:16px 24px;background-color:#f4f6f8;font-family:Arial,sans-serif;font-size:13px;line-height:20px;color:#333333\"><b>About the author</b><br>Avery Chen is a Senior Analyst at Meridian Research Partners covering middle-market credit and specialty finance.<br><a href=\"mailto:avery.chen@meridianresearch.example\">avery.chen@meridianresearch.example</a> &nbsp;|&nbsp; +1 (646) 555-0127</td></tr>\n<tr><td style=\"padding:16px 24px;font-family:Arial,sans-serif;font-size:12px;color:#7a7a7a\">Media inquiries: <a href=\"mailto:press@meridianresearch.example\">press@meridianresearch.example</a></td></tr>\n<tr><td style=\"padding:16px 24px;font-family:Arial,sans-serif;font-size:11px;line-height:16px;color:#999999\">Meridian Research Partners, 410 Park Avenue, 18th Floor, New York, NY 10022<br>You received this because you registered for Meridian research updates. <a href=\"https://mail.meridianresearch.example/unsubscribe?u=4b1e\">Unsubscribe</a> | <a href=\"https://mail.meridianresearch.example/prefs?u=4b1e\">Manage preferences</a></td></tr>\n</table>\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "avery.chen@meridianresearch.example",
+        "firstName": "Avery",
+        "lastName": "Chen",
+        "phone": "(646) 555-0127",
+        "mobile": "",
+        "company": "Meridian Research Partners",
+        "title": "Senior Analyst",
+        "type": "Industry Resource"
+      }
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "rejections-noise-019",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Forwarded Teams meeting invite (\"-----Original Appointment-----\" header) with the organizer's signature; the Teams dial-in number is not her phone.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA6EF493B27A95AAA=",
+    "createdDateTime": "2026-11-09T16:10:44Z",
+    "lastModifiedDateTime": "2026-11-09T16:10:44Z",
+    "receivedDateTime": "2026-11-09T16:10:44Z",
+    "sentDateTime": "2026-11-09T16:10:44Z",
+    "hasAttachments": false,
+    "internetMessageId": "<6EF493B27A955ACACC590EEE@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Intro call: Ellsworth Family Office / Your Company",
+    "bodyPreview": "Add Morgan Ellsworth as Family Office. Call is Thursday. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 100 Main Street, Anytown, ST 00000 www.yourcompany.com -----Original Appointment----- From: M",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA5D1112B00A887EBB=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Morgan Ellsworth as Family Office. Call is Thursday.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.yourcompany.com\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">-----Original Appointment-----<br>From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Morgan Ellsworth &lt;morgan@ellsworthfo.example&gt; <br><b>Sent:</b> Friday, November 6, 2026 4:18 PM<br><b>To:</b> Morgan Ellsworth; Pat Staffer<br><b>Subject:</b> Intro call: Ellsworth Family Office / Your Company<br><b>When:</b> Thursday, November 12, 2026 2:00 PM-2:30 PM (UTC-06:00) Central Time (US &amp; Canada).<br><b>Where:</b> Microsoft Teams Meeting<o:p></o:p></span></p>\n</div>\n</div>\n\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat - sending a placeholder for Thursday. I'd like to walk you through our direct lending allocation and how we evaluate co-investment opportunities.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Morgan Ellsworth<o:p></o:p></p>\n<p class=\"MsoNormal\">Principal<o:p></o:p></p>\n<p class=\"MsoNormal\">Ellsworth Family Office<o:p></o:p></p>\n<p class=\"MsoNormal\">2100 Ross Avenue, Suite 1500, Dallas, TX 75201<o:p></o:p></p>\n<p class=\"MsoNormal\">O: (214) 555-0158<o:p></o:p></p>\n<p class=\"MsoNormal\">morgan@ellsworthfo.example<o:p></o:p></p>\n<div style=\"margin-bottom:24px;overflow:hidden;white-space:nowrap\">________________________________________________________________________________</div>\n<div style=\"margin-bottom:12px\"><span style=\"font-size:24px;font-weight:700;margin-right:12px\">Microsoft Teams</span> <a href=\"https://aka.ms/JoinTeamsMeeting?omkt=en-US\">Need help?</a></div>\n<div style=\"margin-bottom:6px\"><a href=\"https://teams.microsoft.com/l/meetup-join/19%3ameeting_NzE4ZjQ2YzMtZWFkNy00%40thread.v2/0?context=%7b%22Tid%22%3a%2200000000-0000-0000-0000-000000000000%22%7d\" style=\"font-size:20px;font-weight:600;text-decoration:underline\">Join the meeting now</a></div>\n<div style=\"margin-bottom:6px\"><span style=\"font-size:14px;color:#616161\">Meeting ID: </span><span style=\"font-size:14px\">245 118 902 377</span></div>\n<div style=\"margin-bottom:24px\"><span style=\"font-size:14px;color:#616161\">Passcode: </span><span style=\"font-size:14px\">Xk7Pq2</span></div>\n<div style=\"margin-bottom:24px;max-width:532px;height:1px;background-color:#E0E0E0\"></div>\n<div style=\"margin-bottom:6px\"><span style=\"font-size:16px;font-weight:600\">Dial in by phone</span></div>\n<div style=\"margin-bottom:6px\"><a href=\"tel:+12145550199,,482913577#\" style=\"font-size:14px\">+1 214-555-0199,,482913577#</a> <span style=\"font-size:14px\">United States, Dallas</span></div>\n<div style=\"margin-bottom:6px\"><a href=\"https://dialin.teams.microsoft.com/00000000-0000-0000-0000-000000000000?id=482913577\" style=\"font-size:14px\">Find a local number</a></div>\n<div style=\"margin-bottom:24px\"><span style=\"font-size:14px;color:#616161\">Phone conference ID: </span><span style=\"font-size:14px\">482 913 577#</span></div>\n<div style=\"margin-bottom:24px;max-width:532px;height:1px;background-color:#E0E0E0\"></div>\n<div><span style=\"font-size:14px;color:#616161\">For organizers: </span><a href=\"https://teams.microsoft.com/meetingOptions/?organizerId=00000000\" style=\"font-size:14px\">Meeting options</a> <span style=\"font-size:14px;color:#616161\">|</span> <a href=\"https://dialin.teams.microsoft.com/usp/pstnconferencing\" style=\"font-size:14px\">Reset dial-in PIN</a></div>\n<div style=\"margin-top:24px;margin-bottom:6px;overflow:hidden;white-space:nowrap\">________________________________________________________________________________</div>\n\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": [],
+    "@odata.type": "#microsoft.graph.eventMessageRequest",
+    "meetingMessageType": "meetingRequest"
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "morgan@ellsworthfo.example",
+        "firstName": "Morgan",
+        "lastName": "Ellsworth",
+        "phone": "(214) 555-0158",
+        "mobile": "",
+        "company": "Ellsworth Family Office",
+        "title": "Principal",
+        "city": "Dallas",
+        "state": "TX",
+        "type": "Family Office"
+      }
+    ]
+  }
+}

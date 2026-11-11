@@ -1,0 +1,57 @@
+{
+  "id": "phones-017",
+  "category": "phones",
+  "split": "train",
+  "description": "Mexican Oficina number written nationally \"(55) 5550 0134\" next to a Cel. with +52; both stored with +52",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD976252430786772982725983AAA=",
+    "internetMessageId": "<SA1PR14MB97625243078677298272@SA1PR14MB5983.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA00125924207355803758=",
+    "receivedDateTime": "2026-11-09T18:22:50Z",
+    "sentDateTime": "2026-11-09T18:22:48Z",
+    "subject": "FW: RE: Term sheet",
+    "bodyPreview": "Add Alejandro please. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Alejandro Ruiz <aruiz@inversionesejemplo.example> Sent: Monday, N",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style></head><body dir=\"ltr\"><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add Alejandro please.</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><p style=\"margin:0\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</p></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Alejandro Ruiz &lt;aruiz@inversionesejemplo.example&gt;<br><b>Sent:</b> Monday, November 9, 2026 11:05 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> RE: Term sheet</font><div>&nbsp;</div></div>\n<div dir=\"ltr\"><div>Pat,</div>\n<div><br></div>\n<div>Gracias. We reviewed the term sheet and have one question on prepayment. Please call me at the office.</div>\n<div><br></div>\n<div>Saludos cordiales,</div>\n<div><br></div>\n<div><b>Alejandro Ruiz</b></div>\n<div>Director de Finanzas</div>\n<div>Inversiones Ejemplo S.A. de C.V.</div>\n<div>Paseo de la Reforma 500, Piso 8, Col. Juárez, 06600 Ciudad de México</div>\n<div>Oficina: (55) 5550 0134</div>\n<div>Cel.: +52 55 5550 0135</div>\n<div><a href=\"mailto:aruiz@inversionesejemplo.example\">aruiz@inversionesejemplo.example</a></div>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "aruiz@inversionesejemplo.example",
+        "firstName": "Alejandro",
+        "lastName": "Ruiz",
+        "company": "Inversiones Ejemplo S.A. de C.V.",
+        "phone": "+52 55 5550 0134",
+        "mobile": "+52 55 5550 0135"
+      }
+    ]
+  }
+}

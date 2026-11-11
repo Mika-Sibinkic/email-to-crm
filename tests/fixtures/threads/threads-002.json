@@ -1,0 +1,63 @@
+{
+  "id": "threads-002",
+  "category": "threads",
+  "split": "train",
+  "description": "Outlook web forward, lowercase note 'pls add to crm' with no type, contact signature in a logo table",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB4C99211129A17D0967DB8C1C7B5F4D148BFBAAA=",
+    "internetMessageId": "<SA1PR11MB1E464C99211129A1@SA1PR11MB1E46.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQADD7E7305E8D71104054C=",
+    "receivedDateTime": "2026-11-03T16:30:07Z",
+    "sentDateTime": "2026-11-03T16:30:07Z",
+    "subject": "FW: Brightwater - equipment schedule",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "pls add to crm Alex Example Associate | Your Company Mobile (555) 010-0102 alex@yourcompany.com Your Company Tagline Here From: Corinne Vasquez <cvasquez@ridgewayins.example> Sent: Tuesday, November 3, 2026 10:22 AM To: Alex Example <alex@yourcompany.com>",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">pls add to crm</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><div><b>Alex Example</b></div>\n<div>Associate | Your Company</div>\n<div>Mobile (555) 010-0102</div>\n<div>alex@yourcompany.com</div>\n<div>Your Company Tagline Here</div></div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Corinne Vasquez &lt;cvasquez@ridgewayins.example&gt;<br>\n<b>Sent:</b> Tuesday, November 3, 2026 10:22 AM<br>\n<b>To:</b> Alex Example &lt;alex@yourcompany.com&gt;<br>\n<b>Subject:</b> Brightwater - equipment schedule</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"direction: ltr;\">\n<div class=\"x_WordSection1\">\n<p class=\"x_MsoNormal\">Hi Alex,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Thanks for the referral on the Brightwater account. I can get a quote on the equipment schedule out by Thursday if you can send me the serial numbers and the lessee's loss runs for the last three years.<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Talk soon,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\"><tr><td width=\"96\" valign=\"top\" style=\"padding:0in 5.4pt 0in 0in\"><p class=\"x_MsoNormal\"><img width=\"88\" height=\"88\" style=\"width:.9166in;height:.9166in\" id=\"Picture_x0020_1\" src=\"cid:image001.png@01DB2D4F.6A1B3C20\" alt=\"Ridgeway Insurance Group logo\"></p></td><td valign=\"top\" style=\"border:none;border-left:solid #2E75B6 1.0pt;padding:0in 0in 0in 8.0pt\"><p class=\"x_MsoNormal\"><b><span style=\"color:#2E75B6\">Corinne Vasquez</span></b></p><p class=\"x_MsoNormal\"><span style=\"font-size:9.0pt\">Commercial Lines Account Executive</span></p><p class=\"x_MsoNormal\"><span style=\"font-size:9.0pt\">Ridgeway Insurance Group</span></p><p class=\"x_MsoNormal\"><span style=\"font-size:9.0pt\">Office: (704) 555-0119 &nbsp;|&nbsp; Mobile: (704) 555-0163</span></p><p class=\"x_MsoNormal\"><span style=\"font-size:9.0pt\">301 S Tryon St, Suite 1850, Charlotte, NC 28202</span></p><p class=\"x_MsoNormal\"><span style=\"font-size:9.0pt\"><a href=\"mailto:cvasquez@ridgewayins.example\">cvasquez@ridgewayins.example</a></span></p></td></tr></table>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">CONFIDENTIALITY NOTICE: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message. Ridgeway Insurance Group does not accept liability for any errors or omissions in the contents of this message.</span><o:p></o:p></p>\n</div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "cvasquez@ridgewayins.example",
+        "firstName": "Corinne",
+        "lastName": "Vasquez",
+        "phone": "704-555-0119",
+        "mobile": "704-555-0163",
+        "company": "Ridgeway Insurance Group",
+        "title": "Commercial Lines Account Executive",
+        "city": "Charlotte",
+        "state": "NC",
+        "type": "Insurance"
+      }
+    ]
+  }
+}

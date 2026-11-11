@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-021",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "iPhone forward of a business-card photo embedded as an inline CID image (hasAttachments=false, no image bytes available): no contact can be read, but it must not be dropped as blank.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAAD1F2A5B48306AAA=",
+    "createdDateTime": "2026-11-05T22:16:51Z",
+    "lastModifiedDateTime": "2026-11-05T22:16:51Z",
+    "receivedDateTime": "2026-11-05T22:16:51Z",
+    "sentDateTime": "2026-11-05T22:16:51Z",
+    "hasAttachments": false,
+    "internetMessageId": "<D1F2A5B48306D73D815C0DA7@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Card from today",
+    "bodyPreview": "Sent from my iPhone",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQAD8521BDE1F716367=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><img src=\"cid:2F1C8A44-61D3-4B8E-9C0A-5E7B1D2A9F10\" alt=\"IMG_4417.jpeg\" width=\"3024\" height=\"4032\"><br><br><div dir=\"ltr\">Sent from my iPhone</div></body></html>"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": false,
+    "contacts": []
+  }
+}

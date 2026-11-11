@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-006",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Plain-text Outlook body with <mailto:> and <https:> suffixes and [cid:image001.png@01DD...] logo tokens that match an email regex",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC0014076491CCEC3F5218703F32858B551AC4AC218BAAA=",
+    "internetMessageId": "<MW4PR05MB14071672118443BE@MW4PR05MB1407.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC003F5218703F32858B551AC4AC218B1672=",
+    "receivedDateTime": "2026-11-10T14:20:12Z",
+    "subject": "FW: Q1 pipeline",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "text",
+      "content": "Add Thanh, Brightwater is a financial institution we co-lend with.\r\n\r\nPat Staffer\r\nManaging Director\r\nYour Company\r\nYour Company Tagline Here\r\nO (555) 010-0100 | M (555) 010-0101\r\n100 Main Street, Anytown, ST 00000\r\npat@yourcompany.com<mailto:pat@yourcompany.com>\r\n\r\nFrom: Thanh Nguyen <t.nguyen@brightwaterpartners.example>\r\nSent: Tuesday, November 10, 2026 8:03 AM\r\nTo: Pat Staffer <pat@yourcompany.com>\r\nSubject: RE: Q1 pipeline\r\n\r\nPat,\r\n\r\nWe can take up to $5M of the Hollis participation if it closes before quarter end. Send the credit memo when it is ready and I will get it in front of committee.\r\n\r\nBest,\r\nThanh\r\n\r\n[cid:image001.png@01DD4A2C.7E3F5B10]<https://www.brightwaterpartners.example/>\r\nThanh Nguyen | Vice President, Capital Markets\r\nBrightwater Partners\r\nT: 555.010.0151 | M: 555.010.0152\r\nE: t.nguyen@brightwaterpartners.example<mailto:t.nguyen@brightwaterpartners.example>\r\nW: www.brightwaterpartners.example<https://www.brightwaterpartners.example/>\r\n[cid:image002.png@01DD4A2C.7E3F5B10]<https://www.linkedin.example/company/brightwater-partners> [cid:image003.png@01DD4A2C.7E3F5B10]<https://social.example/brightwaterlp>\r\n800 Boylston Street, 17th Floor, Boston, MA 02199\r\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "t.nguyen@brightwaterpartners.example",
+        "firstName": "Thanh",
+        "lastName": "Nguyen",
+        "phone": "5550100151",
+        "mobile": "5550100152",
+        "company": "Brightwater Partners",
+        "title": "Vice President, Capital Markets",
+        "city": "Boston",
+        "state": "MA",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

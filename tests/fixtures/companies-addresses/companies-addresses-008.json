@@ -1,0 +1,49 @@
+{
+  "id": "companies-addresses-008",
+  "category": "companies-addresses",
+  "split": "holdout",
+  "description": "German GmbH signature with a statutory imprint naming two managing directors; only the sender is a contact, city Hamburg, country Germany.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADfhzd7fYSZAyb1p1_yPr5ovOXCYgGH5bOVSeb8L2K4HmNSA9dFHckjIaP3hx7N0Q9xgUos4C7RHqkPfDZebw50SAAA=",
+    "internetMessageId": "<SA1PR11MB20681666A4C161F71796D66A536E@SA1PR11MB2068.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQA4iZSHX4-tcezhIyHVQZzWk=",
+    "receivedDateTime": "2026-11-05T09:12:40Z",
+    "isDraft": false,
+    "subject": "FW: Leasing inquiry - US fleet 2027",
+    "bodyPreview": "Please add Jonas. Hamburg-based, US subsidiary. Pat Staffer Managing Director Your Company Your Company Tagline Here 100 Main Street, Anytown, ST 00000 O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | www.yourcompany.com From: Jonas Lindner <j.li",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<!--[if !mso]><style>v\\:* {behavior:url(#default#VML);}\no\\:* {behavior:url(#default#VML);}\nw\\:* {behavior:url(#default#VML);}\n.shape {behavior:url(#default#VML);}\n</style><![endif]--><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;\n\tmso-ligatures:none;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Please add Jonas. Hamburg-based, US subsidiary.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\"><span style=\"color:#0563C1\">pat@yourcompany.com</span></a> | <a href=\"https://www.yourcompany.com/\"><span style=\"color:#0563C1\">www.yourcompany.com</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Jonas Lindner &lt;j.lindner@nordhafen-logistik.example&gt; <br>\n<b>Sent:</b> Thursday, November 5, 2026 3:51 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> AW: Leasing inquiry - US fleet 2027<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Dear Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">thank you for the quick reply. We are planning to add twelve units to our US fleet in 2027 and would like to understand your leasing terms for a German parent with a Delaware subsidiary.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Mit freundlichen Grüßen / Kind regards<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Jonas Lindner</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Head of Fleet Procurement</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Nordhafen Logistik GmbH</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Ballindamm 17</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">20095 Hamburg</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Germany</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Tel. +49 40 5550 1234</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Mobil +49 151 5550 1235</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:j.lindner@nordhafen-logistik.example\"><span style=\"color:#0563C1\">j.lindner@nordhafen-logistik.example</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://www.nordhafen-logistik.example/\"><span style=\"color:#0563C1\">www.nordhafen-logistik.example</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">Nordhafen Logistik GmbH · Sitz der Gesellschaft: Hamburg · Registergericht: Amtsgericht Hamburg, HRB 123456 · Geschäftsführer: Dr. Matthias Brandl, Sabine Kühn · USt-IdNr.: DE123456789</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">Diese E-Mail enthält vertrauliche Informationen. Wenn Sie nicht der richtige Adressat sind, informieren Sie bitte sofort den Absender und vernichten Sie diese E-Mail. / This e-mail contains confidential information. If you are not the intended recipient, please notify the sender and delete this e-mail.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "j.lindner@nordhafen-logistik.example",
+        "firstName": "Jonas",
+        "lastName": "Lindner",
+        "company": "Nordhafen Logistik GmbH",
+        "title": "Head of Fleet Procurement",
+        "city": "Hamburg",
+        "country": "Germany"
+      }
+    ]
+  }
+}

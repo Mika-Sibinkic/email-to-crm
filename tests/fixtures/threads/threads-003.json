@@ -1,0 +1,63 @@
+{
+  "id": "threads-003",
+  "category": "threads",
+  "split": "train",
+  "description": "Outlook for iOS forward, abbreviated note 'add as attny', no forwarder signature",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAABBF714D88C8DF4E229EB482DFFECA3E2658C8AAA=",
+    "internetMessageId": "<SA1PR11MB6457BF714D88C8DF@SA1PR11MB6457.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA04D44F960D1B1F68C5BD=",
+    "receivedDateTime": "2026-11-03T13:44:52Z",
+    "sentDateTime": "2026-11-03T13:44:52Z",
+    "subject": "Fw: Closing checklist",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add as attny Get Outlook for iOS From: Marisol Quintero <mquintero@quinterovale.example> Sent: Tuesday, November 3, 2026 7:42:18 AM To: Pat Staffer <pat@yourcompany.com> Subject: Closing checklist Pat, Attached below is the closing checklist we use for mu",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head>\n<body>\n<div dir=\"ltr\">add as attny</div>\n<div dir=\"ltr\"><br></div>\n<div id=\"ms-outlook-mobile-signature\" dir=\"ltr\"><div dir=\"ltr\">Get <a href=\"https://aka.ms/o0ukef\">Outlook for iOS</a></div></div>\n<div id=\"mail-editor-reference-message-container\" dir=\"ltr\"><br>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Marisol Quintero &lt;mquintero@quinterovale.example&gt;<br>\n<b>Sent:</b> Tuesday, November 3, 2026 7:42:18 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Closing checklist</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"direction: ltr;\">\n<div class=\"x_WordSection1\">\n<p class=\"x_MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Attached below is the closing checklist we use for multi-unit equipment purchases. Our engagement letter will follow under separate cover once conflicts clear.<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Marisol<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Marisol Quintero</span></b><o:p></o:p></p>\n<p class=\"x_MsoNormal\">Partner<o:p></o:p></p>\n<p class=\"x_MsoNormal\">Quintero &amp; Vale LLP<o:p></o:p></p>\n<p class=\"x_MsoNormal\">1600 Blake Street, Suite 300 | Denver, CO 80202<o:p></o:p></p>\n<p class=\"x_MsoNormal\">T 303.555.0122 | M 303.555.0158<o:p></o:p></p>\n<p class=\"x_MsoNormal\">mquintero@quinterovale.example<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">This message is from a law firm and may contain information that is privileged or confidential. If you received this transmission in error, please notify the sender by reply e-mail and delete the message and any attachments.</span><o:p></o:p></p>\n</div>\n</div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "mquintero@quinterovale.example",
+        "firstName": "Marisol",
+        "lastName": "Quintero",
+        "phone": "303-555-0122",
+        "mobile": "303-555-0158",
+        "company": "Quintero & Vale LLP",
+        "title": "Partner",
+        "city": "Denver",
+        "state": "CO",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

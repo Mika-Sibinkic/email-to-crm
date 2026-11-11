@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-016",
+  "category": "rejections-noise",
+  "split": "holdout",
+  "description": "iPhone forward whose photo failed to attach: plain-text body is only \"Sent from my iPhone\".",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAAADF076AE7F1AAAA=",
+    "createdDateTime": "2026-11-07T23:52:16Z",
+    "lastModifiedDateTime": "2026-11-07T23:52:16Z",
+    "receivedDateTime": "2026-11-07T23:52:16Z",
+    "sentDateTime": "2026-11-07T23:52:16Z",
+    "hasAttachments": false,
+    "internetMessageId": "<ADF076AE7F1A862F9E37317A@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Contact for CRM",
+    "bodyPreview": "Sent from my iPhone",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA956DE0C5D9C7725E=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "text",
+      "content": "\r\n\r\nSent from my iPhone"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "BLANK_BODY",
+    "contacts": []
+  }
+}

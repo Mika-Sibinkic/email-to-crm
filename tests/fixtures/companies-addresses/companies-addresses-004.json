@@ -1,0 +1,52 @@
+{
+  "id": "companies-addresses-004",
+  "category": "companies-addresses",
+  "split": "holdout",
+  "description": "All-caps bank signature with an \"EMAIL | WEBSITE\" line and a footer nav bar containing \"Business Banking\"; company is the bank line.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADtwAwcYNnFNlfRjh6JgRZ10Hw_FSJRn7mp0pLeHhJZbANryXzJS2d_9ml2Di7wj9JUo8bUkGt_bHTQWD1cE1a_sAAA=",
+    "internetMessageId": "<SA1PR11MB7146F8EF22F717E359F65D698C8F@SA1PR11MB7146.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQA8TpWpexTSu8WviDJ-bP39H=",
+    "receivedDateTime": "2026-11-03T21:09:12Z",
+    "isDraft": false,
+    "subject": "FW: Term sheet - Carbondale borrower",
+    "bodyPreview": "Bank contact for the CRM, thanks. Alex Example Associate Your Company Your Company Tagline Here M (555) 010-0102 alex@yourcompany.com From: Keller, Megan <mkeller@fairmonttrust.example> Sent: Tuesday, November 3, 2026 2:44 PM To: Alex Example <alex@yourco",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<!--[if !mso]><style>v\\:* {behavior:url(#default#VML);}\no\\:* {behavior:url(#default#VML);}\nw\\:* {behavior:url(#default#VML);}\n.shape {behavior:url(#default#VML);}\n</style><![endif]--><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;\n\tmso-ligatures:none;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Bank contact for the CRM, thanks.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Alex Example</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Associate</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">M (555) 010-0102</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:alex@yourcompany.com\"><span style=\"color:#0563C1\">alex@yourcompany.com</span></a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\">From:</span></b><span style=\"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif\"> Keller, Megan &lt;mkeller@fairmonttrust.example&gt; <br>\n<b>Sent:</b> Tuesday, November 3, 2026 2:44 PM<br>\n<b>To:</b> Alex Example &lt;alex@yourcompany.com&gt;<br>\n<b>Subject:</b> Term sheet - Carbondale borrower<o:p></o:p></span></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Good afternoon Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Attached is the term sheet we discussed. Rate is held through November 20. Let me know if your borrower needs a longer draw period.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Thank you,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">MEGAN KELLER</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">VP, EQUIPMENT LEASING</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">FAIRMONT TRUST BANK</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"mailto:mkeller@fairmonttrust.example\">MKELLER@FAIRMONTTRUST.EXAMPLE</a> | <a href=\"https://fairmonttrust.example\">FAIRMONTTRUST.EXAMPLE</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">O: 618.555.0127 | C: 618.555.0128</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">201 South Main Street, Carbondale, IL 62901</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\"><a href=\"https://fairmonttrust.example/\">Home</a> | <a href=\"https://fairmonttrust.example/personal\">Personal</a> | <a href=\"https://fairmonttrust.example/business\">Business Banking</a> | <a href=\"https://fairmonttrust.example/leasing\">Leasing</a> | <a href=\"https://fairmonttrust.example/contact\">Contact Us</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">Member FDIC | Equal Housing Lender</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#7F7F7F\">NOTICE: This e-mail and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender and delete this message. Fairmont Trust Bank will never ask for your account number or password by e-mail.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "mkeller@fairmonttrust.example",
+        "firstName": "Megan",
+        "lastName": "Keller",
+        "phone": "618.555.0127",
+        "mobile": "618.555.0128",
+        "company": "Fairmont Trust Bank",
+        "title": "VP, Equipment Leasing",
+        "city": "Carbondale",
+        "state": "IL",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

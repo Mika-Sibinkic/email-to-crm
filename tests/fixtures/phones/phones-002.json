@@ -1,0 +1,57 @@
+{
+  "id": "phones-002",
+  "category": "phones",
+  "split": "train",
+  "description": "Bare P and M single-letter labels in a Gmail forward; title line starts with \"Director\" (must not read as a Direct label); contact email only in the forward header",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD884627233788749730829427AAA=",
+    "internetMessageId": "<CAF884627233788+749730829427246510@mail.gmail.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA24651006169295415223=",
+    "receivedDateTime": "2026-11-03T14:02:40Z",
+    "sentDateTime": "2026-11-03T14:02:38Z",
+    "subject": "Fwd: Lakeshore vendor program",
+    "bodyPreview": "Add Marcus to CRM please. Met him at the equipment finance conference. -- Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 ---------- Forwarde",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Add Marcus to CRM please. Met him at the equipment finance conference.<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div>Your Company</div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Marcus Odell</strong> <span dir=\"auto\">&lt;<a href=\"mailto:marcus.odell@lakeshoreef.example\">marcus.odell@lakeshoreef.example</a>&gt;</span><br>Date: Mon, Nov 2, 2026 at 4:07 PM<br>Subject: Lakeshore vendor program<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\">Hi Pat,<div><br></div><div>Great meeting you in Dallas. Our vendor program covers transactions from $250k to $15MM, and we can usually turn a credit decision in 48 hours. Let me know when you have a deal to send over.</div><div><br></div><div>Regards,</div><div><br></div><div>-- <br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Marcus Odell</b></div><div>Director of Business Development</div><div>Lakeshore Equipment Finance</div><div>P 214-555-0117</div><div>M 214-555-0118</div><div><a href=\"http://lakeshoreef.example\">lakeshoreef.example</a></div></div></div></div></div></div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "marcus.odell@lakeshoreef.example",
+        "firstName": "Marcus",
+        "lastName": "Odell",
+        "company": "Lakeshore Equipment Finance",
+        "phone": "214-555-0117",
+        "mobile": "214-555-0118"
+      }
+    ]
+  }
+}

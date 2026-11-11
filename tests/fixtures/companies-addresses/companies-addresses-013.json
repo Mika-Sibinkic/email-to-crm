@@ -1,0 +1,51 @@
+{
+  "id": "companies-addresses-013",
+  "category": "companies-addresses",
+  "split": "train",
+  "description": "Hyphenated domain (lone-oak.example) does not match the company line by substring; street, suite and city share a piped line; an office-city list follows.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADZj_4X7j2HTh6lh2kgmDm4TizEel0t-VUOArhd5bOz6TbtU9IaI_2K5TP5rtRO_wjl-8xXRW65IjS63j83aPc_cAAA=",
+    "internetMessageId": "<SA1PR11MB427353D2197EE57B702746A4DA38@SA1PR11MB4273.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQA-cC6sehky4vxfFprpJAp33=",
+    "receivedDateTime": "2026-11-09T14:55:30Z",
+    "isDraft": false,
+    "subject": "Fw: Investment committee in December",
+    "bodyPreview": "Add Caroline please. From: Caroline Brandt <cbrandt@lone-oak.example> Sent: Monday, November 9, 2026 8:31 AM To: Alex Example <alex@yourcompany.com> Subject: Investment committee in December Pat, We closed on the Fort Worth portfolio last week and are lin",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add Caroline please.</div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Caroline Brandt &lt;cbrandt@lone-oak.example&gt;<br>\n<b>Sent:</b> Monday, November 9, 2026 8:31 AM<br>\n<b>To:</b> Alex Example &lt;alex@yourcompany.com&gt;<br>\n<b>Subject:</b> Investment committee in December</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)\"><div>Pat,</div><div><br></div><div>We closed on the Fort Worth portfolio last week and are lining up the next one. I would like to get you in front of our investment committee in December.</div><div><br></div><div>Caroline</div><div><br></div><div style=\"font-size:9pt;color:#404040\"><b>Caroline Brandt</b><br>Director of Capital Markets<br>Lone Oak Capital Partners<br>5950 Sherry Lane, Suite 410 | Dallas, TX 75225<br>T 214.555.0162 | M 469.555.0163<br><a href=\"https://www.lone-oak.example\">www.lone-oak.example</a><br>Dallas | Houston | Austin</div></div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "cbrandt@lone-oak.example",
+        "firstName": "Caroline",
+        "lastName": "Brandt",
+        "phone": "214.555.0162",
+        "mobile": "469.555.0163",
+        "company": "Lone Oak Capital Partners",
+        "title": "Director of Capital Markets",
+        "city": "Dallas",
+        "state": "TX"
+      }
+    ]
+  }
+}

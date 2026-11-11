@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-011",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Law-firm confidentiality disclaimer contains a role mailbox and phone (infogov@, 555-010-0179) that must not become a contact or her phone; fax is not a phone",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC00E6405E3456F65F3A86C77287378CDD2F8F08B59AAAA=",
+    "internetMessageId": "<MW4PR05MBE640BFBE49574413@MW4PR05MBE640.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC005F3A86C77287378CDD2F8F08B59ABFBE=",
+    "receivedDateTime": "2026-11-03T21:14:06Z",
+    "subject": "FW: Revised guaranty - comments",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style>\n</head>\n<body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Simone is outside counsel on the Pemberton deal, please add her.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;color:#595959\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Your Company</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#595959\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | <a href=\"https://www.yourcompany.com/\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b>From:</b> Simone Laurent &lt;slaurent@ashfordlyle.example&gt; <br>\n<b>Sent:</b> Tuesday, November 3, 2026 3:02 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Revised guaranty - comments<o:p></o:p></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Attached is the revised guaranty with our comments. The only open point is the carve-out list in Section 4.2; everything else is acceptable to our client.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Regards,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b>Simone Laurent</b> | Partner<o:p></o:p></p>\n<p class=\"MsoNormal\">Ashford &amp; Lyle LLP<o:p></o:p></p>\n<p class=\"MsoNormal\">1500 Market Street, 32nd Floor | Philadelphia, PA 19102<o:p></o:p></p>\n<p class=\"MsoNormal\">T (555) 010-0175 | F (555) 010-0176<o:p></o:p></p>\n<p class=\"MsoNormal\"><a href=\"mailto:slaurent@ashfordlyle.example\">slaurent@ashfordlyle.example</a> | <a href=\"https://www.ashfordlyle.example/\">ashfordlyle.example</a><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">CONFIDENTIALITY NOTICE: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message. If you received this message in error, please notify our Information Governance team at infogov@ashfordlyle.example or (555) 010-0179.</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">IRS CIRCULAR 230 DISCLOSURE: To ensure compliance with requirements imposed by the IRS, we inform you that any U.S. federal tax advice contained in this communication is not intended or written to be used, and cannot be used, for the purpose of avoiding penalties under the Internal Revenue Code.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "slaurent@ashfordlyle.example",
+        "firstName": "Simone",
+        "lastName": "Laurent",
+        "phone": "5550100175",
+        "mobile": "",
+        "company": "Ashford & Lyle LLP",
+        "title": "Partner",
+        "city": "Philadelphia",
+        "state": "PA",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

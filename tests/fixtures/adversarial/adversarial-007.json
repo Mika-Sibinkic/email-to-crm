@@ -1,0 +1,53 @@
+{
+  "id": "adversarial-007",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Bulk-mail invitation: emails embedded in RSVP and forward-to-friend URLs, a role mailbox, and a \"sent to\" footer next to the real organizer",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC0006CA01967E3963979F47A3F20B9FDA84E427F544AAA=",
+    "internetMessageId": "<MW4PR05MB06CA84B928388F6D@MW4PR05MB06CA.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC0063979F47A3F20B9FDA84E427F54484B9=",
+    "receivedDateTime": "2026-11-06T16:45:30Z",
+    "subject": "Fwd: You are invited: Winter Lending Forum",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Add Elise, the organizer. Industry resource.<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div><b>Your Company</b></div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div>100 Main Street, Anytown, ST 00000</div><div><a href=\"mailto:pat@yourcompany.com\" target=\"_blank\">pat@yourcompany.com</a></div></div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Elise Carrow</strong> <span dir=\"auto\">&lt;<a href=\"mailto:elise.carrow@meridianforum.example\">elise.carrow@meridianforum.example</a>&gt;</span><br>Date: Fri, Nov 6, 2026 at 9:30 AM<br>Subject: You are invited: Winter Lending Forum<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div style=\"background:#f4f4f4;padding:20px\"><table align=\"center\" width=\"600\" style=\"background:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#202020\"><tbody><tr><td style=\"padding:10px 20px;font-size:11px;color:#656565\">Your invitation to the Winter Lending Forum | <a href=\"https://meridianforum.list-manage.example/view?u=7d1e2f&amp;id=a93c&amp;e=4f2c\">View this email in your browser</a></td></tr><tr><td style=\"padding:20px\">Dear Pat,<br><br>You are invited to the Meridian Winter Lending Forum, January 21-22 in Charleston. This year we have two tracks on middle-market credit and a lenders-only roundtable on the second afternoon.<br><br>RSVP with your personal link: https://events.meridianforum.example/rsvp?invitee=pat@yourcompany.com&amp;ref=nov26<br><br>Sponsorship packages are still available. Questions? Write to events@meridianforum.example or reply to me directly.<br><br>Warm regards,<br><br><b>Elise Carrow</b><br>Program Director, Meridian Lending Forum<br>(555) 010-0161<br>elise.carrow@meridianforum.example</td></tr><tr><td style=\"padding:20px;font-size:11px;color:#656565;text-align:center\">Copyright (C) 2026 Meridian Lending Forum, All rights reserved.<br>Forward to a colleague: https://meridianforum.forward-to-friend.example/forward?u=7d1e2f&amp;id=a93c&amp;e=sponsor.desk@meridianforum.example<br>This email was sent to pat@yourcompany.com<br>why did I get this? <a href=\"https://meridianforum.list-manage.example/about?u=7d1e2f\">unsubscribe from this list</a> | <a href=\"https://meridianforum.list-manage.example/profile?u=7d1e2f\">update subscription preferences</a><br>Meridian Lending Forum - 410 Harbor Way - Charleston, SC 29401 - USA</td></tr></tbody></table></div></div></div>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "elise.carrow@meridianforum.example",
+        "firstName": "Elise",
+        "lastName": "Carrow",
+        "phone": "5550100161",
+        "company": "Meridian Lending Forum",
+        "title": "Program Director",
+        "type": "Industry Resource"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-013",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "Postfix bounce (\"Undelivered Mail Returned to Sender\") from an outside MAILER-DAEMON; original message is an attachment, not in the body.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA00D4397F898CAAA=",
+    "createdDateTime": "2026-11-05T19:44:03Z",
+    "lastModifiedDateTime": "2026-11-05T19:44:03Z",
+    "receivedDateTime": "2026-11-05T19:44:03Z",
+    "sentDateTime": "2026-11-05T19:44:03Z",
+    "hasAttachments": true,
+    "internetMessageId": "<00D4397F898C74345B5C2832@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Undelivered Mail Returned to Sender",
+    "bodyPreview": "This is the mail system at host mx2.quarrylinefinancial.example. I'm sorry to have to inform you that your message could not be delivered to one or more recipients. It's attached below. For further assistance, please send mail to postmaster. If you do so,",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA3F71B6DF4CAD57E2=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "text",
+      "content": "This is the mail system at host mx2.quarrylinefinancial.example.\r\n\r\nI'm sorry to have to inform you that your message could not\r\nbe delivered to one or more recipients. It's attached below.\r\n\r\nFor further assistance, please send mail to postmaster.\r\n\r\nIf you do so, please include this problem report. You can\r\ndelete your own text from the attached returned message.\r\n\r\n                   The mail system\r\n\r\n<e.santos@quarrylinefinancial.example>: host\r\n    mailstore1.quarrylinefinancial.example[192.0.2.25] said: 550 5.1.1\r\n    <e.santos@quarrylinefinancial.example>: Recipient address rejected: User\r\n    unknown in virtual mailbox table (in reply to RCPT TO command)\r\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Mail Delivery System",
+        "address": "MAILER-DAEMON@mx2.quarrylinefinancial.example"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Mail Delivery System",
+        "address": "MAILER-DAEMON@mx2.quarrylinefinancial.example"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "BOUNCE",
+    "contacts": []
+  }
+}

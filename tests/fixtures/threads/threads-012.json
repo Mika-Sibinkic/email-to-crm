@@ -1,0 +1,81 @@
+{
+  "id": "threads-012",
+  "category": "threads",
+  "split": "holdout",
+  "description": "Apple Mail iPhone forward, 'add all 3': two Cc'd colleagues whose only phones are in the sender's prose",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB18FDC9FEF4FC7CF904CA4245A3CD76336FBEAAA=",
+    "internetMessageId": "<18FDC9FE-F4FC-7CF9-04CA-4245A3CD7633@yourcompany.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA27BCC66A47EF33362CFA=",
+    "receivedDateTime": "2026-11-05T16:40:51Z",
+    "sentDateTime": "2026-11-05T16:40:51Z",
+    "subject": "Fwd: Certificates of insurance",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Insurance - add all 3 to zoho Sent from my iPhone Begin forwarded message: From: Colin Mercer <cmercer@bluestonerisk.example> Date: November 5, 2026 at 11:32:07 AM EST To: Pat Staffer <pat@yourcompany.com> Cc: Ana Ruiz <aruiz@bluestonerisk.example>, Devon",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><div dir=\"ltr\">Insurance - add all 3 to zoho</div><div dir=\"ltr\"><br id=\"lineBreakAtBeginningOfSignature\"><div dir=\"ltr\">Sent from my iPhone</div><div dir=\"ltr\"><br><blockquote type=\"cite\">Begin forwarded message:<br><br></blockquote></div><blockquote type=\"cite\"><div dir=\"ltr\"><b>From:</b> Colin Mercer &lt;cmercer@bluestonerisk.example&gt;<br><b>Date:</b> November 5, 2026 at 11:32:07 AM EST<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Cc:</b> Ana Ruiz &lt;aruiz@bluestonerisk.example&gt;, Devon Shaw &lt;dshaw@bluestonerisk.example&gt;<br><b>Subject:</b> <b>Certificates of insurance</b><br><br></div></blockquote><blockquote type=\"cite\"><div dir=\"ltr\"><div>Pat,</div>\n<div><br></div>\n<div>Copying my colleagues so you have the full team. Ana Ruiz leads underwriting (office 919-555-0145) and Devon Shaw handles claims (mobile 919-555-0172). Either of them can issue certificates if I'm traveling.</div>\n<div><br></div>\n<div>Colin Mercer</div>\n<div>Principal Agent</div>\n<div>Bluestone Risk Partners</div>\n<div>Raleigh, NC</div>\n<div>Office 919-555-0140 | Mobile 919-555-0188</div></div></blockquote></div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "cmercer@bluestonerisk.example",
+        "firstName": "Colin",
+        "lastName": "Mercer",
+        "phone": "919-555-0140",
+        "mobile": "919-555-0188",
+        "company": "Bluestone Risk Partners",
+        "title": "Principal Agent",
+        "city": "Raleigh",
+        "state": "NC",
+        "type": "Insurance"
+      },
+      {
+        "email": "aruiz@bluestonerisk.example",
+        "firstName": "Ana",
+        "lastName": "Ruiz",
+        "phone": "919-555-0145",
+        "mobile": "",
+        "company": "Bluestone Risk Partners",
+        "type": "Insurance"
+      },
+      {
+        "email": "dshaw@bluestonerisk.example",
+        "firstName": "Devon",
+        "lastName": "Shaw",
+        "phone": "",
+        "mobile": "919-555-0172",
+        "company": "Bluestone Risk Partners",
+        "type": "Insurance"
+      }
+    ]
+  }
+}

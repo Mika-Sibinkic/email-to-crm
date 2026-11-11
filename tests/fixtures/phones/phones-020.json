@@ -1,0 +1,58 @@
+{
+  "id": "phones-020",
+  "category": "phones",
+  "split": "holdout",
+  "description": "Australian Ph and Mob labels in national format without +61 (area code in parentheses, 04xx mobile); stored in international form",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD376249380686840458341420AAA=",
+    "internetMessageId": "<SA1PR14MB37624938068684045834@SA1PR14MB1420.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA17928263135151961726=",
+    "receivedDateTime": "2026-11-04T23:55:41Z",
+    "sentDateTime": "2026-11-04T23:55:39Z",
+    "subject": "FW: RE: Security deed comments",
+    "bodyPreview": "Add Sophie - Attorney. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Sophie Barrett <sbarrett@kestrellane.example> Sent: Wednesday, N",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style></head><body dir=\"ltr\"><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add Sophie - Attorney.</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><p style=\"margin:0\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</p></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Sophie Barrett &lt;sbarrett@kestrellane.example&gt;<br><b>Sent:</b> Wednesday, November 4, 2026 5:20 PM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> RE: Security deed comments</font><div>&nbsp;</div></div>\n<div dir=\"ltr\"><div>Hi Pat,</div>\n<div><br></div>\n<div>Please find our comments on the security deed below. Happy to jump on a call - Adelaide is 10.5 hours ahead of you at the moment.</div>\n<div><br></div>\n<div>Kind regards,</div>\n<div><br></div>\n<div><b>Sophie Barrett</b></div>\n<div>Senior Associate</div>\n<div>Kestrel Lane Lawyers</div>\n<div>Level 9, 50 Example Street, Adelaide SA 5000</div>\n<div>Ph (08) 5550 4127 | Mob 0491 570 006</div>\n<div><a href=\"mailto:sbarrett@kestrellane.example\">sbarrett@kestrellane.example</a></div>\n<div><br></div>\n<div><span style=\"font-size:8pt;color:#666666\">Liability limited by a scheme approved under Professional Standards Legislation.</span></div>\n<div><span style=\"font-size:8pt;color:#666666\">Kestrel Lane Lawyers acknowledges the Traditional Owners of the land on which we work and pays respect to Elders past and present.</span></div>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "sbarrett@kestrellane.example",
+        "firstName": "Sophie",
+        "lastName": "Barrett",
+        "company": "Kestrel Lane Lawyers",
+        "phone": "+61 8 5550 4127",
+        "mobile": "+61 491 570 006",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

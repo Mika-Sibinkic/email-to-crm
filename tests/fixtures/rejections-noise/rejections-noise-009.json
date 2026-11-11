@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-009",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "French Outlook out-of-office from an outside contact (\"Réponse automatique : RE: ...\"), alternate contact named in the body.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAAD7319A4B6FEAAAA=",
+    "createdDateTime": "2026-11-09T07:31:12Z",
+    "lastModifiedDateTime": "2026-11-09T07:31:12Z",
+    "receivedDateTime": "2026-11-09T07:31:12Z",
+    "sentDateTime": "2026-11-09T07:31:12Z",
+    "hasAttachments": false,
+    "internetMessageId": "<D7319A4B6FEA13406A1C8E3E@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Réponse automatique : RE: Documents de financement",
+    "bodyPreview": "Bonjour, Je suis absente du bureau jusqu’au lundi 16 novembre inclus, avec un accès limité à ma messagerie. Votre message ne sera pas transféré. Pour toute demande urgente, merci de contacter Mathieu Roche à l’adresse mathieu.roche@banquelumiere.example o",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQAC9D21D4F71188A1B=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Bonjour,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Je suis absente du bureau jusqu’au lundi 16 novembre inclus, avec un accès limité à ma messagerie. Votre message ne sera pas transféré.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pour toute demande urgente, merci de contacter Mathieu Roche à l’adresse mathieu.roche@banquelumiere.example ou au +33 1 99 00 42 17.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Cordialement,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Élodie Marchand<o:p></o:p></p>\n<p class=\"MsoNormal\">Chargée d’affaires entreprises<o:p></o:p></p>\n<p class=\"MsoNormal\">Banque Lumière Privée<o:p></o:p></p>\n<p class=\"MsoNormal\">12 rue de la Paix, 75002 Paris<o:p></o:p></p>\n<p class=\"MsoNormal\">Tél. : +33 1 99 00 42 10<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Élodie Marchand",
+        "address": "elodie.marchand@banquelumiere.example"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Élodie Marchand",
+        "address": "elodie.marchand@banquelumiere.example"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "AUTO_REPLY",
+    "contacts": []
+  }
+}

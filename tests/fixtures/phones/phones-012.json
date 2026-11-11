@@ -1,0 +1,58 @@
+{
+  "id": "phones-012",
+  "category": "phones",
+  "split": "holdout",
+  "description": "Signature has only a fax (listed first) and a mobile; Phone must stay empty rather than take the fax",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD384311160347156203446912AAA=",
+    "internetMessageId": "<SA1PR14MB38431116034715620344@SA1PR14MB6912.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA66163507003040540195=",
+    "receivedDateTime": "2026-11-09T14:26:03Z",
+    "sentDateTime": "2026-11-09T14:26:01Z",
+    "subject": "FW: Tractors",
+    "bodyPreview": "Add Carlos as Customer. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Carlos Benitez <cbenitez@baylinelogistics.example> Sent: Monday",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style></head><body dir=\"ltr\"><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add Carlos as Customer.</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><p style=\"margin:0\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</p></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Carlos Benitez &lt;cbenitez@baylinelogistics.example&gt;<br><b>Sent:</b> Monday, November 9, 2026 7:44 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Tractors</font><div>&nbsp;</div></div>\n<div dir=\"ltr\"><div>Pat,</div>\n<div><br></div>\n<div>We are ready to move forward on the two tractors. Send me the application and I will fill it out tonight.</div>\n<div><br></div>\n<div>Carlos</div>\n<div><br></div>\n<div><b>Carlos Benitez</b></div>\n<div>President</div>\n<div>Bayline Logistics Group</div>\n<div>F: 305-555-0177 | M: 305-555-0178</div>\n<div><a href=\"mailto:cbenitez@baylinelogistics.example\">cbenitez@baylinelogistics.example</a></div>\n<div>Doral, FL</div>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "cbenitez@baylinelogistics.example",
+        "firstName": "Carlos",
+        "lastName": "Benitez",
+        "company": "Bayline Logistics Group",
+        "phone": "",
+        "mobile": "305-555-0178",
+        "type": "Customer"
+      }
+    ]
+  }
+}

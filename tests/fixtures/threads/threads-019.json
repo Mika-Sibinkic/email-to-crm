@@ -1,0 +1,63 @@
+{
+  "id": "threads-019",
+  "category": "threads",
+  "split": "train",
+  "description": "Note names a type that is not in the picklist ('CPA'); a careful user files an accounting firm as Service Provider",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB3ABAD0813AB0024523C3936FA90DEE3B16AEAAA=",
+    "internetMessageId": "<SA1PR11MBBFAC3ABAD0813AB0@SA1PR11MBBFAC.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQA3ACD847010CBCD97268C=",
+    "receivedDateTime": "2026-11-09T15:41:03Z",
+    "sentDateTime": "2026-11-09T15:41:03Z",
+    "subject": "FW: Year-end equipment purchases",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add as CPA in crm Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Jordan Ames <jordan@amesrowecpa.example> Sent: Monday, Nove",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add as CPA in crm</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><div><b>Pat Staffer</b></div>\n<div>Managing Director | Your Company</div>\n<div>Office (555) 010-0100 | Mobile (555) 010-0101</div>\n<div>100 Main Street, Anytown, ST 00000</div>\n<div>pat@yourcompany.com</div>\n<div>Your Company Tagline Here</div></div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Jordan Ames &lt;jordan@amesrowecpa.example&gt;<br>\n<b>Sent:</b> Monday, November 9, 2026 9:30 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Year-end equipment purchases</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"direction: ltr;\">\n<div class=\"x_WordSection1\">\n<p class=\"x_MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Good to see you last week. Two of our clients are evaluating equipment purchases before year end for the depreciation, and I'd like to send them your way.<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\">Thanks,<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Jordan Ames, CPA</span></b><o:p></o:p></p>\n<p class=\"x_MsoNormal\">Partner<o:p></o:p></p>\n<p class=\"x_MsoNormal\">Ames &amp; Rowe CPAs PLLC<o:p></o:p></p>\n<p class=\"x_MsoNormal\">Office 615-555-0121<o:p></o:p></p>\n<p class=\"x_MsoNormal\">320 Cool Springs Blvd, Franklin, TN 37067<o:p></o:p></p>\n<p class=\"x_MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"x_MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">Any tax advice contained in this communication is not intended or written to be used, and cannot be used, for the purpose of avoiding penalties under the Internal Revenue Code.</span><o:p></o:p></p>\n</div>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "jordan@amesrowecpa.example",
+        "firstName": "Jordan",
+        "lastName": "Ames",
+        "phone": "615-555-0121",
+        "mobile": "",
+        "company": "Ames & Rowe CPAs PLLC",
+        "title": "Partner",
+        "city": "Franklin",
+        "state": "TN",
+        "type": "Service Provider"
+      }
+    ]
+  }
+}

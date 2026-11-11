@@ -1,0 +1,58 @@
+{
+  "id": "phones-022",
+  "category": "phones",
+  "split": "train",
+  "description": "UAE T, F and M single-letter labels on one line with the fax between office and mobile; P.O. Box digits nearby",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD258793554652865740921333AAA=",
+    "internetMessageId": "<CAF258793554652+865740921333802294@mail.gmail.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA80229409971301704368=",
+    "receivedDateTime": "2026-11-09T15:02:36Z",
+    "sentDateTime": "2026-11-09T15:02:34Z",
+    "subject": "Fwd: IC timing",
+    "bodyPreview": "Add Omar - Family Office. -- Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 ---------- Forwarded message --------- From: Omar Haddad < omar.",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Add Omar - Family Office.<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div>Your Company</div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Omar Haddad</strong> <span dir=\"auto\">&lt;<a href=\"mailto:omar.haddad@examplegulf.example\">omar.haddad@examplegulf.example</a>&gt;</span><br>Date: Mon, Nov 9, 2026 at 2:45 AM<br>Subject: IC timing<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\"><div>Dear Pat,</div><div><br></div><div>Thank you for the call. Our investment committee meets on the 18th; please send the summary before then.</div><div><br></div><div>Best regards,</div><div><br></div><div><b>Omar Haddad</b></div><div>Executive Director</div><div>Example Gulf Investments LLC</div><div>Unit 1201, Level 12, Example Tower, DIFC, P.O. Box 12345, Dubai, UAE</div><div>T +971 4 555 0123 | F +971 4 555 0125 | M +971 50 555 0124</div><div><a href=\"mailto:omar.haddad@examplegulf.example\">omar.haddad@examplegulf.example</a></div></div></div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "omar.haddad@examplegulf.example",
+        "firstName": "Omar",
+        "lastName": "Haddad",
+        "company": "Example Gulf Investments LLC",
+        "phone": "+971 4 555 0123",
+        "mobile": "+971 50 555 0124",
+        "type": "Family Office"
+      }
+    ]
+  }
+}

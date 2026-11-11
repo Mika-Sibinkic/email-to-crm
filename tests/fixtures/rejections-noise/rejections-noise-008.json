@@ -1,0 +1,53 @@
+{
+  "id": "rejections-noise-008",
+  "category": "rejections-noise",
+  "split": "holdout",
+  "description": "German Outlook out-of-office from an outside contact (\"Automatische Antwort: AW: ...\"), no Auto-Submitted header in the Graph payload.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA88EDA53D42CDAAA=",
+    "createdDateTime": "2026-11-06T08:14:55Z",
+    "lastModifiedDateTime": "2026-11-06T08:14:55Z",
+    "receivedDateTime": "2026-11-06T08:14:55Z",
+    "sentDateTime": "2026-11-06T08:14:55Z",
+    "hasAttachments": false,
+    "internetMessageId": "<88EDA53D42CDCBDA0A26369E@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "Automatische Antwort: AW: Unterlagen Finanzierungsanfrage",
+    "bodyPreview": "Sehr geehrte Damen und Herren, vielen Dank für Ihre Nachricht. Ich bin bis einschließlich 13.11.2026 nicht im Büro und habe nur eingeschränkten Zugriff auf meine E-Mails. Ihre Nachricht wird nicht weitergeleitet. In dringenden Fällen wenden Sie sich bitte",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA1E957EB9289165C0=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Aptos;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:12.0pt;\n\tfont-family:\"Aptos\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#467886;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Aptos\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--><!--[if gte mso 9]><xml>\n<o:shapelayout v:ext=\"edit\">\n<o:idmap v:ext=\"edit\" data=\"1\" />\n</o:shapelayout></xml><![endif]-->\n</head>\n<body lang=\"EN-US\" link=\"#467886\" vlink=\"#96607D\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">vielen Dank für Ihre Nachricht. Ich bin bis einschließlich 13.11.2026 nicht im Büro und habe nur eingeschränkten Zugriff auf meine E-Mails. Ihre Nachricht wird nicht weitergeleitet.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">In dringenden Fällen wenden Sie sich bitte an meinen Kollegen Jonas Albrecht (j.albrecht@rheinwerk-leasing.example, Tel. +49 30 23125 417).<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Mit freundlichen Grüßen<o:p></o:p></p>\n<p class=\"MsoNormal\">Katrin Vogel<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Leiterin Vertrieb Mittelstand</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Rheinwerk Leasing GmbH</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Friedrichstraße 120 · 10117 Berlin</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">Tel. +49 30 23125 410 · Mobil +49 151 23125 410</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1F3864\">k.vogel@rheinwerk-leasing.example</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">Rheinwerk Leasing GmbH · Sitz: Berlin · Amtsgericht Charlottenburg HRB 000000 B · Geschäftsführer: Dr. Lena Hartmann, Felix Brandt</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Katrin Vogel",
+        "address": "k.vogel@rheinwerk-leasing.example"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Katrin Vogel",
+        "address": "k.vogel@rheinwerk-leasing.example"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": "AUTO_REPLY",
+    "contacts": []
+  }
+}

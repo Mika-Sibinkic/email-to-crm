@@ -1,0 +1,57 @@
+{
+  "id": "phones-009",
+  "category": "phones",
+  "split": "train",
+  "description": "Bare vanity toll-free line \"(855) 555-ACME\" (stored as digits, never as the company) plus a Cell line",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD924222530096345122561844AAA=",
+    "internetMessageId": "<SA1PR14MB92422253009634512256@SA1PR14MB1844.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA01195224181619300775=",
+    "receivedDateTime": "2026-11-04T20:11:58Z",
+    "sentDateTime": "2026-11-04T20:11:56Z",
+    "subject": "FW: Rate sheet - November",
+    "bodyPreview": "Please add Lena. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Lena Marsh <lmarsh@acmeequipfin.example> Sent: Wednesday, November 4, ",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\"><p class=\"MsoNormal\">Please add Lena.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Lena Marsh &lt;lmarsh@acmeequipfin.example&gt; <br><b>Sent:</b> Wednesday, November 4, 2026 2:37 PM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Rate sheet - November<o:p></o:p></p></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Hi Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Our November rate sheet is below. Rates are good through the 30th for approved credits.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">36 months: 7.15%<o:p></o:p></p>\n<p class=\"MsoNormal\">48 months: 7.35%<o:p></o:p></p>\n<p class=\"MsoNormal\">60 months: 7.55%<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Thank you,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#C00000\">Lena Marsh</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">Sales Manager</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">Acme Equipment Finance</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">(855) 555-ACME</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">Cell 615-555-0121</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\"><a href=\"mailto:lmarsh@acmeequipfin.example\">lmarsh@acmeequipfin.example</a></span><o:p></o:p></p>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "lmarsh@acmeequipfin.example",
+        "firstName": "Lena",
+        "lastName": "Marsh",
+        "company": "Acme Equipment Finance",
+        "phone": "(855) 555-2263",
+        "mobile": "615-555-0121"
+      }
+    ]
+  }
+}

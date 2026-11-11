@@ -1,0 +1,56 @@
+{
+  "id": "adversarial-016",
+  "category": "adversarial",
+  "split": "holdout",
+  "description": "Two-column table signature: phone labels sit in one cell and values in the next, so after tag stripping labels and numbers no longer share a line",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC00143A6FC692D35BF7A5576A206421ED96F367A7D2AAA=",
+    "internetMessageId": "<MW4PR05MB143A3B85E62AC294@MW4PR05MB143A.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC005BF7A5576A206421ED96F367A7D23B85=",
+    "receivedDateTime": "2026-11-09T19:22:36Z",
+    "subject": "FW: Larkspur - escrow opened",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\">\n<style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style>\n</head>\n<body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\">\n<div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Isabel, escrow officer we use on most closings.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt;color:#595959\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Your Company</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#595959\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\">100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:10.0pt\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | <a href=\"https://www.yourcompany.com/\">www.yourcompany.com</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\">\n<p class=\"MsoNormal\"><b>From:</b> Isabel Navarro &lt;inavarro@keystoneescrow.example&gt; <br>\n<b>Sent:</b> Monday, November 9, 2026 12:59 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Larkspur - escrow opened<o:p></o:p></p>\n</div>\n</div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Hi Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Escrow is open for the Larkspur closing. Wire instructions will come from me by phone only; please never act on emailed wire changes.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Thank you,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<table class=\"MsoNormalTable\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\">\n<tr>\n<td colspan=\"2\" style=\"padding:0in 0in 4.0pt 0in\"><p class=\"MsoNormal\"><b><span style=\"font-size:12.0pt;color:#2E4A62\">Isabel Navarro</span></b><br>Senior Escrow Officer<br>Keystone Escrow Services<o:p></o:p></p></td>\n</tr>\n<tr>\n<td valign=\"top\" style=\"width:55.0pt;padding:0in 6.0pt 0in 0in\"><p class=\"MsoNormal\"><b><span style=\"font-size:9.0pt;color:#7F7F7F\">Mobile<br>Office<br>Email</span></b><o:p></o:p></p></td>\n<td valign=\"top\" style=\"padding:0in\"><p class=\"MsoNormal\"><span style=\"font-size:9.0pt\">(555) 010-0164<br>(555) 010-0165<br><a href=\"mailto:inavarro@keystoneescrow.example\">inavarro@keystoneescrow.example</a></span><o:p></o:p></p></td>\n</tr>\n<tr>\n<td colspan=\"2\" style=\"padding:4.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><span style=\"font-size:9.0pt\">3030 N Central Avenue, Suite 900, Phoenix, AZ 85012</span><o:p></o:p></p></td>\n</tr>\n</table>\n</div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "inavarro@keystoneescrow.example",
+        "firstName": "Isabel",
+        "lastName": "Navarro",
+        "mobile": "5550100164",
+        "phone": "5550100165",
+        "company": "Keystone Escrow Services",
+        "title": "Senior Escrow Officer",
+        "city": "Phoenix",
+        "state": "AZ",
+        "type": "Service Provider"
+      }
+    ]
+  }
+}

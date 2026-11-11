@@ -1,0 +1,57 @@
+{
+  "id": "phones-011",
+  "category": "phones",
+  "split": "train",
+  "description": "UK numbers written \"+44 (0)...\" (the (0) trunk prefix is dropped in the stored number); title line is just \"Director\"",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD114194907293044914760711AAA=",
+    "internetMessageId": "<SA1PR14MB11419490729304491476@SA1PR14MB0711.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA02849624743371702458=",
+    "receivedDateTime": "2026-11-02T13:48:36Z",
+    "sentDateTime": "2026-11-02T13:48:34Z",
+    "subject": "FW: Co-investment - Q1 pipeline",
+    "bodyPreview": "Please add to CRM. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Imogen Fairweather <imogen.fairweather@fenwicklowe.example> Sent: Mo",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\"><p class=\"MsoNormal\">Please add to CRM.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">Managing Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">Your Company</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><i><span style=\"font-size:9.0pt;color:#1F3864\">Your Company Tagline Here</span></i><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\">O (555) 010-0100 | M (555) 010-0101</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#1F3864\"><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Imogen Fairweather &lt;imogen.fairweather@fenwicklowe.example&gt; <br><b>Sent:</b> Monday, November 2, 2026 9:05 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Co-investment - Q1 pipeline<o:p></o:p></p></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Dear Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Thank you for your time on the call yesterday. We would be pleased to look at the Q1 pipeline once the data room is ready.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Kind regards,<o:p></o:p></p>\n<p class=\"MsoNormal\">Imogen<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#003B5C\">Imogen Fairweather</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">Director</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">Fenwick Lowe Asset Management Ltd</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">14 Example Square, London EC2A 4XX</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">T: +44 (0)1632 960 214</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\">M: +44 (0)7700 900 381</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:9.0pt;color:#595959\"><a href=\"mailto:imogen.fairweather@fenwicklowe.example\">imogen.fairweather@fenwicklowe.example</a></span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:#7F7F7F\">Fenwick Lowe Asset Management Ltd is authorised and regulated by the Financial Conduct Authority. Registered in England and Wales No. 01234567. Registered office: 14 Example Square, London EC2A 4XX. This e-mail is confidential and may be privileged.</span><o:p></o:p></p>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "imogen.fairweather@fenwicklowe.example",
+        "firstName": "Imogen",
+        "lastName": "Fairweather",
+        "company": "Fenwick Lowe Asset Management Ltd",
+        "phone": "+44 1632 960214",
+        "mobile": "+44 7700 900381"
+      }
+    ]
+  }
+}

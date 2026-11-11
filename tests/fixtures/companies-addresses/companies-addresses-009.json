@@ -1,0 +1,48 @@
+{
+  "id": "companies-addresses-009",
+  "category": "companies-addresses",
+  "split": "train",
+  "description": "Chilean \"S.A.\" company with a Spanish title, comuna before city, country on its own line, bilingual disclaimer; forwarded from Outlook on the web.",
+  "email": {
+    "id": "AAMkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQBGAAAAAADh_74aSUzt_aBE3E_xsrLJZHbGRP1M_885vaQM4KjvPLUGRdkacccTtLUAb9p5UELXSQ2NUMS6Pn3ZdVU-jWnh1AAA=",
+    "internetMessageId": "<SA1PR11MB76049F670CB6DC9C90ED006C591B@SA1PR11MB7604.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGQ1NzE4ZWJiLTVmNjctNDRhYy1iZjEzLTFlOWQ2YzQ0N2E2ZQAQANSPqgLK5pBtNsN8RLDg3Sg=",
+    "receivedDateTime": "2026-11-05T19:45:03Z",
+    "isDraft": false,
+    "subject": "Fw: Financing proposal - Miami subsidiary",
+    "bodyPreview": "Please add Tomás to Zoho. Pat From: Tomás Echeverría <tomas.echeverria@cordillerainversiones.example> Sent: Thursday, November 5, 2026 1:20 PM To: Pat Staffer <pat@yourcompany.com> Subject: Financing proposal - Miami subsidiary Dear Mr. Staffer, Further t",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Please add Tomás to Zoho.</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Pat</div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Tomás Echeverría &lt;tomas.echeverria@cordillerainversiones.example&gt;<br>\n<b>Sent:</b> Thursday, November 5, 2026 1:20 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Financing proposal - Miami subsidiary</font>\n<div>&nbsp;</div>\n</div>\n<div style=\"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)\"><p>Dear Mr. Staffer,</p><p>Further to our call, I confirm that our board approved the purchase of the two units for our Miami subsidiary. We would like to receive your financing proposal in USD.</p><p>Best regards,</p><p>&nbsp;</p><p><b>Tomás Echeverría</b><br>Gerente de Finanzas Corporativas<br>Inversiones Cordillera S.A.<br>Av. Apoquindo 3000, Piso 12<br>Las Condes, Santiago<br>Chile<br>Tel. +56 2 2555 0134<br><a href=\"https://www.cordillerainversiones.example\">www.cordillerainversiones.example</a></p><p style=\"font-size:8pt;color:#808080\">Este correo electrónico y sus anexos son confidenciales y para uso exclusivo del destinatario. Si usted no es el destinatario, le rogamos eliminarlo y avisar al remitente. / This e-mail and its attachments are confidential and intended solely for the addressee.</p></div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "tomas.echeverria@cordillerainversiones.example",
+        "firstName": "Tomás",
+        "lastName": "Echeverría",
+        "company": "Inversiones Cordillera S.A.",
+        "city": "Santiago",
+        "country": "Chile"
+      }
+    ]
+  }
+}

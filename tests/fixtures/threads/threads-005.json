@@ -1,0 +1,63 @@
+{
+  "id": "threads-005",
+  "category": "threads",
+  "split": "train",
+  "description": "Apple Mail iPhone forward ('Begin forwarded message:' in blockquote), contact has only a cell number",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAABE6F5A093009B8478D47FB0F7BB0DB4EBA5DBAAA=",
+    "internetMessageId": "<E6F5A093-009B-8478-D47F-B0F7BB0DB4EB@yourcompany.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQADDADC6C8B766F127E491=",
+    "receivedDateTime": "2026-11-03T14:11:09Z",
+    "sentDateTime": "2026-11-03T14:11:09Z",
+    "subject": "Fwd: Loaders",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add to zoho as customer Sent from my iPhone Begin forwarded message: From: Brent Okafor <brent@okaforsupply.example> Date: November 3, 2026 at 8:05:31 AM CST To: Alex Example <alex@yourcompany.com> Subject: Loaders Alex - good meeting you at the yard yest",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><div dir=\"ltr\">Add to zoho as customer</div><div dir=\"ltr\"><br id=\"lineBreakAtBeginningOfSignature\"><div dir=\"ltr\">Sent from my iPhone</div><div dir=\"ltr\"><br><blockquote type=\"cite\">Begin forwarded message:<br><br></blockquote></div><blockquote type=\"cite\"><div dir=\"ltr\"><b>From:</b> Brent Okafor &lt;brent@okaforsupply.example&gt;<br><b>Date:</b> November 3, 2026 at 8:05:31 AM CST<br><b>To:</b> Alex Example &lt;alex@yourcompany.com&gt;<br><b>Subject:</b> <b>Loaders</b><br><br></div></blockquote><blockquote type=\"cite\"><div dir=\"ltr\"><div>Alex - good meeting you at the yard yesterday. We're looking to replace two loaders and a skid steer before spring. Send me whatever applications you need.</div>\n<div><br></div>\n<div>Brent Okafor</div>\n<div>Owner, Okafor Landscape Supply</div>\n<div>Cell (918) 555-0129</div>\n<div>Tulsa, OK</div>\n<div><br></div>\n<div>Sent from my iPhone</div></div></blockquote></div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "brent@okaforsupply.example",
+        "firstName": "Brent",
+        "lastName": "Okafor",
+        "phone": "",
+        "mobile": "918-555-0129",
+        "company": "Okafor Landscape Supply",
+        "title": "Owner",
+        "city": "Tulsa",
+        "state": "OK",
+        "type": "Customer"
+      }
+    ]
+  }
+}

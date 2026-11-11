@@ -1,0 +1,57 @@
+{
+  "id": "phones-019",
+  "category": "phones",
+  "split": "train",
+  "description": "Japanese business signature: uppercase TEL and FAX on one slash-separated line, Mobile on the next, hyphenated +81 format, asterisk rules",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD400704529446900445060591AAA=",
+    "internetMessageId": "<CAF400704529446+900445060591084437@mail.gmail.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA08443746095229626324=",
+    "receivedDateTime": "2026-11-06T01:30:08Z",
+    "sentDateTime": "2026-11-06T01:30:06Z",
+    "subject": "Fwd: Re: Lease structure",
+    "bodyPreview": "Pls add Kenji to CRM. -- Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 ---------- Forwarded message --------- From: Kenji Watanabe < k-wata",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Pls add Kenji to CRM.<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div>Your Company</div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Kenji Watanabe</strong> <span dir=\"auto\">&lt;<a href=\"mailto:k-watanabe@exampleshoji.example\">k-watanabe@exampleshoji.example</a>&gt;</span><br>Date: Thu, Nov 5, 2026 at 7:12 PM<br>Subject: Re: Lease structure<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\"><div>Dear Mr. Staffer,</div><div><br></div><div>Thank you very much for your kind reply. We would like to discuss the lease structure at your convenience.</div><div><br></div><div>Best regards,</div><div><br></div><div>****************************************</div><div>Kenji Watanabe</div><div>General Manager, Overseas Business Dept.</div><div>Example Shoji Co., Ltd.</div><div>1-2-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan</div><div>TEL: +81-3-5550-0123 / FAX: +81-3-5550-0124</div><div>Mobile: +81-90-5550-0125</div><div>E-mail: <a href=\"mailto:k-watanabe@exampleshoji.example\">k-watanabe@exampleshoji.example</a></div><div>****************************************</div></div></div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "k-watanabe@exampleshoji.example",
+        "firstName": "Kenji",
+        "lastName": "Watanabe",
+        "company": "Example Shoji Co., Ltd.",
+        "phone": "+81-3-5550-0123",
+        "mobile": "+81-90-5550-0125"
+      }
+    ]
+  }
+}

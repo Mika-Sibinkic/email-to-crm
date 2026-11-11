@@ -1,0 +1,64 @@
+{
+  "id": "rejections-noise-026",
+  "category": "rejections-noise",
+  "split": "train",
+  "description": "New-Outlook forward of a Gmail-mobile reply: <br> soup, &#8217; apostrophes, zero-width spaces inside the phone and email, <wbr> in the address, &#160; and &#8209;. lastName and company are unchecked: curly and straight apostrophes are both acceptable spellings.",
+  "email": {
+    "id": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgBGAAAAAAC3pT8xQm1vR5n2qXcWdKpLBwBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAABzU0dOd2lUQJ6S3o4l1QZtAAA83F9E55AD93BAAA=",
+    "createdDateTime": "2026-11-09T14:12:40Z",
+    "lastModifiedDateTime": "2026-11-09T14:12:40Z",
+    "receivedDateTime": "2026-11-09T14:12:40Z",
+    "sentDateTime": "2026-11-09T14:12:40Z",
+    "hasAttachments": false,
+    "internetMessageId": "<83F9E55AD93B486387CA6DD7@PH0PR05MB7741.namprd05.prod.outlook.com>",
+    "subject": "FW: Re: Equipment line referrals",
+    "bodyPreview": "Sloane refers us equipment deals, add her as Partner please. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 100 Main Street, Anytown, ST 00000 From: Sloane O’Rourke <sloane@orourkefinance.example> ",
+    "importance": "normal",
+    "parentFolderId": "AAMkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAuAAAAAAC3pT8xQm1vR5n2qXcWdKpLAQBzU0dOd2lUQJ6S3o4l1QZtAAAAAAEMAAA=",
+    "conversationId": "AAQkAGNhZTk0YjEyLTc3ZmQtNDNiMS1hMWVkLTJmYzQ5ZDhlMDFhNgAQA04B18D8A84B19717=",
+    "isRead": false,
+    "isDraft": false,
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style></head><body dir=\"ltr\"><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Sloane refers us equipment deals, add her as Partner please.</div><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div><div id=\"Signature\"><div style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br>100 Main Street, Anytown, ST 00000</div></div><div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Sloane O&#8217;Rourke &lt;sloane@orourkefinance.example&gt;<br><b>Sent:</b> Sunday, November 8, 2026 7:41 PM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Re: Equipment line referrals</font><div>&nbsp;</div></div><div dir=\"auto\">Hi Pat,<div dir=\"auto\"><br></div><div dir=\"auto\">Great talking today. Happy to send referrals your way, here&#8217;s my info for your system.</div><div dir=\"auto\"><br></div><div dir=\"auto\"><br></div><div dir=\"auto\"><br></div><div dir=\"auto\">Sloane</div><div dir=\"auto\"><br></div><br><div data-smartmail=\"gmail_signature\" dir=\"auto\">Sloane O&#8217;Rourke<br>Principal&nbsp;&#124;&nbsp;O&#8217;Rourke Equipment Finance<br>&#8203;(615)&#160;555&#8209;0166&nbsp;mobile<br><a href=\"mailto:sloane@orourkefinance.example\">sloane&#8203;@orourke<wbr>finance.example</a><br>Brentwood,&#160;TN<br><br><br></div><br><div class=\"gmail_quote\"><div dir=\"ltr\" class=\"gmail_attr\">On Sun, Nov 8, 2026 at 3:12&#8239;PM Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt; wrote:<br></div><blockquote class=\"gmail_quote\" style=\"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex\"><div dir=\"ltr\"><div>Sloane,</div><div><br></div><div>Good to meet you at the luncheon. Send me your details and I&#39;ll get you set up on our side.</div><div><br></div><div>Pat Staffer<br>Managing Director<br>Your Company<br>O (555) 010-0100 | M (555) 010-0101</div></div></blockquote></div></div></body></html>"
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Your Company Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "replyTo": []
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "sloane@orourkefinance.example",
+        "firstName": "Sloane",
+        "phone": "",
+        "mobile": "(615) 555-0166",
+        "title": "Principal",
+        "city": "Brentwood",
+        "state": "TN",
+        "type": "Partner"
+      }
+    ]
+  }
+}

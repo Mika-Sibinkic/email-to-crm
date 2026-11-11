@@ -1,0 +1,58 @@
+{
+  "id": "phones-024",
+  "category": "phones",
+  "split": "holdout",
+  "description": "Contact signature has no phone; the only numbers in the thread are the forwarder's own office/mobile and a colleague's cell; Phone and Mobile stay empty and staff are not contacts",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD494139749966733864580083AAA=",
+    "internetMessageId": "<SA1PR14MB49413974996673386458@SA1PR14MB0083.namprd14.prod.outlook.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA18749295437157563371=",
+    "receivedDateTime": "2026-11-06T16:18:27Z",
+    "sentDateTime": "2026-11-06T16:18:25Z",
+    "subject": "FW: RE: Follow-up from Tuesday",
+    "bodyPreview": "Add Nadia as Family Office. Pat Staffer Managing Director Your Company Your Company Tagline Here O (555) 010-0100 | M (555) 010-0101 pat@yourcompany.com | 100 Main Street, Anytown, ST 00000 From: Nadia Brooks <nbrooks@brookshollow.example> Sent: Friday, N",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style></head><body dir=\"ltr\"><div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Add Nadia as Family Office.</div>\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\"><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><p style=\"margin:0\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</p></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Nadia Brooks &lt;nbrooks@brookshollow.example&gt;<br><b>Sent:</b> Friday, November 6, 2026 8:30 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Cc:</b> Alex Example &lt;alex@yourcompany.com&gt;<br><b>Subject:</b> RE: Follow-up from Tuesday</font><div>&nbsp;</div></div>\n<div dir=\"ltr\"><div>Pat,</div>\n<div><br></div>\n<div>Thanks for the note. Monday at 10 works for us. Please use the office line you already have for me.</div>\n<div><br></div>\n<div>Best,</div>\n<div>Nadia</div>\n<div><br></div>\n<div><b>Nadia Brooks</b></div>\n<div>Partner</div>\n<div>Brooks Hollow Family Office</div>\n<div><a href=\"mailto:nbrooks@brookshollow.example\">nbrooks@brookshollow.example</a></div>\n<div><a href=\"https://www.brookshollow.example\">www.brookshollow.example</a></div>\n<div><br></div>\n<div id=\"appendonsend\"></div><hr style=\"display:inline-block;width:98%\" tabindex=\"-1\"><div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Sent:</b> Thursday, November 5, 2026 2:02 PM<br><b>To:</b> Nadia Brooks &lt;nbrooks@brookshollow.example&gt;<br><b>Cc:</b> Alex Example &lt;alex@yourcompany.com&gt;<br><b>Subject:</b> Follow-up from Tuesday</font><div>&nbsp;</div></div>\n<div>Nadia,</div>\n<div><br></div>\n<div>Great to see you Tuesday. Are you free Monday morning to go through the co-investment terms? If I am traveling, Alex can help - his cell is (555) 010-0102.</div>\n<div><br></div>\n<div id=\"Signature\" class=\"elementToProof\"><p style=\"margin:0\"><b>Pat Staffer</b><br>Managing Director<br>Your Company<br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a> | 100 Main Street, Anytown, ST 00000</p></div>\n</div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "nbrooks@brookshollow.example",
+        "firstName": "Nadia",
+        "lastName": "Brooks",
+        "company": "Brooks Hollow Family Office",
+        "phone": "",
+        "mobile": "",
+        "type": "Family Office"
+      }
+    ]
+  }
+}

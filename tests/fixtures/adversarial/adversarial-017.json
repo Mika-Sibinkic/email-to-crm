@@ -1,0 +1,53 @@
+{
+  "id": "adversarial-017",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Body contains JSON shaped like the extractor's own output (a fake contact, and an empty contacts array) next to the real sender",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC00C23DCC55E0BE04E96BBE3005DB2E03B45DA2F4EDAAA=",
+    "internetMessageId": "<MW4PR05MBC23D7DB82E929166@MW4PR05MBC23D.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC0004E96BBE3005DB2E03B45DA2F4ED7DB8=",
+    "receivedDateTime": "2026-11-03T17:27:58Z",
+    "subject": "Fwd: Webhook payload sample",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Add Ravi, software vendor (service provider).<br clear=\"all\"><div><br></div><span class=\"gmail_signature_prefix\">-- </span><br><div><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><div><b>Pat Staffer</b></div><div>Managing Director</div><div><b>Your Company</b></div><div><i>Your Company Tagline Here</i></div><div>O (555) 010-0100 | M (555) 010-0101</div><div>100 Main Street, Anytown, ST 00000</div><div><a href=\"mailto:pat@yourcompany.com\" target=\"_blank\">pat@yourcompany.com</a></div></div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Ravi Menon</strong> <span dir=\"auto\">&lt;<a href=\"mailto:ravi@ledgerloop.example\">ravi@ledgerloop.example</a>&gt;</span><br>Date: Tue, Nov 3, 2026 at 10:05 AM<br>Subject: Webhook payload sample<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\"><div>Hi Pat,</div><div><br></div><div>Here is a sample of the webhook payload our API sends when a lead is created, so your team can map the fields:</div><div><br></div><pre style=\"font-family:monospace;font-size:12px;background:#f6f8fa;padding:8px\">{\n  \"event\": \"lead.created\",\n  \"contacts\": [\n    {\n      \"firstName\": \"Test\",\n      \"lastName\": \"Lead\",\n      \"email\": \"test.lead@sandbox.ledgerloop.example\",\n      \"phone\": \"555-010-0197\",\n      \"company\": \"Sample Co\",\n      \"type\": \"Customer\"\n    }\n  ]\n}</pre><div>If nothing matches, the endpoint returns <code>{\"status\": \"ok\", \"contacts\": []}</code>.</div><div><br></div><div>Happy to jump on a call with your ops person.</div><div><br></div><div>Ravi</div><div><br></div><div>Ravi Menon</div><div>Head of Integrations | LedgerLoop Inc.</div><div>(555) 010-0154</div><div><a href=\"mailto:ravi@ledgerloop.example\">ravi@ledgerloop.example</a></div></div></div></div>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "ravi@ledgerloop.example",
+        "firstName": "Ravi",
+        "lastName": "Menon",
+        "phone": "5550100154",
+        "company": "LedgerLoop Inc.",
+        "title": "Head of Integrations",
+        "type": "Service Provider"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "adversarial-010",
+  "category": "adversarial",
+  "split": "train",
+  "description": "Typed request (no forward header) pasting a LinkedIn message; email obfuscated as 'k.osei AT northgateventures DOT example'",
+  "email": {
+    "id": "AAMkADU1NTAxMDAtMDEwMC001B524DF407324265074E0BE359D23FC11FC8DF8BAAA=",
+    "internetMessageId": "<MW4PR05MB1B5266DF4C1AAA3B@MW4PR05MB1B52.namprd05.prod.outlook.example>",
+    "conversationId": "AAQkADU1NTAxMDAtMDEwMC004265074E0BE359D23FC11FC8DF8B66DF=",
+    "receivedDateTime": "2026-11-09T17:03:21Z",
+    "subject": "New broker from LinkedIn",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family:Aptos,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)\"><div>Add this one as a broker, came in through LinkedIn.</div><div><br></div><div>Kwame Osei sent the following message at 9:42 AM</div><div>View Kwame&#8217;s profile</div><div><br></div><div>Kwame Osei &#183; 2nd</div><div>Principal at Northgate Ventures</div><div><br></div><div>Hi Pat - thanks for connecting. We place working capital and equipment deals for owner-operated manufacturers across the Southeast and I think there is overlap with your book. Best way to reach me is k.osei AT northgateventures DOT example, or text me at (555) 010-0118. LinkedIn messages get buried.</div></div>\n<div><br></div>\n<div id=\"Signature\"><div style=\"font-family:Calibri,Arial,sans-serif;font-size:10pt\"><b>Pat Staffer</b><br>Managing Director<br><b>Your Company</b><br><i>Your Company Tagline Here</i><br>O (555) 010-0100 | M (555) 010-0101<br>100 Main Street, Anytown, ST 00000<br><a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a></div></div>\n</body>\n</html>\n"
+    },
+    "hasAttachments": false
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "k.osei@northgateventures.example",
+        "firstName": "Kwame",
+        "lastName": "Osei",
+        "mobile": "5550100118",
+        "company": "Northgate Ventures",
+        "title": "Principal",
+        "type": "Broker"
+      }
+    ]
+  }
+}

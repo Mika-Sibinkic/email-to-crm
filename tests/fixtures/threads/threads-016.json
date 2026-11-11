@@ -1,0 +1,63 @@
+{
+  "id": "threads-016",
+  "category": "threads",
+  "split": "holdout",
+  "description": "Reply chain with German Outlook quote headers and 'Last, First' display names; Cc'd colleague and the managing director in the legal footer are not contacts",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB9FC1203860C4376151F58A5F405D9A868151AAA=",
+    "internetMessageId": "<SA1PR11MBCEDD9FC1203860C4@SA1PR11MBCEDD.namprd11.prod.outlook.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQAF46B89577614C34A9A4A=",
+    "receivedDateTime": "2026-11-02T14:02:27Z",
+    "sentDateTime": "2026-11-02T14:02:27Z",
+    "subject": "FW: AW: Catalogue for US distributor program",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Manufacturer - add Lukas to CRM Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Hartmann, Lukas <lukas.hartmann@brenntaler.ex",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" xmlns:m=\"http://schemas.microsoft.com/office/2004/12/omml\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\n/* Font Definitions */\n@font-face\n\t{font-family:\"Cambria Math\";\n\tpanose-1:2 4 5 3 5 4 6 3 2 4;}\n@font-face\n\t{font-family:Calibri;\n\tpanose-1:2 15 5 2 2 2 4 3 2 4;}\n/* Style Definitions */\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\na:link, span.MsoHyperlink\n\t{mso-style-priority:99;\n\tcolor:#0563C1;\n\ttext-decoration:underline;}\nspan.EmailStyle20\n\t{mso-style-type:personal-reply;\n\tfont-family:\"Calibri\",sans-serif;\n\tcolor:windowtext;}\n.MsoChpDefault\n\t{mso-style-type:export-only;\n\tfont-size:10.0pt;}\n@page WordSection1\n\t{size:8.5in 11.0in;\n\tmargin:1.0in 1.0in 1.0in 1.0in;}\ndiv.WordSection1\n\t{page:WordSection1;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedefaults v:ext=\"edit\" spidmax=\"1026\" />\n</xml><![endif]--></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Manufacturer - add Lukas to CRM<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Hartmann, Lukas &lt;lukas.hartmann@brenntaler.example&gt;<br>\n<b>Sent:</b> Monday, November 2, 2026 3:36 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Cc:</b> Becker, Jonas &lt;jonas.becker@brenntaler.example&gt;<br>\n<b>Subject:</b> AW: Catalogue for US distributor program<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Hello Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">As discussed, here is the link to our current product catalogue: https://www.brenntaler.example/katalog. Jonas from our export team will send the distributor price list separately.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Mit freundlichen Grüßen / Best regards<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Lukas Hartmann</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Head of International Sales<o:p></o:p></p>\n<p class=\"MsoNormal\">Brenntaler Maschinenbau GmbH<o:p></o:p></p>\n<p class=\"MsoNormal\">Industriestraße 14<o:p></o:p></p>\n<p class=\"MsoNormal\">70565 Stuttgart<o:p></o:p></p>\n<p class=\"MsoNormal\">Germany<o:p></o:p></p>\n<p class=\"MsoNormal\">Tel. +49 711 555 0134<o:p></o:p></p>\n<p class=\"MsoNormal\">Mobil +49 151 555 0178<o:p></o:p></p>\n<p class=\"MsoNormal\">lukas.hartmann@brenntaler.example<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">Brenntaler Maschinenbau GmbH | Sitz: Stuttgart | Registergericht: Amtsgericht Stuttgart HRB 000000 | Geschäftsführer: Dr. Anja Roth</span><o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>Von:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Gesendet:</b> Freitag, 30. Oktober 2026 23:12<br>\n<b>An:</b> Hartmann, Lukas &lt;lukas.hartmann@brenntaler.example&gt;<br>\n<b>Cc:</b> Becker, Jonas &lt;jonas.becker@brenntaler.example&gt;<br>\n<b>Betreff:</b> Catalogue for US distributor program<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Lukas,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Good to meet you in Chicago. Could you send the catalogue for the US distributor program? We finance equipment for a number of your dealers.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "lukas.hartmann@brenntaler.example",
+        "firstName": "Lukas",
+        "lastName": "Hartmann",
+        "phone": "+49 711 555 0134",
+        "mobile": "+49 151 555 0178",
+        "company": "Brenntaler Maschinenbau GmbH",
+        "title": "Head of International Sales",
+        "city": "Stuttgart",
+        "country": "Germany",
+        "type": "Manufacturer"
+      }
+    ]
+  }
+}

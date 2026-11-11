@@ -1,0 +1,58 @@
+{
+  "id": "phones-004",
+  "category": "phones",
+  "split": "holdout",
+  "description": "Parenthesized lowercase (o) and (c) labels on one line; iPhone forward with no forwarder signature",
+  "email": {
+    "id": "AAMkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50AEYAAAAAAD547256302488235917498270AAA=",
+    "internetMessageId": "<54725630-2488-2359-1749-827019151314@yourcompany.com>",
+    "conversationId": "AAQkAGY3ZDhmYzQyLWV4YW1wbGUtdGVuYW50ABAA19151314511155803986=",
+    "receivedDateTime": "2026-11-04T16:40:52Z",
+    "sentDateTime": "2026-11-04T16:40:50Z",
+    "subject": "Fwd: Credit facility renewal",
+    "bodyPreview": "Add him - financial institution Sent from my iPhone Begin forwarded message: From: Theo Lindqvist < tlindqvist@northgatetrust.example > Date: November 4, 2026 at 10:22:00 AM EST To: Pat Staffer < pat@yourcompany.com > Subject: Credit facility renewal Pat,",
+    "importance": "normal",
+    "isDraft": false,
+    "isRead": false,
+    "hasAttachments": false,
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><div dir=\"ltr\">Add him - financial institution</div><div dir=\"ltr\"><br id=\"lineBreakAtBeginningOfSignature\"><div dir=\"ltr\">Sent from my iPhone</div><div dir=\"ltr\"><br>Begin forwarded message:<br><br></div><blockquote type=\"cite\"><div dir=\"ltr\"><b>From:</b> Theo Lindqvist &lt;<a href=\"mailto:tlindqvist@northgatetrust.example\">tlindqvist@northgatetrust.example</a>&gt;<br><b>Date:</b> November 4, 2026 at 10:22:00 AM EST<br><b>To:</b> Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br><b>Subject:</b> <b>Credit facility renewal</b><br></div></blockquote></div><blockquote type=\"cite\"><div dir=\"ltr\">Pat,<br><br>We are good to renew the line at the same advance rate. Docs will come from our counsel by the 15th.<br><br>Theo<br><br>Theo Lindqvist<br>Vice President, Commercial Banking<br>Northgate Trust Company<br>(o) 617.555.0129&nbsp;&nbsp;(c) 617.555.0130<br><a href=\"mailto:tlindqvist@northgatetrust.example\">tlindqvist@northgatetrust.example</a><br>One Example Place, Boston, MA 02110<br><br><span style=\"font-size:8pt;color:#888888\">Northgate Trust Company. Member FDIC. Equal Housing Lender.</span><br></div></blockquote></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "tlindqvist@northgatetrust.example",
+        "firstName": "Theo",
+        "lastName": "Lindqvist",
+        "company": "Northgate Trust Company",
+        "phone": "617.555.0129",
+        "mobile": "617.555.0130",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

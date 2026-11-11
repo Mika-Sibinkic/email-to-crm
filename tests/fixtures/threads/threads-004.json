@@ -1,0 +1,63 @@
+{
+  "id": "threads-004",
+  "category": "threads",
+  "split": "holdout",
+  "description": "Gmail forward with gmail_sendername header, credential suffix on the name, cell written lowercase",
+  "email": {
+    "id": "AAMkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwBGAAAAAAB8590F6FC939018FE553F29669BC031758F35AAA=",
+    "internetMessageId": "<CAH8590f6fc93+55F318E36077B948792AC0@mail.gmail.com>",
+    "conversationId": "AAQkAGE1ZjQ3NDBmLTg2YTMtNDc0Ni1iNmM3LTk2ZGQ4OTk0ZTk5NwAQAA37AFBE627D54758BAA5=",
+    "receivedDateTime": "2026-11-02T21:03:15Z",
+    "sentDateTime": "2026-11-02T21:03:15Z",
+    "subject": "Fwd: Following up from Thursday",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Investment advisor for CRM Alex Example Associate | Your Company Mobile (555) 010-0102 alex@yourcompany.com Your Company Tagline Here ---------- Forwarded message --------- From: Priya Raman < priya.raman@lakeshorewp.example > Date: Mon, Nov 2, 2026 at 2:",
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">Investment advisor for CRM<br clear=\"all\"><div><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><b>Alex Example</b><br>Associate | Your Company<br>Mobile (555) 010-0102<br>alex@yourcompany.com<br>Your Company Tagline Here</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Priya Raman</strong> <span dir=\"auto\">&lt;<a href=\"mailto:priya.raman@lakeshorewp.example\">priya.raman@lakeshorewp.example</a>&gt;</span><br>Date: Mon, Nov 2, 2026 at 2:17 PM<br>Subject: Following up from Thursday<br>To: Alex Example &lt;<a href=\"mailto:alex@yourcompany.com\">alex@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\">Hi Alex,<br><br>It was a pleasure meeting you on Thursday. A few of my clients own operating businesses that are looking at equipment upgrades next year, so I'd welcome a short call to understand your credit box.<br><br>Warm regards,<br>Priya<br><br><div><div dir=\"ltr\" class=\"gmail_signature\">--<br>Priya Raman, CFP®<br>Senior Wealth Advisor<br>Lakeshore Wealth Partners<br>155 N Wacker Dr, Suite 2100, Chicago, IL 60606<br>office 312-555-0141 · cell 312-555-0176<br>Securities offered through Lakeshore Wealth Partners, member FINRA/SIPC. Advisory services offered through Lakeshore Wealth Partners, a registered investment adviser.</div></div></div>\n</div></div>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "priya.raman@lakeshorewp.example",
+        "firstName": "Priya",
+        "lastName": "Raman",
+        "phone": "312-555-0141",
+        "mobile": "312-555-0176",
+        "company": "Lakeshore Wealth Partners",
+        "title": "Senior Wealth Advisor",
+        "city": "Chicago",
+        "state": "IL",
+        "type": "Investment Advisor"
+      }
+    ]
+  }
+}
