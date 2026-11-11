@@ -98,7 +98,11 @@ for (const item of allItems) {
     }
   }
 
-  // Auto-replies and out-of-office notices.
+  // A person forwarding an auto-reply or bounce ("FW: Automatic reply: ...") is making a
+  // request, so the subject checks below only apply when the subject does not start with FW:.
+  const isHumanForward = /^\s*fwd?\s*:/i.test(rawSubject);
+
+  // Auto-replies and out-of-office notices, including the localized Outlook prefixes.
   const autoReplyPatterns = [
     /out\s+of\s+(the\s+)?office/i,
     /automatic\s+reply/i,
@@ -106,14 +110,37 @@ for (const item of allItems) {
     /auto[\s-]?response/i,
     /auto[\s-]?generated/i,
     /do\s+not\s+reply/i,
-    /this\s+is\s+an?\s+automated/i
+    /this\s+is\s+an?\s+automated/i,
+    /r[\u00e9e]ponse\s+automatique|absence\s+du\s+bureau/i,
+    /respuesta\s+autom[\u00e1a]tica|fuera\s+de\s+la\s+oficina/i,
+    /resposta\s+autom[\u00e1a]tica|risposta\s+automatica/i,
+    /automatische\s+antwort|abwesenheitsnotiz|automatisch\s+antwoord/i
   ];
-  const isAutoReply = autoReplyPatterns.some(p => p.test(rawSubject)) ||
+  const isAutoReply = (!isHumanForward && autoReplyPatterns.some(p => p.test(rawSubject))) ||
     (email.internetMessageHeaders || []).some(h =>
       h.name?.toLowerCase() === 'auto-submitted' && h.value !== 'no'
     );
   if (isAutoReply) {
     results.push({ json: { skip: true, skipReason: 'AUTO_REPLY: ' + rawSubject, email_id: email.id || '', subject: email.subject || '' } });
+    continue;
+  }
+
+  // Bounces and delivery failures. Checked before the outside-sender rule so a bounce from an
+  // outside mail server is reported as a bounce.
+  const bouncePatterns = [
+    /delivery\s+(status|failure|has\s+failed)/i,
+    /undeliverable/i,
+    /undelivered/i,
+    /mail\s+delivery\s+(failed|subsystem)/i,
+    /mailer[\s-]?daemon/i,
+    /returned\s+mail/i,
+    /failure\s+notice/i
+  ];
+  const isBounce = (!isHumanForward && bouncePatterns.some(p => p.test(rawSubject))) ||
+    senderAddress.includes('mailer-daemon') ||
+    senderAddress.includes('postmaster@');
+  if (isBounce) {
+    results.push({ json: { skip: true, skipReason: 'BOUNCE: ' + rawSubject, email_id: email.id || '', subject: email.subject || '' } });
     continue;
   }
 
@@ -132,25 +159,19 @@ for (const item of allItems) {
     }
   }
 
-  // Bounces and delivery failures.
-  const bouncePatterns = [
-    /delivery\s+(status|failure|has\s+failed)/i,
-    /undeliverable/i,
-    /mail\s+delivery\s+(failed|subsystem)/i,
-    /mailer[\s-]?daemon/i,
-    /returned\s+mail/i,
-    /failure\s+notice/i
-  ];
-  const isBounce = bouncePatterns.some(p => p.test(rawSubject)) ||
-    senderAddress.includes('mailer-daemon') ||
-    senderAddress.includes('postmaster@');
-  if (isBounce) {
-    results.push({ json: { skip: true, skipReason: 'BOUNCE: ' + rawSubject, email_id: email.id || '', subject: email.subject || '' } });
-    continue;
-  }
-
   // The workflow's own confirmations ("[CRM] Upserted 1 contact: Jane Doe"); see Prepare Confirmation Email.
-  if (new RegExp('^' + SUBJECT_TAG_RE).test(rawSubject) ||
+  // A staff "RE: [CRM] ..." quotes the confirmation and is skipped too, unless the new text above
+  // the quote supplies an outside address, as the "No Contact Found" confirmation asks.
+  const confirmMatch = new RegExp('^((?:(?:re|aw|fw|fwd)\\s*:\\s*)*)' + SUBJECT_TAG_RE).exec(rawSubject);
+  let isConfirmationReply = !!confirmMatch;
+  if (confirmMatch && confirmMatch[1]) {
+    const replyText = (email.body?.content || email.bodyPreview || '')
+      .replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, ' ')
+      .split(/\bFrom\s*:|-----Original Message/i)[0];
+    const replyEmails = replyText.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) || [];
+    if (replyEmails.some(a => !OWN_DOMAINS.has(a.split('@')[1].toLowerCase()))) isConfirmationReply = false;
+  }
+  if (isConfirmationReply ||
       /^\[contact\s+extractor\]/i.test(rawSubject) ||
       /^✅\s*(contact|extraction|processed)/i.test(rawSubject)) {
     results.push({ json: { skip: true, skipReason: 'OWN_CONFIRMATION: ' + rawSubject, email_id: email.id || '', subject: email.subject || '' } });

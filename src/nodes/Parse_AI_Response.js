@@ -841,6 +841,8 @@ function scanSignatures(body, excludeForwarder) {
           e.toLowerCase() === (excludeForwarder || '').toLowerCase()
         );
         if (hitsOwnSig) break;
+        // A staff signature without an email line still starts with the staff name or branding.
+        if (OWN_STAFF_FULL.includes(line.toLowerCase()) || isOwnBranding(line)) break;
 
         // Own-company phone guard applies to after-email scan too
         // Same "P" prefix fix as above
@@ -1529,15 +1531,32 @@ for (const item of items) {
     // The scanner can pick the forwarder's instruction line ("Manufacturer for Zoho") or a
     // department as company while the AI had the right one ("Acme Industries"). Prefer the
     // candidate matching the email domain; never use the forwarder instruction as a company.
-    function pickCompany(scCo, aiCo, email) {
+    function pickCompany(scCo, aiCo, email, title) {
       const alnum = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
       const instr = alnum(prevData.forwarderInstruction);
       const label = ((email || '').split('@')[1] || '').toLowerCase().split('.')[0];
       const matchesDomain = s => !!s && label.length >= 3 &&
         (alnum(s).startsWith(label) || s.toLowerCase().split(/[^a-z0-9]+/).includes(label));
-      const cands = [scCo, aiCo].filter(s => s && !(instr && alnum(s) === instr));
+      // A candidate equal to the AI's job title is the title line read as company ("Principal");
+      // keeping it lets the company === title cleanup replace it with the bare domain.
+      const cands = [scCo, aiCo].filter(s => s && !(instr && alnum(s) === instr) && !(title && alnum(s) === alnum(title)));
       return cands.find(matchesDomain) || cands[0] || '';
     }
+
+    // When the forwarder named who to add ("Please add Jane Doe") and the AI found that person,
+    // other thread participants the scanner finds were not asked for.
+    let namedScope = '';
+    try {
+      const s = $('Prepare Extraction Request').all()[_idx].json.instructionScope;
+      if (s && s.scope === 'NAMED_PERSON') namedScope = (s.details || '').toLowerCase();
+    } catch (e) {}
+    const isNamedPerson = c => {
+      const em = (c.email || '').toLowerCase(), local = em.split('@')[0];
+      const first = (c.firstName || '').toLowerCase(), last = (c.lastName || '').toLowerCase();
+      return !!namedScope && namedScope.split(/\s*,\s*/).some(n => n.includes('@') ? n === em :
+        n.split(/\s+/).some(w => w.length >= 3 && (w === first || w === last || local.includes(w))));
+    };
+    const namedFoundByAi = contacts.some(isNamedPerson);
 
     // Merge: scanner contacts are primary, AI contacts are supplementary
     const mergedByEmail = new Map();
@@ -1575,7 +1594,7 @@ for (const item of items) {
           email: sc.email,
           phone: sc.phone || ai.phone,
           mobile: sc.mobile || ai.mobile,
-          companyName: pickCompany(scCompany, ai.companyName, sc.email),
+          companyName: pickCompany(scCompany, ai.companyName, sc.email, ai.jobTitle),
           jobTitle: (scAmbiguous && ai.jobTitle) || sc.jobTitle || ai.jobTitle,
           city: sc.city || ai.city,
           state: sc.state || ai.state,
@@ -1592,6 +1611,7 @@ for (const item of items) {
         aiByEmail.delete(key); // Mark as merged
       } else {
         // Scanner-only contact (AI missed it entirely)
+        if (namedFoundByAi && !isNamedPerson(sc)) continue;
         mergedByEmail.set(key, {
           ...sc,
           extractionMethod: 'SIGNATURE_SCAN',
@@ -2358,6 +2378,18 @@ for (const item of items) {
       return false;
     }
 
+    // The AI sometimes drops the area code ("(646) 555-0127" -> "(555) 0127"). The short form
+    // passes phoneInSource as a substring, so restore the one full number in the email it ends.
+    function fullPhoneInSource(phone) {
+      const d = (phone || '').replace(/\D/g, '');
+      if (d.length < 7 || d.length >= 10) return phone;
+      const hits = new Set();
+      for (const m of sourceText.matchAll(/(?<![\d-])\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}(?![\d-])/g)) {
+        if (m[0].replace(/\D/g, '').endsWith(d)) hits.add(m[0]);
+      }
+      return hits.size === 1 ? [...hits][0] : phone;
+    }
+
     function nameInSource(name) {
       if (!name || name.length < 2) return true;
       if (sourceLower.includes(name.toLowerCase())) return true;
@@ -2456,6 +2488,8 @@ for (const item of items) {
       }
 
       // Validate phone
+      if (contact.phone) contact.phone = fullPhoneInSource(contact.phone);
+      if (contact.mobile) contact.mobile = fullPhoneInSource(contact.mobile);
       if (contact.phone) {
         if (phoneInSource(contact.phone)) {
           contact.verifiedFields.push('phone');
@@ -2628,7 +2662,11 @@ for (const item of items) {
           if (phoneLine) {
             // up to the first digit, minus the number's own '(' or '+' (otherwise '(m) 555...' loses its '(m)' label)
             const labelPart = phoneLine.slice(0, Math.max(0, phoneLine.search(/\d/))).replace(/[\s(+]+$/, '');
-            const isMobileLabel = /\b(cell(ular)?|mobile|mob|direct)\b/i.test(labelPart) && !/\bdirect\s+line\b/i.test(labelPart) ||
+            // A label written after the number ("(615) 555-0166 mobile"), read up to the next digit.
+            const numM = phoneLine.match(new RegExp(tail.split('').join('[^\\d\\n]{0,3}')));
+            const suffixPart = numM ? phoneLine.slice(numM.index + numM[0].length).split(/\d/)[0] : '';
+            const isSuffixMobile = !labelPart && /^[\s)|:-]*(cell(ular)?|mobile|mob)\b/i.test(suffixPart);
+            const isMobileLabel = isSuffixMobile || /\b(cell(ular)?|mobile|mob|direct)\b/i.test(labelPart) && !/\bdirect\s+line\b/i.test(labelPart) ||
               /^\s*[mc]\s*[:|.]?\s*$/i.test(labelPart) || /\((?:m|c)\)\s*$/i.test(labelPart);
             const isOfficeLabel = /\b(office|tel|telephone|phone|main|work|business|fax)\b/i.test(labelPart) && !/\bcell\s*phone\b/i.test(labelPart);
             if (isMobileLabel && !isOfficeLabel) {

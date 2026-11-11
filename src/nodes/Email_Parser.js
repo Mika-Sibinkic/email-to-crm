@@ -307,7 +307,8 @@ if (!suggestedType && subject) {
   }
   if (!suggestedType) {
     for (const [keyword, type] of Object.entries(TYPE_KEYWORDS)) {
-      if (subjectLower.includes(keyword)) { suggestedType = type; typeFromSubject = true; break; }
+      // Word start only: "refinance" in a subject is not the "finance" keyword.
+      if (new RegExp('\\b' + escapeRe(keyword)).test(subjectLower)) { suggestedType = type; typeFromSubject = true; break; }
     }
   }
 }
