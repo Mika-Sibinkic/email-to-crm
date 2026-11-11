@@ -44,6 +44,7 @@ const TYPE_ALIASES = {
   "finance broker": "Partner",
   "private bank": "Financial Institution", "attorney": "Attorney",
   "lawyer": "Attorney", "insurance agent": "Insurance",
+  "abogado": "Attorney", "advogado": "Attorney", "avvocato": "Attorney", "avocat": "Attorney", "anwalt": "Attorney",
   "insurer": "Insurance", "appraiser": "Service Provider",
   "end user": "Customer", "enduser": "Customer",
   "management": "Management Company", "mgmt": "Management Company",

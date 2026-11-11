@@ -24,6 +24,36 @@ const attachmentNames = [];
 const fs = require('fs');
 const { execSync } = require('child_process');
 
+// A vCard (2.1, 3.0 or 4.0) rendered as the labeled lines of a signature block.
+function vcardToText(raw) {
+  const out = [];
+  let name = '', nParts = [];
+  // Folded lines continue with a leading space or tab.
+  for (const line of raw.replace(/\r?\n[ \t]/g, '').split(/\r?\n/)) {
+    const m = line.match(/^(?:[\w-]+\.)?([A-Za-z-]+)((?:;[^:]*)?):(.*)$/);
+    if (!m) continue;
+    const prop = m[1].toUpperCase(), params = m[2].toUpperCase();
+    const parts = m[3].split(/(?<!\\);/).map(p => p.replace(/\\n/gi, ' ').replace(/\\([,;\\])/g, '$1').trim());
+    const val = parts.join(' ').replace(/^tel:/i, '').trim();
+    if (!val) continue;
+    if (prop === 'FN') name = val;
+    else if (prop === 'N') nParts = parts;
+    else if (prop === 'ORG') out.push('Company: ' + parts.filter(Boolean).join(', '));
+    else if (prop === 'TITLE') out.push('Title: ' + val);
+    else if (prop === 'EMAIL') out.push('Email: ' + val);
+    else if (prop === 'TEL') out.push((/CELL|MOBILE/.test(params) ? 'Mobile: ' : /FAX/.test(params) ? 'Fax: ' : 'Office: ') + val);
+    else if (prop === 'URL') out.push('Website: ' + val);
+    else if (prop === 'ADR') {
+      // pobox; extended; street; city; region; postal code; country
+      const [po, ext, street, city, region, code, country] = parts;
+      out.push('Address: ' + [po, ext, street, city, [region, code].filter(Boolean).join(' '), country].filter(Boolean).join(', '));
+    }
+  }
+  if (!name && nParts.length) name = [nParts[1], nParts[0]].filter(Boolean).join(' ');
+  if (name) out.unshift('Name: ' + name);
+  return out.join('\n');
+}
+
 for (const att of attachments) {
   const contentType = (att.contentType || '').toLowerCase();
   const name = att.name || 'unnamed';
@@ -33,6 +63,13 @@ for (const att of attachments) {
   const isPdf = contentType.includes('pdf') || name.toLowerCase().endsWith('.pdf');
   
   const isImage = contentType.includes('image') || /\.(jpg|jpeg|png|gif|tiff|bmp)$/i.test(name);
+
+  const isVcard = contentType.includes('vcard') || /\.vcf$/i.test(name);
+  if (isVcard && base64Content.length < 1024 * 1024) {
+    attachmentNames.push(name);
+    allExtractedText += '\n=== VCARD: ' + name + ' ===\n' + vcardToText(Buffer.from(base64Content, 'base64').toString('utf8'));
+    continue;
+  }
   
   // Large files would time out the node. Tesseract copes with big JPEGs, so images
   // get a higher limit than PDFs. The skip is recorded in the extracted text.
@@ -97,9 +134,14 @@ for (const att of attachments) {
       }
       
       try {
-        const text = execSync('TESSDATA_PREFIX=' + tessDataDir + ' /usr/bin/tesseract "' + imgPath + '" stdout 2>&1 || echo "[tesseract OCR failed]"',
+        // Without the downloaded data, tesseract's own installed language data is the fallback.
+        const tessPrefix = fs.existsSync(tessDataFile) ? 'TESSDATA_PREFIX=' + tessDataDir + ' ' : '';
+        const text = execSync(tessPrefix + 'tesseract "' + imgPath + '" stdout 2>&1 || echo "[tesseract OCR failed]"',
           { encoding: 'utf8', timeout: 60000 });
-        allExtractedText += '\n=== IMAGE OCR: ' + name + ' ===\n' + text.substring(0, 8000);
+        // On failure the output is tesseract's error text, which the model would read as a card.
+        allExtractedText += text.includes('[tesseract OCR failed]')
+          ? '\n=== IMAGE OCR: ' + name + ' === [OCR failed]'
+          : '\n=== IMAGE OCR: ' + name + ' ===\n' + text.substring(0, 8000);
       } catch(e) {
         allExtractedText += '\n=== IMAGE OCR: ' + name + ' === [OCR failed]';
       }

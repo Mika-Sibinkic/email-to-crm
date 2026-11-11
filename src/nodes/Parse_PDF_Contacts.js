@@ -38,6 +38,9 @@ try {
 } catch(e) {}
 
 const existingEmails = new Set(contacts.map(c => (c.email || '').toLowerCase()).filter(Boolean));
+// What the model was shown; an address in neither text was invented (OCR failed, empty scan).
+let sourceText = (parseAIData.fullBody || '').toLowerCase();
+try { sourceText += '\n' + ($('Extract Attachment Text').first().json.pdfText || '').toLowerCase(); } catch (e) {}
 
 for (const pc of pdfContacts) {
   // Small models write placeholders like "null" or "N/A" instead of leaving a field empty.
@@ -94,11 +97,17 @@ for (const pc of pdfContacts) {
   const fullName = (firstName + ' ' + lastName).toLowerCase();
   if (OWN_STAFF.map(s => s.name.toLowerCase()).some(emp => fullName.includes(emp))) continue;
   
+  if (email && !sourceText.includes(email)) continue;
+
   if (email && existingEmails.has(email)) {
     const existing = contacts.find(c => (c.email || '').toLowerCase() === email);
     if (existing) {
       if (!existing.jobTitle && (pc.title || pc.jobTitle)) existing.jobTitle = (pc.title || pc.jobTitle).trim();
-      if (!existing.companyName && pc.companyName) existing.companyName = pc.companyName.trim();
+      // A body company that never appears in the body text was guessed from the domain
+      // ("Hollis Brandt" for hollisbrandt.example); the document's letterhead is real evidence.
+      const squash = t => (t || '').toLowerCase().replace(/\s+/g, ' ');
+      const guessed = existing.companyName && !squash(parseAIData.fullBody).includes(squash(existing.companyName).trim());
+      if ((!existing.companyName || guessed) && pc.companyName) existing.companyName = pc.companyName.trim();
       if (!existing.phone && pc.phone) existing.phone = pc.phone.trim();
       if (!existing.mobile && pc.mobile) existing.mobile = pc.mobile.trim();
       if (!existing.city && pc.city) existing.city = pc.city.trim();

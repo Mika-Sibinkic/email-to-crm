@@ -18,7 +18,9 @@ const pdfText = prevData.pdfText || '';
 const forwarderInstruction = prevData.forwarderInstruction || '';
 const suggestedType = prevData.suggestedType || '';
 
-if (!pdfText || pdfText.length < 20) {
+// Section headers and "[... failed]" markers are not content; with nothing else the model invents contacts.
+const contentText = pdfText.replace(/^=== .*$/gm, '').replace(/\[[^\]\n]*\]/g, '').trim();
+if (!pdfText || pdfText.length < 20 || contentText.length < 20) {
   return [{
     json: {
       ...prevData,

@@ -112,6 +112,11 @@ const extToX = p => p.replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1').tri
 const STRONG_TITLE_RE = /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Analyst|Consultant|Specialist|Broker|Banker|Underwriter|Originator|Head\b|VP\b|SVP\b|EVP\b|AVP\b)/i;
 const isDepartmentLine = l => /\b(?:Group|Department|Dept|Division|Team|Unit)\s*$/i.test(l) && !STRONG_TITLE_RE.test(l);
 const FORM_LABEL_RE = /^(?:company(?:\s+name)?|firm|organi[sz]ation|employer|business(?:\s+name)?)\s*:?$/i;
+// A reply attribution ("On <date> Jane Doe <jane@acme.example> wrote:", optionally "> " quoted)
+// is a message boundary: the lines above it belong to someone else.
+// Courtesy and professional prefixes in display names ("Lic. Jane Doe", "Dott.ssa Jane Doe").
+const HONORIFIC_RE = /^(?:(?:Mr|Mrs|Ms|Miss|Dr|Prof|Lic|Ing|Arq|Sr|Sra|Srta|Dott|Dott\.ssa|Herr|Frau)\.?\s+)+/i;
+const ATTRIBUTION_RE = /^[\s>]*On\s.*\bwrote:\s*$/i;
 
 // ANTI-DROP GUARD - when email local-part yields no derivable name, scan body lines
 // near the email for a "Mr./Ms./Dr. First Last" or standalone "First Last" pattern. Fixes
@@ -576,6 +581,9 @@ function scanSignatures(body, excludeForwarder) {
       // Skip if this occurrence is on a header line (From:, To:, Cc:, Sent:)
       const lineStart = body.lastIndexOf('\n', emailIdx) + 1;
       const linePrefix = body.substring(lineStart, emailIdx).trim().toLowerCase();
+      // On an attribution line only the quoted message below belongs to this person.
+      const lineEnd = body.indexOf('\n', emailIdx);
+      const isAttribution = ATTRIBUTION_RE.test(body.substring(lineStart, lineEnd === -1 ? body.length : lineEnd));
       // "email:" prefix is a signature line, NOT a header - don't skip it
       // German and French forward headers too ("An: Doe, Jane <...>" became a fake contact)
       if (/^(from|to|cc|bcc|sent|date|subject|von|an|gesendet|betreff|kopie|de|\u00e0|envoy\u00e9|objet)\s*:/i.test(linePrefix)) {
@@ -584,7 +592,7 @@ function scanSignatures(body, excludeForwarder) {
 
       const beforeEmail = body.substring(Math.max(0, emailIdx - 1000), emailIdx);
       const afterEmail = body.substring(emailIdx, Math.min(body.length, emailIdx + 500));
-      const lines = beforeEmail.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const lines = isAttribution ? [] : beforeEmail.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
       let firstName = '', lastName = '', nickname = '';
       let fallbackFirst = '', fallbackLast = '', fallbackNick = '';
@@ -616,7 +624,7 @@ function scanSignatures(body, excludeForwarder) {
         const line = lines[i];
 
         // Stop if we hit email headers (we've gone past the signature)
-        if (/^(From|To|Cc|Date|Subject|Sent|Von|An|Gesendet|Betreff|De|\u00c0|Envoy\u00e9|Objet)\s*:|^-----/i.test(line)) break;
+        if (/^(From|To|Cc|Date|Subject|Sent|Von|An|Gesendet|Betreff|De|\u00c0|Envoy\u00e9|Objet)\s*:|^-----/i.test(line) || ATTRIBUTION_RE.test(line)) break;
         if (/confidential|privilege|disclaimer|intended only/i.test(line)) continue;
         if (line.length > 200) continue; // Skip long paragraphs
 
@@ -842,7 +850,7 @@ function scanSignatures(body, excludeForwarder) {
       const afterLines = afterEmail.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       for (let i = 0; i < Math.min(afterLines.length, 15); i++) {
         const line = afterLines[i];
-        if (/^(From|To|Cc|Date|Subject|Sent|Von|An|Gesendet|Betreff|De|\u00c0|Envoy\u00e9|Objet)\s*:|^-----/i.test(line)) break;
+        if (/^(From|To|Cc|Date|Subject|Sent|Von|An|Gesendet|Betreff|De|\u00c0|Envoy\u00e9|Objet)\s*:|^-----/i.test(line) || ATTRIBUTION_RE.test(line)) break;
 
         // BOUNDARY - Stop scanning if we hit an own-company staff email
         // This prevents crossing from the contact's signature into the forwarder's own-company signature
@@ -1023,14 +1031,15 @@ function scanSignatures(body, excludeForwarder) {
     // Observed failure: a contact (exec 424) - email only in "From: Jane Broker <jane@...>"
     if (!bestContact) {
       const esc = extEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const fromRe = new RegExp('From:[^\\n]*<?' + esc + '>?', 'i');
+      // Spanish/Portuguese, Italian and German forwards label the sender De:, Da:, Von:
+      const fromRe = new RegExp('\\b(?:From|De|Da|Von):[^\\n]*<?' + esc + '>?', 'i');
       const fMatch = body.match(fromRe);
       if (fMatch) {
         // Extract name from From: header
-        const nameInFrom = fMatch[0].match(/From:\s*"?([^"<\n]+)"?\s*</i);
+        const nameInFrom = fMatch[0].match(/(?:From|De|Da|Von):\s*"?([^"<\n]+)"?\s*</i);
         let fbFirst = '', fbLast = '';
         if (nameInFrom) {
-          const parts = nameInFrom[1].trim().split(/\s+/);
+          const parts = nameInFrom[1].trim().replace(HONORIFIC_RE, '').split(/\s+/);
           if (parts.length >= 2) {
             fbFirst = parts[0];
             fbLast = parts[parts.length - 1];
@@ -1047,7 +1056,7 @@ function scanSignatures(body, excludeForwarder) {
         const bodySection = afterHeader.substring(bodyStart);
 
         // Find end boundary (next forwarding marker or disclaimer)
-        const boundary = bodySection.match(/\n(?:-{5,}|_{5,}|={5,}|From:\s|---------- Forwarded|Begin forwarded|This e-?mail contains CONFIDENTIAL)/m);
+        const boundary = bodySection.match(/\n(?:-{5,}|_{5,}|={5,}|From:\s|---------- Forwarded|Begin forwarded|This e-?mail contains CONFIDENTIAL|[ \t>]*On\s[^\n]*\bwrote:[ \t]*$)/m);
         const endIdx = boundary ? bodySection.indexOf(boundary[0]) : bodySection.length;
         const scanText = bodySection.substring(0, Math.min(endIdx, 2000));
         const fbLines = scanText.split('\n').map(l => l.trim()).filter(l => l.length > 0 && l.length < 200);
@@ -1107,7 +1116,9 @@ function scanSignatures(body, excludeForwarder) {
               if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
                 const endsWithPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|LLC|LLP)\.\s*$/i.test(line.trim());
                 if (!endsWithPunct && !isOwnBranding(line) && !isPhoneNumber(line) && !FORM_LABEL_RE.test(line)) {
-                  fbCompany = line;
+                  // "Jane Doe | Acme Rentals": the sender's own name is not part of the company.
+                  const own = (fbFirst + ' ' + fbLast).toLowerCase();
+                  fbCompany = line.split('|').map(s => s.trim()).filter(s => s && s.toLowerCase() !== own).join(' | ');
                 }
               }
             }
@@ -1398,28 +1409,38 @@ for (const item of items) {
         } else contact.jobTitle = toTitleCase(contact.jobTitle);
       }
 
-      // Fallback - extract name from email headers (From/To/Cc) when AI returns empty firstName
-      if (!contact.firstName && contact.email) {
+      // Fallback - extract name from email headers (From/To/Cc, and the Italian, Spanish and German
+      // forms) when the AI returned only one half of the name
+      if ((!contact.firstName || !contact.lastName) && contact.email) {
         const escEmail = contact.email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         // Stay on the header line ([^<\\n], [ \\t]); spanning lines read company words as the name
-        const headerNameRe = new RegExp('(?:From|To|Cc):[^<\\n]*?([A-Z][a-zA-Z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff.\'\\-]+(?:[ \\t]+[A-Z][a-zA-Z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff.\'\\-]+)+)[ \\t]*<?(?:[^<\\n]*,[ \\t]*)?<?["\']?' + escEmail, 'i');
+        const headerNameRe = new RegExp('\\b(?:From|To|Cc|Da|De|Para|Von|An):[^<\\n]*?([A-Z][a-zA-Z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff.\'\\-]+(?:[ \\t]+[A-Z][a-zA-Z\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff.\'\\-]+)+)[ \\t]*<?(?:[^<\\n]*,[ \\t]*)?<?["\']?' + escEmail, 'i');
         const hMatch = fullBody.match(headerNameRe);
         if (hMatch) {
-          const rawName = hMatch[1].trim().replace(/^["']|["']$/g, '');
+          const rawName = hMatch[1].trim().replace(/^["']|["']$/g, '').replace(HONORIFIC_RE, '');
           const nameParts = rawName.split(/\s+/).filter(p => p.length > 0);
           // Outlook "SURNAME Given" order ("DOE Jane", "DE LA CRUZ Maria")
           let nCaps = 0;
           while (nCaps < nameParts.length && nameParts[nCaps] === nameParts[nCaps].toUpperCase() && /[A-Z]{2}/.test(nameParts[nCaps])) nCaps++;
+          let hFirst = '', hLast = '';
           if (nCaps > 0 && nCaps < nameParts.length) {
-            contact.firstName = nameParts.slice(nCaps).join(' ');
-            contact.lastName = toTitleCase(nameParts.slice(0, nCaps).join(' '));
+            hFirst = nameParts.slice(nCaps).join(' ');
+            hLast = toTitleCase(nameParts.slice(0, nCaps).join(' '));
           } else if (nameParts.length >= 2) {
-            contact.firstName = nameParts[0];
-            contact.lastName = contact.lastName || nameParts[nameParts.length - 1];
+            hFirst = nameParts[0];
+            hLast = nameParts[nameParts.length - 1];
           }
-          if (contact.firstName) {
+          const hadFirst = !!contact.firstName;
+          if (!hadFirst) {
+            contact.firstName = hFirst;
+            contact.lastName = (nCaps > 0 && hLast) || contact.lastName || hLast;
+          } else if (hFirst && hFirst.toLowerCase() === contact.firstName.toLowerCase()) {
+            // Only complete a surname for the same person the header names
+            contact.lastName = hLast;
+          }
+          if (contact.firstName && (!hadFirst || contact.lastName)) {
             contact.infoNotes = contact.infoNotes || [];
-            contact.infoNotes.push('Name extracted from email header (AI returned empty firstName)');
+            contact.infoNotes.push('Name extracted from email header (AI returned a partial name)');
           }
         }
       }
@@ -2107,7 +2128,8 @@ for (const item of items) {
         console.log('Filtered distribution channel: ' + email);
         return false;
       }
-      if (DISTRIBUTION_CHANNEL_PREFIXES.has(localPart.split('=')[0])) {
+      // Relay senders put the marker anywhere in the local part ("messages-noreply", "invitations.no-reply").
+      if (DISTRIBUTION_CHANNEL_PREFIXES.has(localPart.split('=')[0]) || /(?:^|[._+-])(?:no-?reply|do-?not-?reply)(?:[._+-]|$)/.test(localPart)) {
         console.log('Filtered noreply/newsletter: ' + email);
         return false;
       }
@@ -3132,7 +3154,8 @@ for (const item of items) {
       json: {
         contacts: contacts,
         contactCount: contacts.length,
-        hasPdfAttachment: (prevData.detectionFlags || []).includes('PDF_ATTACHMENT') || (prevData.attachmentHints || []).includes('PDF'),
+        // vCards take the PDF branch: both are documents whose text goes to the attachment prompt.
+        hasPdfAttachment: (prevData.detectionFlags || []).includes('PDF_ATTACHMENT') || (prevData.attachmentHints || []).some(h => h === 'PDF' || h === 'VCARD'),
         hasImageAttachment: (prevData.detectionFlags || []).includes('IMAGE_ONLY') || (prevData.detectionFlags || []).includes('IMAGE_ATTACHMENT') || (prevData.attachmentHints || []).includes('IMAGE'),
         originalSubject: prevData.originalSubject || '',
         forwarderInstruction: prevData.forwarderInstruction || '',

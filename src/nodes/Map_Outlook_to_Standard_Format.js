@@ -191,6 +191,10 @@ for (const item of allItems) {
       if (/\.pdf$/.test(name) || ctype === 'application/pdf') {
         if (!attachmentHints.includes('PDF')) attachmentHints.push('PDF');
       }
+      // A shared contact card (iPhone "Share Contact", Outlook "Forward as vCard").
+      if (/\.vcf$/.test(name) || ctype.includes('vcard')) {
+        if (!attachmentHints.includes('VCARD')) attachmentHints.push('VCARD');
+      }
     }
   }
 
