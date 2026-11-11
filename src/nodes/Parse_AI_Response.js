@@ -205,6 +205,12 @@ function isPhoneNumber(str) {
   return false;
 }
 
+// A table signature joins cells into one text line, so the phone cell can trail the
+// company ("Acme Group M: (555) 010-0100"). Cut the company at the phone.
+function stripTrailingPhone(str) {
+  return (str || '').replace(/\s+(?:[A-Za-z]{1,6}\s*[:.]\s*)?[+(]?\d[\d\s.()\-]{6,}\d.*$/, '').trim();
+}
+
 // ASYNC TLD RESOLVER - web-verified domain resolution
 // When an email has no TLD (e.g., "jane.broker@examplegroup"), probe common TLDs
 // and verify by fetching the homepage + checking if the company name appears.
@@ -298,7 +304,9 @@ function scanSignatures(body, excludeForwarder) {
 
   // Find all unique email addresses in the body
   const emailRegex = /[\w.+-]+@[\w.-]+\.\w{2,}/g;
-  const allEmails = [...new Set((body.match(emailRegex) || []).map(e => e.toLowerCase()))];
+  // "[cid:image001.png@01DD...]" is an inline-image reference, not a mailbox.
+  const allEmails = [...new Set((body.match(emailRegex) || []).map(e => e.toLowerCase()))]
+    .filter(e => !body.toLowerCase().includes('cid:' + e));
 
   // Capture TLD-less emails for later async verification
   // These appear when Outlook truncates the display or domain has no public TLD
@@ -565,7 +573,7 @@ function scanSignatures(body, excludeForwarder) {
 
       let firstName = '', lastName = '', nickname = '';
       let fallbackFirst = '', fallbackLast = '', fallbackNick = '';
-      let jobTitle = '', companyName = '';
+      let jobTitle = '', companyName = '', companyGuessed = false;
       let phone = '', mobile = '', city = '', state = '', country = '';
       const nameHints = inferNameFromEmail(extEmail);
 
@@ -946,6 +954,7 @@ function scanSignatures(body, excludeForwarder) {
               // Layer 3: Synthesize from domain + TLD
               // e.g., "example" + ".bank" = "Example Bank"
               companyName = inferCompanyFromDomain(extEmail);
+              companyGuessed = true;
             }
           }
         }
@@ -970,7 +979,8 @@ function scanSignatures(body, excludeForwarder) {
           nickname,
           email: extEmail,
           phone, mobile,
-          companyName,
+          companyName: stripTrailingPhone(companyName),
+          companyGuessed,
           // Title Case for job titles too - "EQUIPMENT FINANCE MANAGER" -> "Equipment Finance Manager"
           jobTitle: toTitleCase(jobTitle),
           city, state,
@@ -1093,6 +1103,7 @@ function scanSignatures(body, excludeForwarder) {
         }
 
         // Company fallback from domain
+        const fbCompanyGuessed = !fbCompany;
         if (!fbCompany) {
           fbCompany = inferCompanyFromDomain(extEmail);
         }
@@ -1105,7 +1116,8 @@ function scanSignatures(body, excludeForwarder) {
             nickname: '',
             email: extEmail,
             phone: fbPhone, mobile: fbMobile,
-            companyName: fbCompany,
+            companyName: stripTrailingPhone(fbCompany),
+            companyGuessed: fbCompanyGuessed,
             jobTitle: toTitleCase(fbTitle),
             city: fbCity, state: fbState,
             address: '', country: fbCountry || '',
@@ -1534,6 +1546,8 @@ for (const item of items) {
     for (const sc of scannedContacts) {
       const key = sc.email.toLowerCase();
       const ai = aiByEmail.get(key);
+      const scGuessed = sc.companyGuessed;
+      delete sc.companyGuessed;
 
       if (ai) {
         // Both found this contact - merge (scanner wins for name/phone, AI wins for type)
@@ -1548,14 +1562,21 @@ for (const item of items) {
             useLastName = ai.lastName || sc.lastName;
           }
         }
+        // One line read as both title and company ("Acme Partners" hits both keyword lists)
+        // means the scanner could not tell them apart; a company guessed from the domain is
+        // weaker than one the model found in the text. The model's values win in both cases.
+        const scAmbiguous = !!sc.jobTitle && sc.jobTitle.toLowerCase() === (sc.companyName || '').toLowerCase();
+        // In a "Name | Title | Company" line the company is the last segment.
+        const scPipeCompany = scAmbiguous && sc.companyName.includes('|') ? sc.companyName.split('|').pop().trim() : '';
+        const scCompany = scPipeCompany || ((scAmbiguous || scGuessed) && ai.companyName ? '' : sc.companyName);
         mergedByEmail.set(key, {
           firstName: useFirstName,
           lastName: useLastName,
           email: sc.email,
           phone: sc.phone || ai.phone,
           mobile: sc.mobile || ai.mobile,
-          companyName: pickCompany(sc.companyName, ai.companyName, sc.email),
-          jobTitle: sc.jobTitle || ai.jobTitle,
+          companyName: pickCompany(scCompany, ai.companyName, sc.email),
+          jobTitle: (scAmbiguous && ai.jobTitle) || sc.jobTitle || ai.jobTitle,
           city: sc.city || ai.city,
           state: sc.state || ai.state,
           address: ai.address || '',
@@ -1842,6 +1863,27 @@ for (const item of items) {
             }
           }
         }
+      }
+    }
+
+    // A staff signature quoted in the thread carries the office address. A city that only
+    // ever appears next to a staff phone is ours, not the contact's, whoever extracted it.
+    const addrLines = fullBody.split('\n').map(l => l.trim()).filter(Boolean);
+    const ownCities = new Set(), otherCities = new Set();
+    addrLines.forEach((line, i) => {
+      const m = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
+      if (!m) return;
+      const nearOwnPhone = addrLines.slice(Math.max(0, i - 2), i + 3)
+        .some(l => (l.match(/[\d(+][\d\s.()\-]{6,}\d/g) || []).some(isOwnCompanyPhone));
+      (nearOwnPhone ? ownCities : otherCities).add(m[1].toLowerCase());
+    });
+    for (const contact of contacts) {
+      const cityLower = (contact.city || '').trim().toLowerCase();
+      if (cityLower && ownCities.has(cityLower) && !otherCities.has(cityLower)) {
+        contact.infoNotes = contact.infoNotes || [];
+        contact.infoNotes.push('Cleared own-office city "' + contact.city + '"');
+        contact.city = '';
+        contact.state = '';
       }
     }
 

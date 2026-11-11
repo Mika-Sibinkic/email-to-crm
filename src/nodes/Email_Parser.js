@@ -235,7 +235,8 @@ if (candidates.length > 0) {
     if (!line) continue;
     if (skipPatterns.some(p => p.test(line))) continue;
     if (/^[a-z]+@/i.test(line)) continue;
-    if (line.length < 120 && /\b(add|put|make sure|needs|should|get|database|data base)\b/i.test(line)) {
+    // The length cap keeps forwarded paragraphs out; a line of the forwarder's own note is the note.
+    if ((line.length < 120 || forwarderPreamble.includes(line)) && /\b(add|put|make sure|needs|should|get|database|data base)\b/i.test(line)) {
       rawForwarderInstruction = line;
       forwarderInstruction = line;
       break;

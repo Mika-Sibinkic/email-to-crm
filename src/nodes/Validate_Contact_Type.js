@@ -358,6 +358,16 @@ for (const item of items) {
         });
       }
     }
+
+    // "Add Owen, not Nathan": a person the note rules out by first name is dropped, as long
+    // as someone else is left to add.
+    if (contacts.length > 1) {
+      const note = [data.forwarderInstruction || '', data.rawForwarderInstruction || ''].join(' ');
+      const ruledOut = new Set([...note.matchAll(/\b(?:[Nn]ot|[Ee]xcept|[Ii]nstead of|[Ss]kip|[Dd]o not add|[Dd]on'?t add)\s+([A-Z][a-z]+)\b/g)]
+        .map(m => m[1].toLowerCase()));
+      const kept = contacts.filter(c => !ruledOut.has(String(c.firstName || '').trim().toLowerCase()));
+      if (ruledOut.size && kept.length) contacts = kept;
+    }
   const validatedContacts = [];
 
   for (const contact of contacts) {

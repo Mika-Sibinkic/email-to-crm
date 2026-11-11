@@ -36,6 +36,18 @@ const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const SUBJECT_TAG_RE = escapeRe(SUBJECT_TAG.toLowerCase());
 const OWN_DOMAIN_RE = [...OWN_DOMAINS].map(escapeRe).join('|');
 
+// Cyrillic and Greek letters that look like Latin ones, as pasted from PDFs or used to spoof.
+const HOMOGLYPH_FROM = '\u0410\u0430\u0412\u0415\u0435\u041a\u041c\u041d\u041e\u043e\u0420\u0440\u0421\u0441\u0422\u0425\u0445\u0423\u0443\u0406\u0456\u0408\u0458\u0405\u0455' +
+  '\u0391\u0392\u0395\u0396\u0397\u0399\u039a\u039c\u039d\u039f\u03bf\u03a1\u03c1\u03a4\u03a5\u03a7\u03b9\u03bd';
+const HOMOGLYPH_TO = 'AaBEeKMHOoPpCcTXxYyIiJjSs' + 'ABEZHIKMNOoPpTYXiv';
+const HOMOGLYPHS = Object.fromEntries([...HOMOGLYPH_FROM].map((ch, i) => [ch, HOMOGLYPH_TO[i]]));
+if (HOMOGLYPH_FROM.length !== HOMOGLYPH_TO.length) throw new Error('HOMOGLYPH tables differ in length');
+
+// Spelled-out addresses. Bare AT/DOT must be uppercase so English "at" never matches.
+const OBF_AT = String.raw`(?:\s*[\[(]\s*[Aa][Tt]\s*[\])]\s*|\s+AT\s+)`;
+const OBF_DOT = String.raw`(?:\s*[\[(]\s*[Dd][Oo][Tt]\s*[\])]\s*|\s+DOT\s+)`;
+const OBFUSCATED_EMAIL = new RegExp(String.raw`([\w.+-]+)${OBF_AT}([\w-]+(?:${OBF_DOT}[\w-]+)+)`, 'g');
+
 const allItems = $input.all();
 const results = [];
 const seenInternetIds = new Set();
@@ -205,6 +217,9 @@ for (const item of allItems) {
         // Table signatures: rows become lines, cells are separated by a space.
         .replace(/<\/tr>/gi, '\n')
         .replace(/<\/t[dh]>/gi, ' ')
+        // A mailto link worded "email" or "here" would lose its address with the tags.
+        .replace(/<a\b[^>]*href\s*=\s*["']mailto:([^"'?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi,
+          (m, addr, text) => (text.includes('@') ? m : m + ' (' + addr + ')'))
         .replace(/<[^>]+>/g, '')
         .replace(/&nbsp;/gi, ' ')
         .replace(/&amp;/gi, '&')
@@ -224,6 +239,16 @@ for (const item of allItems) {
   bodyText = bodyText
     .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
     .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    // Fullwidth and math-styled characters pasted into signatures ("\uFF15\uFF15\uFF15", bold names).
+    .replace(/[\uFF01-\uFF5E]|[\u{1D400}-\u{1D7FF}]/gu, ch => ch.normalize('NFKC'))
+    // Cyrillic or Greek look-alikes inside a Latin word ("\u0410rden") are Latin letters.
+    .replace(/[A-Za-z\u0370-\u03FF\u0400-\u04FF]+/g, w => (/[A-Za-z]/.test(w) ? w.replace(/[^A-Za-z]/g, ch => HOMOGLYPHS[ch] || ch) : w))
+    .replace(/(\d)[\u00B7\u2022\u2219](?=\d)/g, '$1.')     // "555\u00B7010\u00B70133"
+    // Phone emoji used as labels: a handset means mobile, a desk phone means office.
+    .replace(/[\u{1F4F1}\u{1F4F2}]\uFE0F?\s*(?=[\d(+])/gu, 'M: ')
+    .replace(/[\u260E\u{1F4DE}]\uFE0F?\s*(?=[\d(+])/gu, 'T: ')
+    // "jane [at] acme [dot] example", "jane AT acme DOT example"
+    .replace(OBFUSCATED_EMAIL, (m, local, domain) => local + '@' + domain.replace(new RegExp(OBF_DOT, 'g'), '.'))
     .replace(/[\u200b-\u200d\u2060\ufeff]/g, '')
     .replace(/[\u00a0\u2002-\u200a\u202f\u205f\u3000]/g, ' ')
     .replace(/[\u2010-\u2015\u2212]/g, '-')
