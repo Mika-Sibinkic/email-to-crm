@@ -43,10 +43,19 @@ const HOMOGLYPH_TO = 'AaBEeKMHOoPpCcTXxYyIiJjSs' + 'ABEZHIKMNOoPpTYXiv';
 const HOMOGLYPHS = Object.fromEntries([...HOMOGLYPH_FROM].map((ch, i) => [ch, HOMOGLYPH_TO[i]]));
 if (HOMOGLYPH_FROM.length !== HOMOGLYPH_TO.length) throw new Error('HOMOGLYPH tables differ in length');
 
-// Spelled-out addresses. Bare AT/DOT must be uppercase so English "at" never matches.
-const OBF_AT = String.raw`(?:\s*[\[(]\s*[Aa][Tt]\s*[\])]\s*|\s+AT\s+)`;
+// Spelled-out addresses. Bare AT/DOT must be uppercase so English "at" never matches, and an
+// all-caps line is prose ("MEET US AT BOOTH DOT COM"), not an address. A bracketed (at) is
+// unambiguous, so its domain may use a real dot ("jane (at) acme.example").
 const OBF_DOT = String.raw`(?:\s*[\[(]\s*[Dd][Oo][Tt]\s*[\])]\s*|\s+DOT\s+)`;
-const OBFUSCATED_EMAIL = new RegExp(String.raw`([\w.+-]+)${OBF_AT}([\w-]+(?:${OBF_DOT}[\w-]+)+)`, 'g');
+const OBFUSCATED_EMAIL = new RegExp(String.raw`([\w.+-]+)(?:\s*[\[(]\s*[Aa][Tt]\s*[\])]\s*([\w-]+(?:(?:${OBF_DOT}|\.)[\w-]+)+)|\s+AT\s+([\w-]+(?:${OBF_DOT}[\w-]+)+))`, 'g');
+const deobfuscate = (m, local, bracketDomain, bareDomain, offset, text) => {
+  if (bareDomain) {
+    const end = text.indexOf('\n', offset);
+    const line = text.slice(text.lastIndexOf('\n', offset) + 1, end === -1 ? undefined : end);
+    if (!/[a-z]/.test(line)) return m;
+  }
+  return local + '@' + (bracketDomain || bareDomain).replace(new RegExp(OBF_DOT, 'g'), '.');
+};
 
 const allItems = $input.all();
 const results = [];
@@ -285,7 +294,7 @@ for (const item of allItems) {
     .replace(/[\u{1F4F1}\u{1F4F2}]\uFE0F?\s*(?=[\d(+])/gu, 'M: ')
     .replace(/[\u260E\u{1F4DE}]\uFE0F?\s*(?=[\d(+])/gu, 'T: ')
     // "jane [at] acme [dot] example", "jane AT acme DOT example"
-    .replace(OBFUSCATED_EMAIL, (m, local, domain) => local + '@' + domain.replace(new RegExp(OBF_DOT, 'g'), '.'))
+    .replace(OBFUSCATED_EMAIL, deobfuscate)
     .replace(/[\u200b-\u200d\u2060\ufeff]/g, '')
     .replace(/[\u00a0\u2002-\u200a\u202f\u205f\u3000]/g, ' ')
     .replace(/[\u2010-\u2015\u2212]/g, '-')

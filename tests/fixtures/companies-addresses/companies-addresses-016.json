@@ -10,7 +10,7 @@
     "receivedDateTime": "2026-11-07T17:22:09Z",
     "isDraft": false,
     "subject": "Fwd: Financing for new locations",
-    "bodyPreview": "Please add Teresa Sent from my iPhone Begin forwarded message: From: Teresa Alvarez <teresa.alvarez77@outlook.com> Date: November 7, 2026 at 10:41:33 AM CST To: Pat Staffer <pat@yourcompany.com> Subject: Financing for new locations Hi Pat, Thanks for the ",
+    "bodyPreview": "Please add Teresa Sent from my iPhone Begin forwarded message: From: Teresa Alvarez <fixture.talvarez@outlook.com> Date: November 7, 2026 at 10:41:33 AM CST To: Pat Staffer <pat@yourcompany.com> Subject: Financing for new locations Hi Pat, Thanks for the ",
     "from": {
       "emailAddress": {
         "name": "Pat Staffer",
@@ -28,7 +28,7 @@
     "ccRecipients": [],
     "body": {
       "contentType": "html",
-      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><div dir=\"ltr\">Please add Teresa</div><div dir=\"ltr\"><br></div><div dir=\"ltr\">Sent from my iPhone</div><div dir=\"ltr\"><br><blockquote type=\"cite\">Begin forwarded message:<br><br></blockquote></div><blockquote type=\"cite\"><div dir=\"ltr\"><b>From:</b> Teresa Alvarez &lt;teresa.alvarez77@outlook.com&gt;<br><b>Date:</b> November 7, 2026 at 10:41:33 AM CST<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> <b>Financing for new locations</b><br><br></div></blockquote><blockquote type=\"cite\"><div dir=\"ltr\"><div dir=\"ltr\">Hi Pat,<br><br>Thanks for the info packet. I own Fieldstone Ag Supply here in Lubbock and we are adding two locations next year, so I will need financing on forklifts and a delivery truck for each.<br><br>Best number for me is my cell, 806-555-0175.<br><br>Teresa<br><br>Sent from Outlook</div></div></blockquote></body></html>"
+      "content": "<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\"></head><body dir=\"auto\"><div dir=\"ltr\">Please add Teresa</div><div dir=\"ltr\"><br></div><div dir=\"ltr\">Sent from my iPhone</div><div dir=\"ltr\"><br><blockquote type=\"cite\">Begin forwarded message:<br><br></blockquote></div><blockquote type=\"cite\"><div dir=\"ltr\"><b>From:</b> Teresa Alvarez &lt;fixture.talvarez@outlook.com&gt;<br><b>Date:</b> November 7, 2026 at 10:41:33 AM CST<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> <b>Financing for new locations</b><br><br></div></blockquote><blockquote type=\"cite\"><div dir=\"ltr\"><div dir=\"ltr\">Hi Pat,<br><br>Thanks for the info packet. I own Fieldstone Ag Supply here in Lubbock and we are adding two locations next year, so I will need financing on forklifts and a delivery truck for each.<br><br>Best number for me is my cell, 806-555-0175.<br><br>Teresa<br><br>Sent from Outlook</div></div></blockquote></body></html>"
     },
     "hasAttachments": false
   },
@@ -36,7 +36,7 @@
     "skip": false,
     "contacts": [
       {
-        "email": "teresa.alvarez77@outlook.com",
+        "email": "fixture.talvarez@outlook.com",
         "firstName": "Teresa",
         "lastName": "Alvarez",
         "mobile": "806-555-0175",

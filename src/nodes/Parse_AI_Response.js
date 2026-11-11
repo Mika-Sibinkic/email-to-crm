@@ -189,12 +189,19 @@ function deriveNameFromBodyNear(body, email, forwarderEmail) {
   return { firstName: '', lastName: '', phone: '', mobile: '', jobTitle: '' };
 }
 
+// Words a spelled-out title acronym may use ("Chief Financial Officer" for CFO, "Managing Director" for MD).
+const ACRONYM_TITLE_WORDS = new Set(['chief', 'officer', 'executive', 'financial', 'finance', 'operating', 'operations',
+  'technology', 'technical', 'information', 'investment', 'marketing', 'revenue', 'risk', 'credit', 'legal', 'compliance',
+  'commercial', 'business', 'development', 'sales', 'managing', 'director', 'vice', 'president', 'general', 'counsel',
+  'manager', 'senior', 'partner', 'principal', 'head', 'regional', 'associate', 'assistant', 'analyst',
+  'product', 'human', 'resources', 'people', 'strategy', 'strategic', 'data', 'digital', 'security', 'and', 'of']);
+
 // OWN-COMPANY TAGLINE/BRANDING BLACKLIST
 // These strings appear in staff signatures and should NEVER be extracted as company names.
 const OWN_COMPANY_BLACKLIST = new Set([
   ...OWN_BRAND_NAMES.map(n => n.toLowerCase()),
   ...OWN_BRAND_NAMES.map(n => n.toLowerCase().replace(/\s+/g, '')),
-  'click here to send us files securely',
+  'your signature banner text here',
 ]);
 
 function isOwnBranding(text) {
@@ -1421,9 +1428,11 @@ for (const item of items) {
       if (contact.jobTitle) {
         const t = contact.jobTitle.trim();
         if (/^[A-Z]{2,4}$/.test(t)) {
-          // A bare acronym ("CFO") is not an all-caps phrase: keep it, or use the spelled-out form the email itself gives
-          const spelled = fullBody.match(new RegExp('\\b' + t.split('').map(ch => ch + '[a-z]+').join('\\s+') + '\\b'));
-          contact.jobTitle = spelled ? spelled[0] : t;
+          // A bare acronym ("CFO") is not an all-caps phrase: keep it, or use the spelled-out form the email itself gives.
+          // Only title words count, so "Mark Davis" in the body never expands "MD".
+          const spelledRe = new RegExp('\\b' + t.split('').map(ch => ch + '[a-z]+').join('\\s+') + '\\b', 'g');
+          const spelled = [...fullBody.matchAll(spelledRe)].map(m => m[0]).find(p => p.split(/\s+/).every(w => ACRONYM_TITLE_WORDS.has(w.toLowerCase())));
+          contact.jobTitle = spelled || t;
         } else contact.jobTitle = toTitleCase(contact.jobTitle);
       }
 
@@ -1963,23 +1972,26 @@ for (const item of items) {
 
     // A staff signature quoted in the thread carries the office address. A city that only
     // ever appears next to a staff phone is ours, not the contact's, whoever extracted it.
+    // Any mention outside those lines ("Anytown, Tennessee" with no ZIP) makes it the contact's too.
     const addrLines = fullBody.split('\n').map(l => l.trim()).filter(Boolean);
-    const ownCities = new Set(), otherCities = new Set();
+    const ownCities = new Map(), ownLineIdx = new Set();
     addrLines.forEach((line, i) => {
       const m = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
       if (!m) return;
-      const nearOwnPhone = addrLines.slice(Math.max(0, i - 2), i + 3)
-        .some(l => (l.match(/[\d(+][\d\s.()\-]{6,}\d/g) || []).some(isOwnCompanyPhone));
-      (nearOwnPhone ? ownCities : otherCities).add(m[1].toLowerCase());
+      const lo = Math.max(0, i - 2), hi = Math.min(addrLines.length, i + 3);
+      if (!addrLines.slice(lo, hi).some(l => (l.match(/[\d(+][\d\s.()\-]{6,}\d/g) || []).some(isOwnCompanyPhone))) return;
+      ownCities.set(m[1].toLowerCase(), m[2].toLowerCase());
+      for (let j = lo; j < hi; j++) ownLineIdx.add(j);
     });
     for (const contact of contacts) {
       const cityLower = (contact.city || '').trim().toLowerCase();
-      if (cityLower && ownCities.has(cityLower) && !otherCities.has(cityLower)) {
-        contact.infoNotes = contact.infoNotes || [];
-        contact.infoNotes.push('Cleared own-office city "' + contact.city + '"');
-        contact.city = '';
-        contact.state = '';
-      }
+      if (!cityLower || !ownCities.has(cityLower)) continue;
+      const cityRe = new RegExp('\\b' + cityLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      if (addrLines.some((l, i) => !ownLineIdx.has(i) && cityRe.test(l))) continue;
+      contact.infoNotes = contact.infoNotes || [];
+      contact.infoNotes.push('Cleared own-office city "' + contact.city + '"');
+      contact.city = '';
+      if ((contact.state || '').trim().toLowerCase() === ownCities.get(cityLower)) contact.state = '';
     }
 
     // PHONE/MOBILE SANITY CHECK
@@ -3232,6 +3244,8 @@ for (const item of items) {
         hasImageAttachment: (prevData.detectionFlags || []).includes('IMAGE_ONLY') || (prevData.detectionFlags || []).includes('IMAGE_ATTACHMENT') || (prevData.attachmentHints || []).includes('IMAGE'),
         originalSubject: prevData.originalSubject || '',
         forwarderInstruction: prevData.forwarderInstruction || '',
+        rawForwarderInstruction: prevData.rawForwarderInstruction || '',
+        forwarderPreamble: prevData.forwarderPreamble || '',
         fullBody: prevData.fullBody || '',
         hasAttachments: prevData.hasAttachments || false,
         attachmentHints: prevData.attachmentHints || [],
@@ -3302,6 +3316,8 @@ for (const item of items) {
         hasUrls: prevData.hasUrls || false,
         suggestedType: prevData.suggestedType || '',
         forwarderInstruction: prevData.forwarderInstruction || '',
+        rawForwarderInstruction: prevData.rawForwarderInstruction || '',
+        forwarderPreamble: prevData.forwarderPreamble || '',
         originalSubject: prevData.originalSubject || '',
         fullBody: prevData.fullBody || '',
         email_id: prevData.email_id || '',

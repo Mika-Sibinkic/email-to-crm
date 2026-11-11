@@ -10,7 +10,7 @@
     "receivedDateTime": "2026-11-03T02:58:21Z",
     "isDraft": false,
     "subject": "Fw: Great meeting you",
-    "bodyPreview": "Private buyer, no company. Please add as Customer. Get Outlook for iOS From: Kevin Doyle <kdoyle1971@gmail.com> Sent: Monday, November 2, 2026 7:48:12 PM To: Pat Staffer <pat@yourcompany.com> Subject: Great meeting you Hi Pat, Great meeting you at the Sco",
+    "bodyPreview": "Private buyer, no company. Please add as Customer. Get Outlook for iOS From: Kevin Doyle <fixture.kdoyle@gmail.com> Sent: Monday, November 2, 2026 7:48:12 PM To: Pat Staffer <pat@yourcompany.com> Subject: Great meeting you Hi Pat, Great meeting you at the Sco",
     "from": {
       "emailAddress": {
         "name": "Pat Staffer",
@@ -28,7 +28,7 @@
     "ccRecipients": [],
     "body": {
       "contentType": "html",
-      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Private buyer, no company. Please add as Customer.</div>\n<div dir=\"ltr\"><br></div>\n<div id=\"ms-outlook-mobile-signature\" dir=\"ltr\">Get <a href=\"https://aka.ms/o0ukef\">Outlook for iOS</a></div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Kevin Doyle &lt;kdoyle1971@gmail.com&gt;<br>\n<b>Sent:</b> Monday, November 2, 2026 7:48:12 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Great meeting you</font>\n<div>&nbsp;</div>\n</div>\n<div dir=\"ltr\">Hi Pat,<br><br>Great meeting you at the Scottsdale event. I am looking at buying instead of leasing when my current lease ends in March. Let me know what you need from me. My cell is 480-555-0191.<br><br>Thanks again,<br>Kevin</div><div dir=\"ltr\"><br></div><div dir=\"ltr\">Sent from my iPhone</div>\n</body>\n</html>\n"
+      "content": "<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n<style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">Private buyer, no company. Please add as Customer.</div>\n<div dir=\"ltr\"><br></div>\n<div id=\"ms-outlook-mobile-signature\" dir=\"ltr\">Get <a href=\"https://aka.ms/o0ukef\">Outlook for iOS</a></div>\n<div id=\"appendonsend\"></div>\n<hr style=\"display:inline-block;width:98%\" tabindex=\"-1\">\n<div id=\"divRplyFwdMsg\" dir=\"ltr\"><font face=\"Calibri, sans-serif\" style=\"font-size:11pt\" color=\"#000000\"><b>From:</b> Kevin Doyle &lt;fixture.kdoyle@gmail.com&gt;<br>\n<b>Sent:</b> Monday, November 2, 2026 7:48:12 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Great meeting you</font>\n<div>&nbsp;</div>\n</div>\n<div dir=\"ltr\">Hi Pat,<br><br>Great meeting you at the Scottsdale event. I am looking at buying instead of leasing when my current lease ends in March. Let me know what you need from me. My cell is 480-555-0191.<br><br>Thanks again,<br>Kevin</div><div dir=\"ltr\"><br></div><div dir=\"ltr\">Sent from my iPhone</div>\n</body>\n</html>\n"
     },
     "hasAttachments": false
   },
@@ -36,7 +36,7 @@
     "skip": false,
     "contacts": [
       {
-        "email": "kdoyle1971@gmail.com",
+        "email": "fixture.kdoyle@gmail.com",
         "firstName": "Kevin",
         "lastName": "Doyle",
         "mobile": "480-555-0191",

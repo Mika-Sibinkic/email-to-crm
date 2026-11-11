@@ -52,13 +52,25 @@ const COUNTRY_CALLING_CODES = {
   'uae': '971', 'united arab emirates': '971', 'saudi arabia': '966',
 };
 
-// "+44 (0)20 7946 0000" drops the (0) trunk prefix; a national number gets the country's code.
+// Countries whose national numbers start with a 0 trunk prefix. A number written there without
+// the 0 is not a national number of that country, so it is left as written.
+const TRUNK_ZERO_CODES = new Set(['44', '353', '49', '43', '41', '33', '32', '31', '46', '358', '54', '51',
+  '27', '61', '64', '91', '81', '86', '82', '972', '90', '971', '966', '55']);
+// A US/Canada number in its usual shape ("(212) 555-0100", "1-212-555-0100") is not national
+// to a foreign contact's country, so it never gets that country's code.
+const NANP_SHAPE = /^(?:\+?1[\s.-]?)?\(?[2-9]\d{2}\)?[\s.-]?[2-9]\d{2}[\s.-]\d{4}$/;
+
+// "+44 (0)20 7946 0000" drops the (0) trunk prefix, "0034 ..." becomes "+34 ...", and a national
+// number gets the country's code.
 function internationalPhone(phone, country) {
-  const p = phone.replace(/^(\+\d{1,3})\s*\(0\)\s*/, '$1 ');
+  const p = phone.replace(/^00(?=[1-9])/, '+').replace(/^(\+\d{1,3})\s*\(0\)\s*/, '$1 ');
   const code = COUNTRY_CALLING_CODES[(country || '').trim().toLowerCase().replace(/\./g, '')];
-  if (!code || /^(\+|00)/.test(p)) return p;
-  const digits = p.replace(/\s*x\d+$/, '').replace(/\D/g, '');
+  if (!code || /^\+/.test(p)) return p;
+  const bare = p.replace(/\s*x\d+$/, '').trim();
+  const digits = bare.replace(/\D/g, '');
   if (digits.length < 8 || digits.length > 11) return p;
+  if (NANP_SHAPE.test(bare)) return p;
+  if (TRUNK_ZERO_CODES.has(code) && !/^\(?0/.test(p)) return p;
   return '+' + code + ' ' + p.replace(/^\(?0\)?\s*/, '').replace(/[()]/g, '').trim();
 }
 
@@ -70,11 +82,12 @@ const COUNTRY_CANONICAL = {
 };
 
 // "Las Condes, Santiago" or "Walnut Tree Close, Guildford": the model copied a whole address
-// line into city. Drop a trailing state, country or short region code, then keep the last part.
+// line into city. Drop a trailing state, country or upper-case region code ("TX", "B.C."), then
+// keep the last part. A mixed-case short word is a city ("Lima", "Oslo"), never dropped.
 function cleanCity(city, state, country) {
   const parts = city.split(',').map(p => p.trim()).filter(Boolean);
   const drop = new Set([state, country].map(v => (v || '').trim().toLowerCase()).filter(Boolean));
-  while (parts.length > 1 && (drop.has(parts[parts.length - 1].toLowerCase()) || /^[A-Za-z.]{1,4}$/.test(parts[parts.length - 1]))) parts.pop();
+  while (parts.length > 1 && (drop.has(parts[parts.length - 1].toLowerCase()) || /^(?:[A-Z]{2,3}\.?|(?:[A-Z]\.){2,3})$/.test(parts[parts.length - 1]))) parts.pop();
   return parts.length ? parts[parts.length - 1] : city;
 }
 

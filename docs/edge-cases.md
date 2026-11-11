@@ -80,7 +80,7 @@ These were found in the latest round.
 - UK, GB, England, Scotland, Wales and Northern Ireland all become United Kingdom. UK and UAE abbreviations are expanded.
 - A city written with a comma ("Mayfair, London", "Austin, TX") is reduced to its last part after a trailing state, country or short region code is dropped.
 - `City:` and `State:` label lines (form notifications, pasted cards) were not read. They are now.
-- A city that only appears next to one of your staff phone numbers belongs to your office and is cleared.
+- A city that only appears next to one of your staff phone numbers belongs to your office and is cleared. A mention anywhere else, in any format ("Anytown, Tennessee" with no ZIP), keeps it, and the state is cleared only when it matches the office line.
 
 ## Email addresses
 

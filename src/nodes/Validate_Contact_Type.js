@@ -385,14 +385,32 @@ for (const item of items) {
       // "Add Jane": a note naming one person to add means the others (an introducer, a
       // colleague on Cc) are context. Not when the note asks for more ("Jane and her partner").
       if (/\b(?:add|enter|put|save|log)\b/i.test(note) && !/\b(?:and|both|all|everyone|team|others?)\b|&/i.test(note)) {
+        // The name must follow the request verb and be capitalized, so "he will send" never names a Will.
         const named = contacts.filter(c => {
           const f = String(c.firstName || '').trim();
-          return f.length >= 3 && new RegExp('\\b' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(note);
+          return f.length >= 3 && new RegExp('\\b(?:[Aa]dd|[Ee]nter|[Pp]ut|[Ss]ave|[Ll]og)\\s+(?:in\\s+|only\\s+)?' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').test(note);
         });
         if (named.length === 1) contacts = named;
       }
     }
-  const requestText = String(data.fullBody || '');
+  // A financing request counts only in the forwarder's note or the contact's own message: from the
+  // From:/attribution line that names them to the next one. Without such a line, the body minus the
+  // forwarder's preamble, so a staff tagline ("Need financing?") never counts.
+  const bodyLines = String(data.fullBody || '').split('\n');
+  const noteText = [data.forwarderInstruction || '', data.rawForwarderInstruction || ''].join('\n');
+  const MESSAGE_START = /^\s*(?:From|Von|Van|De|Da)\s*:|^\s*On\b.*\bwrote:\s*$|^\s*-{2,}\s*(?:Original Message|Forwarded message)/i;
+  const ownMessageText = c => {
+    const email = String(c.email || '').toLowerCase();
+    const name = ((c.firstName || '') + ' ' + (c.lastName || '')).trim().toLowerCase();
+    const start = bodyLines.findIndex(l => MESSAGE_START.test(l) && ((email && l.toLowerCase().includes(email)) || (name.includes(' ') && l.toLowerCase().includes(name))));
+    if (start === -1) {
+      const body = String(data.fullBody || '');
+      return data.forwarderPreamble ? body.replace(data.forwarderPreamble, '') : body;
+    }
+    let end = start + 1;
+    while (end < bodyLines.length && !MESSAGE_START.test(bodyLines[end])) end++;
+    return bodyLines.slice(start, end).join('\n');
+  };
   const validatedContacts = [];
 
   for (const contact of contacts) {
@@ -483,7 +501,7 @@ for (const item of items) {
     // The model reads "financing" in a lead's own request as the lender's type. With no
     // forwarder type and no lender sign on the contact, the person asking for financing is a customer.
     if (!data.suggestedType && (!typeValidated || extractedType === 'Financial Institution') &&
-        FINANCING_REQUEST_RE.test(requestText) && !hasLenderEvidence(contact)) {
+        FINANCING_REQUEST_RE.test(noteText + '\n' + ownMessageText(contact)) && !hasLenderEvidence(contact)) {
       extractedType = 'Customer';
       typeValidated = true;
       typeCorrected = true;

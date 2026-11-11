@@ -88,24 +88,39 @@ for (const pc of pdfContacts) {
   if (pc.mobile && typeof pc.mobile === 'string') pc.mobile = cleanPhone(pc.mobile);
   // The model swaps office and mobile on cards ("m 555.010.0166 / o 555.010.0120") or packs both
   // into one field; the label printed in front of each number in the source text decides.
+  // The label is the text just before this number, back to the previous number or separator,
+  // so "m 555.010.0166 / o 555.010.0120" labels each number separately.
+  const PHONE_IN_LINE = /[+(]?\d[\d\s.()\-]{6,}\d/g;
   const labelOf = num => {
     const d = num.replace(/\D/g, '').slice(-10);
-    const line = d.length >= 7 ? sourceText.split('\n').find(l => l.replace(/\D/g, '').includes(d)) : '';
-    const lab = line ? line.slice(0, line.search(/[+(\d]/)).trim() : '';
+    let lab = '';
+    if (d.length >= 7) {
+      outer: for (const line of sourceText.split('\n')) {
+        let prevEnd = 0;
+        for (const m of line.matchAll(PHONE_IN_LINE)) {
+          if (m[0].replace(/\D/g, '').includes(d)) { lab = line.slice(prevEnd, m.index).split(/[\/|,;]/).pop().trim(); break outer; }
+          prevEnd = m.index + m[0].length;
+        }
+      }
+    }
     return /^(?:m|c|mob|mobile|cell|cellular)\b[\s.:|]*$/.test(lab) ? 'mobile' : /^(?:o|p|t|ph|tel|phone|office|main|work)\b[\s.:|]*$/.test(lab) ? 'phone' : '';
   };
   const numsIn = v => (typeof v === 'string' ? v.match(/[+(]?\d[\d\s.()\-]{6,}\d/g) || [] : []).map(n => n.trim());
   const placed = { phone: '', mobile: '' };
-  let anyLabel = false;
+  let anyLabel = false, clash = false;
+  const digitsOf = v => v.replace(/\D/g, '');
   for (const field of ['phone', 'mobile']) {
     for (const n of numsIn(pc[field])) {
       const lab = labelOf(n);
       if (lab) anyLabel = true;
       const slot = lab || field;
-      if (!placed[slot] && placed.phone.replace(/\D/g, '') !== n.replace(/\D/g, '') && placed.mobile.replace(/\D/g, '') !== n.replace(/\D/g, '')) placed[slot] = n;
+      if (digitsOf(placed.phone) === digitsOf(n) || digitsOf(placed.mobile) === digitsOf(n)) continue;
+      // Two different numbers labelled for one slot: the labels cannot decide, keep the model's values.
+      if (placed[slot]) { if (lab) clash = true; continue; }
+      placed[slot] = n;
     }
   }
-  if (anyLabel) { pc.phone = placed.phone; pc.mobile = placed.mobile; }
+  if (anyLabel && !clash) { pc.phone = placed.phone; pc.mobile = placed.mobile; }
 
   const email = (pc.email || '').toLowerCase().trim();
   const firstName = (pc.firstName || '').trim();
@@ -165,7 +180,7 @@ for (const pc of pdfContacts) {
 const MAX = 15;
 if (contacts.length > MAX) contacts = contacts.slice(0, MAX);
 
-const fieldsToPass = ['originalSubject','forwarderInstruction','suggestedType','email_id','thread_id',
+const fieldsToPass = ['originalSubject','forwarderInstruction','rawForwarderInstruction','forwarderPreamble','suggestedType','email_id','thread_id',
   'received_date','forwarderEmail','detectionFlags','extractionStrategy','needsReview',
   'reviewReason','infoNotes','primaryUrl','hasAttachments','attachmentHints',
   'needsWebResearch','allUrls','hasUrls','fullBody','largeAttachmentsSkipped'];

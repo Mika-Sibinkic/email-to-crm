@@ -1,0 +1,61 @@
+{
+  "id": "companies-addresses-022",
+  "category": "companies-addresses",
+  "split": "train",
+  "description": "Contact is in the same city as the office but writes it without a ZIP (\"Anytown, Tennessee\"); the own-office city clear must not erase it",
+  "email": {
+    "id": "AAMkUNITFIXTUREC022=",
+    "internetMessageId": "<fixture-companies-addresses-022@mail.example>",
+    "conversationId": "AAQkUNITFIXTUREC022=",
+    "receivedDateTime": "2026-11-09T16:25:00Z",
+    "sentDateTime": "2026-11-09T16:25:00Z",
+    "subject": "FW: Fabrication equipment",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "",
+    "body": {
+      "contentType": "html",
+      "content": "<html><body><div><p>Broker for zoho</p>\n<p>Pat Staffer</p>\n<p>Managing Director | Your Company</p>\n<p>Office (555) 010-0100 | Mobile (555) 010-0101</p>\n<p>100 Main Street, Anytown, ST 00000</p>\n<p>pat@yourcompany.com</p>\n<p>Your Company Tagline Here</p>\n<p>&nbsp;</p>\n<p><b>From:</b> Riley Chen &lt;riley@chenfabrication.example&gt;<br><b>Sent:</b> Monday, November 9, 2026 10:12 AM<br><b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br><b>Subject:</b> Fabrication equipment</p><p>&nbsp;</p><p>Hi Pat,</p><p>Thanks for the call this morning. We are a fabrication shop here in Anytown and would like to talk about the remarketing program.</p><p>Regards,</p><p>&nbsp;</p><p>Riley Chen</p><p>Owner</p><p>Chen Fabrication</p><p>Anytown, Tennessee</p><p>(555) 010-0188</p></div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "riley@chenfabrication.example",
+        "firstName": "Riley",
+        "lastName": "Chen",
+        "title": "Owner",
+        "company": "Chen Fabrication",
+        "phone": "(555) 010-0188",
+        "city": "Anytown",
+        "type": "Broker"
+      }
+    ]
+  }
+}

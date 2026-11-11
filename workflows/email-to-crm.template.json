@@ -601,7 +601,7 @@
           "__rl": true,
           "value": "WORKSHEET_ID_DEVELOPER_LOG",
           "mode": "list",
-          "cachedResultName": "Developer Log",
+          "cachedResultName": "DEV_LOG_SHEET",
           "cachedResultUrl": "https://graph.microsoft.com/v1.0/sites/{site-id}/drive/items/WORKBOOK_ID"
         },
         "dataMode": "autoMap",

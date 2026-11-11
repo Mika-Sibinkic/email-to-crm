@@ -1,9 +1,8 @@
 # On-prem Windows host: Email-to-CRM runtime
 
-Email-to-CRM runs as Docker containers on an on-prem mini-PC
-(Windows 11 Pro, hostname `<HOSTNAME>`) on the office LAN.
-This directory version-controls the box's resilience config so the setup is
-reproducible.
+A generic hardening guide for running Email-to-CRM as Docker containers on an on-prem
+Windows 11 Pro host (hostname `<HOSTNAME>`) on a local network. These scripts keep the
+host recovering on its own after a reboot, so the setup is reproducible.
 
 ## Files
 - `harden.ps1`: idempotent, replayable unattended-reboot hardening. Run elevated on the box (or over SSH as the local admin user). Pass `-AutologinPassword <pw>` to also enable auto-login. Never hardcodes a secret.
@@ -26,7 +25,7 @@ reproducible.
 ## Recovery model: why the box survives an unattended reboot
 After a cold boot, Windows auto-logs in the admin user (credential stored as an encrypted LSA secret). That session fires the `OnPrem-StackWatchdog` at-logon trigger, and Docker Desktop's AutoStart launches the engine. The `unless-stopped` containers then start and n8n comes up. The watchdog's 5-minute loop also restarts the engine or the n8n container when either crashes.
 
-Root cause of the outage that prompted this: an unattended power-on left the stack dead because (a) there was no Windows auto-login and (b) Docker Desktop `AutoStart=False`, so the engine never started without a manual login. Both are fixed by `harden.ps1`.
+Without this, an unattended power-on leaves the stack dead because (a) there is no Windows auto-login and (b) Docker Desktop defaults to `AutoStart=False`, so the engine never starts without a manual login. `harden.ps1` fixes both.
 
 ## Scheduling by hand (if not using `harden.ps1`)
 The task `harden.ps1` registers is equivalent to:
@@ -44,7 +43,7 @@ Register-ScheduledTask -TaskName "OnPrem-StackWatchdog" -Action $act -Trigger $t
 Check state with `Get-ScheduledTask OnPrem-StackWatchdog` and `Get-Content C:\Users\<user>\onprem-hardening\watchdog.log -Tail 20`.
 
 ## Access
-`ssh <user>@<HOST_IP>` (Tailscale, key auth). n8n API at `http://<HOST_IP>:5678`. The n8n API key is read from `$env:N8N_API_KEY` on the operator's machine; it is never stored in this repository.
+`ssh <user>@<HOST_IP>` (private network, key auth). n8n API at `http://<HOST_IP>:5678`. The n8n API key is read from `$env:N8N_API_KEY` on the operator's machine; it is never stored in this repository.
 
 ## Reproduce on a fresh box
 1. Enable OpenSSH Server; add the admin public key to `C:\ProgramData\ssh\administrators_authorized_keys` (ACL must be Administrators + SYSTEM only).
@@ -62,4 +61,4 @@ Check state with `Get-ScheduledTask OnPrem-StackWatchdog` and `Get-Content C:\Us
 ## Not in git
 The Windows credential and the n8n API key live in gitignored local env files. Never commit them.
 
-Rationale + tradeoffs: [`docs/decisions/2026-07-22-onprem-unattended-resilience.md`](../../docs/decisions/2026-07-22-onprem-unattended-resilience.md).
+Rationale + tradeoffs: [`docs/decisions/onprem-unattended-resilience.md`](../../docs/decisions/onprem-unattended-resilience.md).

@@ -176,38 +176,37 @@ Requirements are Node 18 or newer, Ollama with `llama3.2:3b` pulled, and `tesser
 ```bash
 ollama pull llama3.2:3b
 node tests/selftest.js
+node tests/units.js
 node tests/run.js
 node tests/run.js --split holdout
 node tests/run.js --category phones --json /tmp/phones.json
 node tests/run.js --only threads-001,phones-007 --no-cache
 ```
 
-Model replies are cached in `tests/.cache/` (gitignored), keyed by the SHA-256 of the request body, so a second run is near instant and only changed prompts reach the model. The script always exits 0; it reports, and the table is the result. `tests/selftest.js` checks the harness's own n8n semantics with no model calls. The header of `tests/run.js` lists where the harness differs from a real n8n run.
+Model replies are cached in `tests/.cache/` (gitignored), keyed by the SHA-256 of the request body, so a second run is near instant and only changed prompts reach the model. The script always exits 0; it reports, and the table is the result. `tests/selftest.js` checks the harness's own n8n semantics and `tests/units.js` checks single-node rules (calling codes, city cleanup, note rules, card phone labels), both with no model calls. The header of `tests/run.js` lists where the harness differs from a real n8n run.
 
-A fixture passes when the skip decision matches, every expected contact is found by email with every labeled field equal (phones compared by digits), and no extra contact appears. There are 132 fixtures in six categories. 100 are in the train split, which the fixes were developed against. 32 are in the holdout split, which was kept out of that loop and is the better estimate of how the workflow does on email it has not seen.
+A fixture passes when the skip decision matches, every expected contact is found by email with every labeled field equal (phones compared by digits), and no extra contact appears. There are 134 fixtures in six categories. 102 are in the train split, which the fixes were developed against. 32 are in the holdout split, which was kept out of that loop and is the better estimate of how the workflow does on email it has not seen. One exception: a code review named the `0034` prefix defect that `phones-016` shows, and its fix landed, so that fixture no longer counts as unseen.
 
 Current results, from `node tests/run.js` on the committed code:
 
 | Split | Fixtures passed | Field accuracy |
 |---|---|---|
-| all | 120/132 (90.9%) | 888/908 (97.8%) |
-| train | 100/100 | 680/680 |
-| holdout | 20/32 (62.5%) | 208/228 (91.2%) |
+| all | 124/134 (92.5%) | 905/922 (98.2%) |
+| train | 102/102 | 694/694 |
+| holdout | 22/32 (68.8%) | 211/228 (92.5%) |
 
-No run missed an expected contact, added an unexpected one, or made the wrong skip decision. Before this round of fixes the suite had 111 fixtures and 45 of them passed. The 12 holdout failures are all single-field errors:
+No run missed an expected contact, added an unexpected one, or made the wrong skip decision. Before this round of fixes the suite had 111 fixtures and 45 of them passed. `companies-addresses-016` started passing when its address changed and the model was asked again, so read that one as model variance. The 10 holdout failures are all single-field errors:
 
 | Fixture | What goes wrong |
 |---|---|
 | `adversarial-008` | office phone missed when the address exists only in a mailto link |
 | `adversarial-016` | mobile missed in a two-column table signature |
-| `companies-addresses-016` | company named only in the message prose is not picked up |
 | `coverage-002` | company from an Outlook vCard comes out as the domain word, and the type falls back to Industry Resource |
 | `coverage-006` | LinkedIn invitation headline puts the full name in Last_Name |
 | `coverage-010` | reply-all introduction: phone missed and the wrong type assigned |
 | `coverage-013` | Dutch T and M labels with +31 numbers are not read |
 | `coverage-021` | trade-show lead-scan digest mixes up the two badges' fields |
 | `phones-012` | a fax-only line is stored as Phone |
-| `phones-016` | numbers written with the `0034` prefix are not converted to `+34` |
 | `threads-004` | "Investment advisor for CRM" note resolves to Industry Resource |
 | `threads-020` | off-picklist type "Commercial realtor" is not mapped to Broker |
 
@@ -293,7 +292,7 @@ An undo webhook for another CRM would act on that CRM's record IDs, which Prepar
 | `src/nodes/` | the 22 Code node bodies, one file per node |
 | `workflows/email-to-crm.template.json` | the workflow with Code node bodies replaced by `__SRC__:` references |
 | `workflows/email-to-crm.json` | the importable workflow, built by `scripts/build-workflow.js` |
-| `tests/` | the offline harness (`run.js`, `lib/`), its self-test, test environment values in `env.json`, and fixtures under `fixtures/<category>/` |
+| `tests/` | the offline harness (`run.js`, `lib/`), its self-test, node-level checks in `units.js`, test environment values in `env.json`, and fixtures under `fixtures/<category>/` |
 | `infra/onprem-windows/` | PowerShell scripts that keep a Windows host recovering on its own after a reboot, with a runbook |
 | `docs/` | the edge-case catalogue and a decision record for the host setup |
 | `docker-compose.yml`, `.env.example` | the container stack and its environment template |

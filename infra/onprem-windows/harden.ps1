@@ -9,7 +9,7 @@
   password in this file. Setting the Windows account password itself is a
   separate authorized step (`net user <user> <pw>`), not done here.
 
-  Context + rollback: docs/decisions/2026-07-22-onprem-unattended-resilience.md
+  Context + rollback: docs/decisions/onprem-unattended-resilience.md
 #>
 param(
   [string]$User = "<user>",        # local admin account that owns the Docker Desktop session
