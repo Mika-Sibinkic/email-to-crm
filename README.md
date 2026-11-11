@@ -187,7 +187,7 @@ Model replies are cached in `tests/.cache/` (gitignored), keyed by the SHA-256 o
 
 A fixture passes when the skip decision matches, every expected contact is found by email with every labeled field equal (phones compared by digits), and no extra contact appears. There are 134 fixtures in six categories. 102 are in the train split, which the fixes were developed against. 32 are in the holdout split, which was kept out of that loop and is the better estimate of how the workflow does on email it has not seen. One exception: a code review named the `0034` prefix defect that `phones-016` shows, and its fix landed, so that fixture no longer counts as unseen.
 
-Current results, from `node tests/run.js` on the committed code:
+Current results, from `node tests/run.js` on the committed code with the cached model replies:
 
 | Split | Fixtures passed | Field accuracy |
 |---|---|---|
@@ -195,7 +195,7 @@ Current results, from `node tests/run.js` on the committed code:
 | train | 102/102 | 694/694 |
 | holdout | 22/32 (68.8%) | 211/228 (92.5%) |
 
-No run missed an expected contact, added an unexpected one, or made the wrong skip decision. Before this round of fixes the suite had 111 fixtures and 45 of them passed. `companies-addresses-016` started passing when its address changed and the model was asked again, so read that one as model variance. The 10 holdout failures are all single-field errors:
+With the cache on, no fixture missed an expected contact, added an unexpected one, or made the wrong skip decision. A fresh run with `--no-cache` (132 model calls, about 12 minutes on a laptop) scored 121/134: train 100/102, holdout 21/32, one missed and one extra contact, all in the coverage category. `llama3.2:3b` does not answer identically every time, so expect a few fixtures to move between runs. Before this round of fixes the suite had 111 fixtures and 45 of them passed. `companies-addresses-016` started passing when its address changed and the model was asked again, so read that one as model variance. The 10 holdout failures are all single-field errors:
 
 | Fixture | What goes wrong |
 |---|---|
