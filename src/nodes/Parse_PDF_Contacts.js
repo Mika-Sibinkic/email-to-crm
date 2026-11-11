@@ -86,7 +86,27 @@ for (const pc of pdfContacts) {
   }
   if (pc.phone && typeof pc.phone === 'string') pc.phone = cleanPhone(pc.phone);
   if (pc.mobile && typeof pc.mobile === 'string') pc.mobile = cleanPhone(pc.mobile);
-  
+  // The model swaps office and mobile on cards ("m 555.010.0166 / o 555.010.0120") or packs both
+  // into one field; the label printed in front of each number in the source text decides.
+  const labelOf = num => {
+    const d = num.replace(/\D/g, '').slice(-10);
+    const line = d.length >= 7 ? sourceText.split('\n').find(l => l.replace(/\D/g, '').includes(d)) : '';
+    const lab = line ? line.slice(0, line.search(/[+(\d]/)).trim() : '';
+    return /^(?:m|c|mob|mobile|cell|cellular)\b[\s.:|]*$/.test(lab) ? 'mobile' : /^(?:o|p|t|ph|tel|phone|office|main|work)\b[\s.:|]*$/.test(lab) ? 'phone' : '';
+  };
+  const numsIn = v => (typeof v === 'string' ? v.match(/[+(]?\d[\d\s.()\-]{6,}\d/g) || [] : []).map(n => n.trim());
+  const placed = { phone: '', mobile: '' };
+  let anyLabel = false;
+  for (const field of ['phone', 'mobile']) {
+    for (const n of numsIn(pc[field])) {
+      const lab = labelOf(n);
+      if (lab) anyLabel = true;
+      const slot = lab || field;
+      if (!placed[slot] && placed.phone.replace(/\D/g, '') !== n.replace(/\D/g, '') && placed.mobile.replace(/\D/g, '') !== n.replace(/\D/g, '')) placed[slot] = n;
+    }
+  }
+  if (anyLabel) { pc.phone = placed.phone; pc.mobile = placed.mobile; }
+
   const email = (pc.email || '').toLowerCase().trim();
   const firstName = (pc.firstName || '').trim();
   const lastName = (pc.lastName || '').trim();

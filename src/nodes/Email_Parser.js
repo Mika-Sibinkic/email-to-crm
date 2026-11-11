@@ -300,6 +300,16 @@ if (forwarderInstruction) {
   }
 }
 
+// A note with no CRM word or request verb can still end by naming the type ("Met him at the
+// expo. Broker"). Only a bare type at the end of a line of the forwarder's own note counts.
+if (!suggestedType && !forwarderInstruction) {
+  const bareType = new RegExp('(?:^|[.!?;:]\\s+)(' + VALID_TYPES.map(escapeRe).join('|') + ')\\s*[.!]?$', 'i');
+  for (const line of trimmedPreambleLines) {
+    const m = line.trim().match(bareType);
+    if (m) { suggestedType = VALID_TYPES.find(t => t.toLowerCase() === m[1].toLowerCase()); break; }
+  }
+}
+
 if (!suggestedType && subject) {
   const subjectLower = subject.toLowerCase().replace(/^(re|fw|fwd):\s*/gi, '');
   for (const type of VALID_TYPES) {

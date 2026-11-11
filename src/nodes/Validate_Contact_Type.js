@@ -216,6 +216,18 @@ function inferTypeFromCompany(companyName, email) {
   return null;
 }
 
+// A person asking for financing ("looking to finance 12 trailers", "pricing out financing").
+const FINANCING_REQUEST_RE = /\b(?:looking|want(?:s|ing)?|need(?:s|ing)?|hop(?:e|es|ing)|plan(?:s|ning)?)\s+to\s+(?:finance|lease|borrow)\b|\b(?:pricing\s+out|shopping\s+for|seek(?:s|ing)?|need(?:s|ing)?|looking\s+for|interested\s+in|apply(?:ing)?\s+for|request(?:s|ing)?)\s+(?:\w+\s+)?(?:financing|a\s+loan|a\s+lease)\b|\bfinanc(?:e|ing)\s+(?:inquiry|request|application)\b|^\s*financing\s+(?:a|an|the|our|my|\d+)\b/im;
+
+// Any sign that the contact is the one lending: a lender company or domain, or a lending title.
+// A CFO or controller handles finance for a borrower, so those titles do not count.
+function hasLenderEvidence(c) {
+  const inferred = inferTypeFromCompany(c.companyName, c.email);
+  if (inferred && inferred.type === 'Financial Institution') return true;
+  const title = String(c.jobTitle || c.title || '').replace(/\bchief\s+financial\s+officer\b|\bfinancial\s+(?:controller|analyst)\b/gi, '');
+  return /\b(?:bank\w*|credit|lend\w*|loans?|funding|leasing|capital|financ\w*|trust)\b/i.test((c.companyName || '') + ' ' + title);
+}
+
 const items = $input.all();
 const results = [];
 
@@ -370,7 +382,17 @@ for (const item of items) {
         .map(m => (m[1] || m[2]).toLowerCase()));
       const kept = contacts.filter(c => !ruledOut.has(String(c.firstName || '').trim().toLowerCase()));
       if (ruledOut.size && kept.length) contacts = kept;
+      // "Add Jane": a note naming one person to add means the others (an introducer, a
+      // colleague on Cc) are context. Not when the note asks for more ("Jane and her partner").
+      if (/\b(?:add|enter|put|save|log)\b/i.test(note) && !/\b(?:and|both|all|everyone|team|others?)\b|&/i.test(note)) {
+        const named = contacts.filter(c => {
+          const f = String(c.firstName || '').trim();
+          return f.length >= 3 && new RegExp('\\b' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(note);
+        });
+        if (named.length === 1) contacts = named;
+      }
     }
+  const requestText = String(data.fullBody || '');
   const validatedContacts = [];
 
   for (const contact of contacts) {
@@ -456,6 +478,15 @@ for (const item of items) {
           }
         }
       }
+    }
+
+    // The model reads "financing" in a lead's own request as the lender's type. With no
+    // forwarder type and no lender sign on the contact, the person asking for financing is a customer.
+    if (!data.suggestedType && (!typeValidated || extractedType === 'Financial Institution') &&
+        FINANCING_REQUEST_RE.test(requestText) && !hasLenderEvidence(contact)) {
+      extractedType = 'Customer';
+      typeValidated = true;
+      typeCorrected = true;
     }
 
     // Last resort, so the CRM never receives a type outside the picklist.

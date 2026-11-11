@@ -231,6 +231,18 @@ for (const item of allItems) {
         }
       }
       
+      // A label/value table (CRM lead notices, web forms: "Title | Controller") would flatten to
+      // "Title Controller", which reads as a name. Write its rows as "Label: value" instead.
+      // Innermost tables only; needs 3+ two-cell rows, short label cells, and 2+ contact-field labels.
+      const cellText = c => c.replace(/<[^>]+>/g, '').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim();
+      bodyText = bodyText.replace(/<table\b(?:(?!<table\b)[\s\S])*?<\/table>/gi, table => {
+        const rows = (table.match(/<tr\b[\s\S]*?<\/tr>/gi) || []).map(r => r.match(/<t[dh]\b[\s\S]*?<\/t[dh]>/gi) || []);
+        const labels = rows.map(cells => cells.length === 2 ? cellText(cells[0]) : null);
+        const isForm = rows.length >= 3 && labels.every(l => l && l.length <= 30 && /^[A-Za-z][A-Za-z .#&\/-]*:?$/.test(l) && l.split(' ').length <= 4) &&
+          labels.filter(l => /^(?:(?:first|last|full|contact)\s+)?name:?$|^e-?mail|phone|mobile|^company|title/i.test(l)).length >= 2;
+        return isForm ? table.replace(/(<tr\b[^>]*>\s*<t[dh]\b[\s\S]*?)(<\/t[dh]>)/gi, (m, cell, close) => (/:\s*$/.test(cellText(cell)) ? m : cell + ':' + close)) : table;
+      });
+
       bodyText = bodyText
         .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
         .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')

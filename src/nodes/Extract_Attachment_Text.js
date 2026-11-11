@@ -136,7 +136,8 @@ for (const att of attachments) {
       try {
         // Without the downloaded data, tesseract's own installed language data is the fallback.
         const tessPrefix = fs.existsSync(tessDataFile) ? 'TESSDATA_PREFIX=' + tessDataDir + ' ' : '';
-        const text = execSync(tessPrefix + 'tesseract "' + imgPath + '" stdout 2>&1 || echo "[tesseract OCR failed]"',
+        // Fed on stdin: macOS Leptonica rewrites /tmp/ paths to $TMPDIR and then cannot find the file.
+        const text = execSync(tessPrefix + 'tesseract stdin stdout < "' + imgPath + '" 2>&1 || echo "[tesseract OCR failed]"',
           { encoding: 'utf8', timeout: 60000 });
         // On failure the output is tesseract's error text, which the model would read as a card.
         allExtractedText += text.includes('[tesseract OCR failed]')

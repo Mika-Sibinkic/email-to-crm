@@ -111,6 +111,10 @@ const extToX = p => p.replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1').tri
 // and its only title-like word is a weak one (Commercial, Senior, Executive).
 const STRONG_TITLE_RE = /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Analyst|Consultant|Specialist|Broker|Banker|Underwriter|Originator|Head\b|VP\b|SVP\b|EVP\b|AVP\b)/i;
 const isDepartmentLine = l => /\b(?:Group|Department|Dept|Division|Team|Unit)\s*$/i.test(l) && !STRONG_TITLE_RE.test(l);
+// Labeled form rows ("City: Phoenix", "State: AZ") name the contact's own location; a vendor
+// footer address further down must not win over them.
+const CITY_LABEL_RE = /^city\s*:\s*([A-Za-z][A-Za-z .'-]{1,40})$/i;
+const STATE_LABEL_RE = /^state(?:\s*\/\s*province)?\s*:\s*([A-Za-z][A-Za-z .]{1,30})$/i;
 const FORM_LABEL_RE = /^(?:company(?:\s+name)?|firm|organi[sz]ation|employer|business(?:\s+name)?)\s*:?$/i;
 // A reply attribution ("On <date> Jane Doe <jane@acme.example> wrote:", optionally "> " quoted)
 // is a message boundary: the lines above it belong to someone else.
@@ -464,7 +468,8 @@ function scanSignatures(body, excludeForwarder) {
     const rootLower = domainRoot.toLowerCase();
     for (let i = lines.length - 1; i >= Math.max(0, lines.length - 25); i--) {
       const line = lines[i];
-      if (/^(from|to|cc|date|subject|sent|-----)/i.test(line)) break;
+      // Header lines only: "Sent from my iPhone" or "Tom Reyes" is not a message boundary.
+      if (/^(?:(?:from|to|cc|date|subject|sent)\s*:|-----)/i.test(line)) break;
       if (/confidential|privilege|disclaimer/i.test(line)) continue;
       if (line.length > 80 || line.length < 2) continue;
       // Skip email/URL lines
@@ -765,6 +770,8 @@ function scanSignatures(body, excludeForwarder) {
         // EMAIL-HINT-GUIDED NAME DETECTION
         if (line.length < 60) {
           let candFirst = '', candLast = '', candNick = '';
+          // A form or CRM notice labels the name ("Name: Jane Doe"); the label is not part of it.
+          const line = lines[i].replace(/^(?:(?:contact|full)\s+)?name\s*:\s*/i, '');
 
           // Handle "Last, First" format
           // Accept Unicode smart quotes (\u2018\u2019) in names like O'Broker
@@ -814,6 +821,8 @@ function scanSignatures(body, excludeForwarder) {
 
         // City, State from address line - handles "City, ST 12345" and "City ST, 12345"
         // REMOVED isOwnAddress guard - rely on phone blacklist only
+        if (!city && CITY_LABEL_RE.test(line)) city = line.match(CITY_LABEL_RE)[1].trim();
+        if (!state && STATE_LABEL_RE.test(line)) state = line.match(STATE_LABEL_RE)[1].trim();
         if (!city) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
@@ -931,6 +940,8 @@ function scanSignatures(body, excludeForwarder) {
           }
         }
         // City/state - same boundary applies (won't reach here if boundary hit above)
+        if (!city && CITY_LABEL_RE.test(line)) city = line.match(CITY_LABEL_RE)[1].trim();
+        if (!state && STATE_LABEL_RE.test(line)) state = line.match(STATE_LABEL_RE)[1].trim();
         if (!city) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
