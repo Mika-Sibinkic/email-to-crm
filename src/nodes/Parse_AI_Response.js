@@ -625,6 +625,11 @@ function scanSignatures(body, excludeForwarder) {
 
         // Stop if we hit email headers (we've gone past the signature)
         if (/^(From|To|Cc|Date|Subject|Sent|Von|An|Gesendet|Betreff|De|\u00c0|Envoy\u00e9|Objet)\s*:|^-----/i.test(line) || ATTRIBUTION_RE.test(line)) break;
+        // Same boundary as the after-email scan below: above an "On ... <email> wrote:" line sits
+        // a quoted staff reply, whose title and office city are not the contact's.
+        const ownLine = (line.match(/[\w.+-]+@[\w.-]+\.\w{2,}/g) || []).some(e =>
+          [...OWN_DOMAINS].some(d => e.toLowerCase().endsWith('@' + d)) || e.toLowerCase() === (excludeForwarder || '').toLowerCase());
+        if (ownLine || OWN_STAFF_FULL.includes(line.toLowerCase())) break;
         if (/confidential|privilege|disclaimer|intended only/i.test(line)) continue;
         if (line.length > 200) continue; // Skip long paragraphs
 
@@ -1110,8 +1115,17 @@ function scanSignatures(body, excludeForwarder) {
               fbWebsite = line.trim();
             }
           }
+          // Title
+          // Added LLC/Inc/Corp guard (same as primary scanner)
+          if (!fbTitle && line.length < 100 && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|VP\b|SVP\b|EVP\b)/i.test(line)) {
+            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim()) && !isDepartmentLine(line)) {
+              fbTitle = line;
+            }
+          }
           // Company
-          if (!fbCompany && line.length < 80 && line.length > 2) {
+          // A title line with a company keyword ("Vice President, Equipment Sales") is not the company;
+          // a "Name | Title | Company" line is both, and is split later.
+          if (!fbCompany && (line !== fbTitle || line.includes('|')) && line.length < 80 && line.length > 2) {
             if (!/@/.test(line) && !/^https?:\/\//i.test(line) && !/^www\./i.test(line) && !/^\d/.test(line)) {
               if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
                 const endsWithPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|LLC|LLP)\.\s*$/i.test(line.trim());
@@ -1121,13 +1135,6 @@ function scanSignatures(body, excludeForwarder) {
                   fbCompany = line.split('|').map(s => s.trim()).filter(s => s && s.toLowerCase() !== own).join(' | ');
                 }
               }
-            }
-          }
-          // Title
-          // Added LLC/Inc/Corp guard (same as primary scanner)
-          if (!fbTitle && line.length < 100 && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|VP\b|SVP\b|EVP\b)/i.test(line)) {
-            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim()) && !isDepartmentLine(line)) {
-              fbTitle = line;
             }
           }
         }
@@ -2735,7 +2742,8 @@ for (const item of items) {
           const phoneLine = (prevData.fullBody || '').split(/\r?\n/).find(l => l.replace(/\D/g, '').includes(tail));
           if (phoneLine) {
             // up to the first digit, minus the number's own '(' or '+' (otherwise '(m) 555...' loses its '(m)' label)
-            const labelPart = phoneLine.slice(0, Math.max(0, phoneLine.search(/\d/))).replace(/[\s(+]+$/, '');
+            // In prose only the last sentence labels the number: "...business owners... my cell, 555" is a cell.
+            const labelPart = phoneLine.slice(0, Math.max(0, phoneLine.search(/\d/))).replace(/[\s(+]+$/, '').replace(/^.*[.!?]\s+(?=\S)/, '');
             // A label written after the number ("(615) 555-0166 mobile"), read up to the next digit.
             const numM = phoneLine.match(new RegExp(tail.split('').join('[^\\d\\n]{0,3}')));
             const suffixPart = numM ? phoneLine.slice(numM.index + numM[0].length).split(/\d/)[0] : '';
@@ -3088,6 +3096,60 @@ for (const item of items) {
         contact.infoNotes.push('Filled from the contact\'s own signature block: ' + filled.join(', '));
         contact.clearedFields = (contact.clearedFields || []).filter(f => !['firstName', 'lastName', 'companyName', 'jobTitle', 'address', 'phone', 'mobile'].includes(f.field || f));
         if (contact.extractionMethod === 'STUB_FROM_FRAGMENTS' && contact.firstName && contact.lastName) contact.needsWebResearch = false;
+      }
+    }
+
+    const _fullBody = prevData.fullBody || '';
+    const _tail10 = n => String(n || '').replace(/\D/g, '').slice(-10);
+
+    // "Please note my new mobile number: X" in a newer message replaces the number in an older
+    // quoted signature, which the scanner prefers. The number belongs to the sender of the message
+    // it is in: the nearest From: or "On ... wrote:" line above it.
+    for (const m of _fullBody.matchAll(/\bnew\s+(cell(?:ular)?|mobile|mob|direct|office|work)\s*(?:phone\s*)?(?:number|#|no\.?)?\s*(?:is\b|:|-)?\s*([+(]?\d[\d\s.()\-]{6,}\d)/gi)) {
+      if (isOwnCompanyPhone(m[2])) continue;
+      const above = _fullBody.slice(0, m.index).split('\n').reverse().find(l => /^\s*from\s*:|\bwrote:\s*$/i.test(l)) || '';
+      const owner = contacts.find(c => c.email && above.toLowerCase().includes(c.email.toLowerCase()));
+      if (!owner) continue;
+      const field = /^(office|work)$/i.test(m[1]) ? 'phone' : 'mobile', other = field === 'phone' ? 'mobile' : 'phone';
+      owner[field] = m[2].trim();
+      if (_tail10(owner[other]) === _tail10(m[2])) owner[other] = '';
+      owner.infoNotes = owner.infoNotes || [];
+      owner.infoNotes.push('Used the new ' + field + ' number given in the thread: ' + owner[field]);
+    }
+
+    // A team roster puts one person per line ("Jane Doe, Title - jane@x.example - office 555...").
+    // The scanner reads several lines around each address, so it misses rows and lends one row's
+    // number to the person on the row above. With two or more such rows, each row is the record
+    // for its address.
+    const ROSTER_ROW = /^\s*(?:[-*\u2022]\s*)?([A-Z][a-zA-Z'\-]+)\s+([A-Z][a-zA-Z'\-]+)\s*[,|\-\u2013]\s*([^@\n]*?)\s*[,|\-\u2013]\s*([\w.+-]+@[\w.-]+\.\w{2,})([^@\n]*)$/;
+    const rosterRows = _fullBody.split('\n').map(l => l.match(ROSTER_ROW)).filter(m => m &&
+      ![...OWN_DOMAINS].some(d => m[4].toLowerCase().endsWith('@' + d)) && m[4].toLowerCase() !== (forwarderEmail || '').toLowerCase())
+      .map(m => {
+        const nums = [...m[5].matchAll(/[+(]?\d[\d\s.()\-]{6,}\d/g)].map(n => ({ num: n[0].trim(), label: m[5].slice(0, n.index) }))
+          .filter(n => !/\bfax\b[\s:.\-]*$/i.test(n.label));
+        const isMob = n => /\b(cell(?:ular)?|mobile|mob|direct|m|c)\b[\s:.\-]*$/i.test(n.label);
+        return { first: m[1], last: m[2], title: m[3].trim(), email: m[4].toLowerCase(),
+          phone: (nums.find(n => !isMob(n)) || {}).num || '', mobile: (nums.find(isMob) || {}).num || '', nums };
+      });
+    if (rosterRows.length >= 2) {
+      for (const row of rosterRows) {
+        const otherNums = new Set(rosterRows.filter(r => r !== row).flatMap(r => r.nums.map(n => _tail10(n.num))));
+        let c = contacts.find(x => (x.email || '').toLowerCase() === row.email);
+        if (!c) {
+          if (namedFoundByAi && !isNamedPerson({ email: row.email, firstName: row.first, lastName: row.last })) continue;
+          const mate = contacts.find(x => (x.email || '').toLowerCase().split('@')[1] === row.email.split('@')[1]) || {};
+          c = { firstName: row.first, lastName: row.last, nickname: '', email: row.email, phone: '', mobile: '',
+            companyName: mate.companyName || '', jobTitle: row.title, city: '', state: '', address: '', country: '',
+            website: mate.website || '', type: mate.type || '', specificType: '', confidence: 'medium',
+            extractionMethod: 'ROSTER_ROW', infoNotes: ['Extracted from a team roster line'],
+            verifiedFields: ['email', 'firstName', 'lastName'], unverifiedFields: [], clearedFields: [] };
+          contacts.push(c);
+        }
+        for (const f of ['phone', 'mobile']) {
+          if (c[f] && otherNums.has(_tail10(c[f]))) c[f] = '';
+          if (!c[f] && row[f]) c[f] = row[f];
+        }
+        if (!c.jobTitle && row.title) c.jobTitle = row.title;
       }
     }
 

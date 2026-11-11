@@ -365,8 +365,9 @@ for (const item of items) {
     // as someone else is left to add.
     if (contacts.length > 1) {
       const note = [data.forwarderInstruction || '', data.rawForwarderInstruction || ''].join(' ');
-      const ruledOut = new Set([...note.matchAll(/\b(?:[Nn]ot|[Ee]xcept|[Ii]nstead of|[Ss]kip|[Dd]o not add|[Dd]on'?t add)\s+([A-Z][a-z]+)\b/g)]
-        .map(m => m[1].toLowerCase()));
+      // "Tom is already in there" rules Tom out the same way.
+      const ruledOut = new Set([...note.matchAll(/\b(?:[Nn]ot|[Ee]xcept|[Ii]nstead of|[Ss]kip|[Dd]o not add|[Dd]on'?t add)\s+([A-Z][a-z]+)\b|\b([A-Z][a-z]+)(?:\s+[A-Z][a-z]+)?\s+(?:is|was)\s+already\s+(?:in|on|added)\b/g)]
+        .map(m => (m[1] || m[2]).toLowerCase()));
       const kept = contacts.filter(c => !ruledOut.has(String(c.firstName || '').trim().toLowerCase()));
       if (ruledOut.size && kept.length) contacts = kept;
     }
@@ -492,6 +493,19 @@ for (const item of items) {
       contact.companyName = '';
       contact.infoNotes = contact.infoNotes || [];
       contact.infoNotes.push('Cleared garbled company name: "' + companyStr.substring(0, 50) + '"');
+    }
+
+    // Without a forwarder type, an unambiguous company signal ("Ridgeway Insurance Group",
+    // "Example Appraisal Group") beats the model's guess.
+    if (!data.suggestedType && contact.email) {
+      const inferred = inferTypeFromCompany(contact.companyName, contact.email);
+      if (inferred && inferred.confidence === 'high' && inferred.type !== extractedType) {
+        contact.infoNotes = contact.infoNotes || [];
+        contact.infoNotes.push('Type set to "' + inferred.type + '" from the company (' + inferred.source + '); AI said "' + (extractedType || 'none') + '"');
+        extractedType = inferred.type;
+        typeValidated = true;
+        typeCorrected = true;
+      }
     }
 
     // Type-relevance gate: when the forwarder gave a type, check each contact's company
