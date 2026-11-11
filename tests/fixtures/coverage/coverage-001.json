@@ -1,0 +1,84 @@
+{
+  "id": "coverage-001",
+  "category": "coverage",
+  "split": "train",
+  "description": "iPhone Contacts \"Share Contact\" by Mail: the only contact data is a .vcf attachment; body is a two-word note plus \"Sent from my iPhone\"",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD73DE8B8FFD47E144E6231BED852D192EFE3ADCC3=",
+    "internetMessageId": "<73DE8B8FFD47E144E6231BED@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAA5BCC7CFEF252D0479E2=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Renata Silva",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": true,
+    "attachments": [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        "id": "att-d30d658d58feced5",
+        "name": "Renata Silva.vcf",
+        "contentType": "text/vcard",
+        "size": 433,
+        "isInline": false
+      }
+    ],
+    "bodyPreview": "RIA for crm Sent from my iPhone",
+    "body": {
+      "contentType": "text",
+      "content": "RIA for crm\n\nSent from my iPhone"
+    }
+  },
+  "attachments": [
+    {
+      "@odata.type": "#microsoft.graph.fileAttachment",
+      "id": "att-d30d658d58feced5",
+      "name": "Renata Silva.vcf",
+      "contentType": "text/vcard",
+      "size": 433,
+      "isInline": false,
+      "contentBytes": "QkVHSU46VkNBUkQNClZFUlNJT046My4wDQpQUk9ESUQ6LS8vQXBwbGUgSW5jLi8vaVBob25lIE9TIDE4LjEvL0VODQpOOlNpbHZhO1JlbmF0YTs7Ow0KRk46UmVuYXRhIFNpbHZhDQpPUkc6Qmx1ZXdhdGVyIENhcGl0YWwgQWR2aXNvcnM7DQpUSVRMRTpQYXJ0bmVyDQpFTUFJTDt0eXBlPUlOVEVSTkVUO3R5cGU9V09SSzt0eXBlPXByZWY6cmVuYXRhQGJsdWV3YXRlcmNhcC5leGFtcGxlDQpURUw7dHlwZT1DRUxMO3R5cGU9Vk9JQ0U7dHlwZT1wcmVmOigyMTQpIDU1NS0wMTQzDQpURUw7dHlwZT1XT1JLO3R5cGU9Vk9JQ0U6KDIxNCkgNTU1LTAxMjkNCml0ZW0xLkFEUjt0eXBlPVdPUks7dHlwZT1wcmVmOjs7MzEwMCBNY0tpbm5leSBBdmUgU3VpdGUgNjAwO0RhbGxhcztUWDs3NTIwNDtVbml0ZWQgU3RhdGVzDQppdGVtMS5YLUFCQURSOnVzDQpFTkQ6VkNBUkQNCg=="
+    }
+  ],
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "renata@bluewatercap.example",
+        "firstName": "Renata",
+        "lastName": "Silva",
+        "phone": "214-555-0129",
+        "mobile": "214-555-0143",
+        "company": "Bluewater Capital Advisors",
+        "title": "Partner",
+        "city": "Dallas",
+        "state": "TX",
+        "type": "Investment Advisor"
+      }
+    ]
+  }
+}

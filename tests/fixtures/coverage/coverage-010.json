@@ -1,0 +1,68 @@
+{
+  "id": "coverage-010",
+  "category": "coverage",
+  "split": "holdout",
+  "description": "Staff reply-all to an introduction with the intake mailbox added on Cc: the new contact is the To: recipient; the introducer is quoted below and not requested",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD432D7A1278ADD6E4065AAA2B25465F12EFDEDD8C=",
+    "internetMessageId": "<432D7A1278ADD6E4065AAA2B@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA6957F64A4E9EF6F0E9CC=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "RE: Introduction",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Leah Kim",
+          "address": "leah@kimfarmsupply.example"
+        }
+      }
+    ],
+    "ccRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Thanks Sam (moving you to bcc). Copying our contacts inbox so Leah gets added. Leah, great to meet you. Are you free Thursday afternoon for a quick call? Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main S",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Thanks Sam (moving you to bcc). Copying our contacts inbox so Leah gets added.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Leah, great to meet you. Are you free Thursday afternoon for a quick call?<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Sam Ortega &lt;sortega@valleyagadvisors.example&gt;<br>\n<b>Sent:</b> Wednesday, November 4, 2026 1:10 PM<br>\n<b>To:</b> Leah Kim &lt;leah@kimfarmsupply.example&gt;; Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Introduction<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Leah, Pat - connecting you two as promised.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat, Leah owns Kim Farm Supply in Fresno and is looking at financing for a new warehouse forklift fleet. Her office line is 559-555-0124.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Leah, Pat runs Your Company and is the person I mentioned.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Best,<o:p></o:p></p>\n<p class=\"MsoNormal\">Sam<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sam Ortega | Valley Ag Advisors | 559-555-0108<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "leah@kimfarmsupply.example",
+        "firstName": "Leah",
+        "lastName": "Kim",
+        "phone": "559-555-0124",
+        "mobile": "",
+        "company": "Kim Farm Supply",
+        "city": "Fresno",
+        "type": "Customer"
+      }
+    ]
+  }
+}

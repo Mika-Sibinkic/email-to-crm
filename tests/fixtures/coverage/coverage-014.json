@@ -1,0 +1,63 @@
+{
+  "id": "coverage-014",
+  "category": "coverage",
+  "split": "train",
+  "description": "Samsung Email (Android) forward: \"Sent from my Galaxy\" above a \"-------- Original message --------\" block with From/Date/To/Subject in separate divs; number-then-label phones",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD236BD4192324C907A15CBA8249B8FAE15E618E47=",
+    "internetMessageId": "<236BD4192324C907A15CBA82@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAB84C07B0C443345CDC1F=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Fwd: Units at Riverside",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add him. Mgmt co Sent from my Galaxy -------- Original message -------- From: Ray Castillo <rcastillo@pinecrestpm.example> Date: 11/3/26 9:14 AM (GMT-06:00) To: pat@yourcompany.com Subject: Units at Riverside Pat, We manage about 40 rental properties arou",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body><div dir=\"auto\">Add him. Mgmt co</div><div dir=\"auto\"><br></div><div dir=\"auto\"><br></div><div dir=\"auto\" id=\"composer_signature\"><div style=\"font-size:85%;color:#575757\" dir=\"auto\">Sent from my Galaxy</div></div><div dir=\"auto\"><br></div><div><br></div><div align=\"left\" dir=\"auto\" style=\"font-size:100%;color:#000000\"><div>-------- Original message --------</div><div>From: Ray Castillo &lt;rcastillo@pinecrestpm.example&gt; </div><div>Date: 11/3/26  9:14 AM  (GMT-06:00) </div><div>To: pat@yourcompany.com </div><div>Subject: Units at Riverside </div><div><br></div></div><div dir=\"ltr\">Pat,<div><br></div><div>We manage about 40 rental properties around Austin and need to replace the HVAC units at two of them. Would like to talk financing options.</div><div><br></div><div>Thanks,</div><div><br></div><div>Ray Castillo</div><div>Operations Manager</div><div>Pinecrest Property Management</div><div>(512) 555-0161 office</div><div>(512) 555-0190 cell</div><div>Austin, TX</div></div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "rcastillo@pinecrestpm.example",
+        "firstName": "Ray",
+        "lastName": "Castillo",
+        "phone": "512-555-0161",
+        "mobile": "512-555-0190",
+        "company": "Pinecrest Property Management",
+        "title": "Operations Manager",
+        "city": "Austin",
+        "state": "TX",
+        "type": "Management Company"
+      }
+    ]
+  }
+}

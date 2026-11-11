@@ -1,0 +1,84 @@
+{
+  "id": "coverage-002",
+  "category": "coverage",
+  "split": "holdout",
+  "description": "Outlook forward of a two-line message whose sender attached his Outlook .vcf; phones, title, company and address exist only in the vCard",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD8B7DD705314E2D10DE0AD1785591FCF301F2FEE0=",
+    "internetMessageId": "<8B7DD705314E2D10DE0AD178@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQADBA1FD4101A4DDBA9141=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Following up",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": true,
+    "attachments": [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        "id": "att-6f69956629bc6353",
+        "name": "Michael Dunleavy.vcf",
+        "contentType": "text/x-vcard",
+        "size": 397,
+        "isInline": false
+      }
+    ],
+    "bodyPreview": "Insurance - his card is attached Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Michael Dunleavy <mdunleavy@ridgelineins.exa",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Insurance - his card is attached<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Michael Dunleavy &lt;mdunleavy@ridgelineins.example&gt;<br>\n<b>Sent:</b> Tuesday, November 3, 2026 8:15 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Following up<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat - good to meet you yesterday. Attaching my contact card so you have everything. Talk next week.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">-Mike<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sent from my iPhone<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "attachments": [
+    {
+      "@odata.type": "#microsoft.graph.fileAttachment",
+      "id": "att-6f69956629bc6353",
+      "name": "Michael Dunleavy.vcf",
+      "contentType": "text/x-vcard",
+      "size": 397,
+      "isInline": false,
+      "contentBytes": "QkVHSU46VkNBUkQNClZFUlNJT046Mi4xDQpOO0xBTkdVQUdFPWVuLXVzOkR1bmxlYXZ5O01pY2hhZWwNCkZOOk1pY2hhZWwgRHVubGVhdnkNCk9SRzpSaWRnZWxpbmUgSW5zdXJhbmNlIEdyb3VwDQpUSVRMRTpDb21tZXJjaWFsIExpbmVzIFByb2R1Y2VyDQpURUw7V09SSztWT0lDRTorMSAoMzE3KSA1NTUtMDE1OA0KVEVMO0NFTEw7Vk9JQ0U6KzEgKDMxNykgNTU1LTAxNzcNCkFEUjtXT1JLO1BSRUY6Ozs4OTAwIEtleXN0b25lIENyb3NzaW5nLCBTdWl0ZSAzMDA7SW5kaWFuYXBvbGlzO0lOOzQ2MjQwO1VuaXRlZCBTdGF0ZXMgb2YgQW1lcmljYQ0KRU1BSUw7UFJFRjtJTlRFUk5FVDptZHVubGVhdnlAcmlkZ2VsaW5laW5zLmV4YW1wbGUNClJFVjoyMDI2MTEwM1QxNDE1MDBaDQpFTkQ6VkNBUkQNCg=="
+    }
+  ],
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "mdunleavy@ridgelineins.example",
+        "firstName": "Michael",
+        "lastName": "Dunleavy",
+        "phone": "317-555-0158",
+        "mobile": "317-555-0177",
+        "company": "Ridgeline Insurance Group",
+        "title": "Commercial Lines Producer",
+        "city": "Indianapolis",
+        "state": "IN",
+        "type": "Insurance"
+      }
+    ]
+  }
+}

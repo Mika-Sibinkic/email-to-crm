@@ -1,0 +1,61 @@
+{
+  "id": "coverage-011",
+  "category": "coverage",
+  "split": "train",
+  "description": "Spanish note and Spanish Outlook forward (De/Enviado el/Para/Asunto); \"Lic.\" honorific before the name, Tel./Cel. labels, title unchecked (translation is a judgment call)",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADFDF587FB0FF300DAB3F04DD85C0E87EE8CE4F997=",
+    "internetMessageId": "<FDF587FB0FF300DAB3F04DD8@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA06256F3AE67DF31FB39B=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "RV: Contrato de arrendamiento",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Agregar al CRM por favor, es abogado. Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here De: Lic. Mauricio Ferrer <mferrer@ferreraboga",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Agregar al CRM por favor, es abogado.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>De:</b> Lic. Mauricio Ferrer &lt;mferrer@ferrerabogados.example&gt;<br>\n<b>Enviado el:</b> martes, 3 de noviembre de 2026 10:12<br>\n<b>Para:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Asunto:</b> Contrato de arrendamiento<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Estimado Pat:<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Le comparto los comentarios de nuestro cliente sobre el contrato de arrendamiento. Quedo a sus órdenes para cualquier duda.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Saludos cordiales,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b>Lic. Mauricio Ferrer</b><o:p></o:p></p>\n<p class=\"MsoNormal\">Socio Director<o:p></o:p></p>\n<p class=\"MsoNormal\">Ferrer &amp; Asociados Abogados, S.C.<o:p></o:p></p>\n<p class=\"MsoNormal\">Av. Constitución 2050, Col. Centro, 64000 Monterrey, N.L., México<o:p></o:p></p>\n<p class=\"MsoNormal\">Tel. +52 81 5550 0142 | Cel. +52 81 5550 0156<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><span style=\"font-size:7.5pt;color:gray\">AVISO DE CONFIDENCIALIDAD: Este correo y sus anexos son confidenciales. Si usted no es el destinatario, notifique al remitente y elimine este mensaje.</span><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "mferrer@ferrerabogados.example",
+        "firstName": "Mauricio",
+        "lastName": "Ferrer",
+        "phone": "+52 81 5550 0142",
+        "mobile": "+52 81 5550 0156",
+        "company": "Ferrer & Asociados Abogados, S.C.",
+        "city": "Monterrey",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

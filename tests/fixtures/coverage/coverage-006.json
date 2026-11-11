@@ -1,0 +1,61 @@
+{
+  "id": "coverage-006",
+  "category": "coverage",
+  "split": "holdout",
+  "description": "Forwarded LinkedIn \"accepted your invitation\" email: name, title and company come from the headline, email and cell only from the forwarder's note",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD4FDA79141CCDF82549BBD312E8E1DFB4B0F762B8=",
+    "internetMessageId": "<4FDA79141CCDF82549BBD312@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAF2428CF7FE401C88905E=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Darnell Webb accepted your invitation",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add Darnell as a broker. dwebb@webbequip.example, cell 615-555-0193 Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: LinkedIn ",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Darnell as a broker. dwebb@webbequip.example, cell 615-555-0193<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> LinkedIn &lt;invitations@linkedin.example&gt;<br>\n<b>Sent:</b> Wednesday, November 4, 2026 6:02 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Darnell Webb accepted your invitation<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<table role=\"presentation\" width=\"512\" style=\"background:#ffffff\"><tr><td style=\"padding:24px\"><img src=\"https://static.linkedin.example/logo.png\" alt=\"LinkedIn\" width=\"84\" height=\"21\"><br><br><p style=\"font-size:20px\">Pat, Darnell Webb accepted your invitation</p><img src=\"https://media.linkedin.example/photo/dwebb.jpg\" alt=\"Darnell Webb\" width=\"72\" height=\"72\"><p style=\"font-size:16px;font-weight:600;margin:8px 0 0\">Darnell Webb</p><p style=\"font-size:14px;color:#666;margin:2px 0 12px\">Principal at Webb Equipment Partners | Buying and selling used construction equipment</p><a href=\"https://www.linkedin.example/comm/in/darnellwebb?trk=eml-acc\" style=\"background:#0a66c2;color:#fff;padding:8px 16px\">View profile</a><p style=\"font-size:12px;color:#666\">This email was intended for Pat Staffer (Managing Director at Your Company). <a href=\"https://www.linkedin.example/comm/psettings/email-unsubscribe?e=pat%40yourcompany.com\">Unsubscribe</a><br>&copy; 2026 LinkedIn Corporation, 1000 West Example Avenue, Sunnyvale, CA 94085.</p></td></tr></table></div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "dwebb@webbequip.example",
+        "firstName": "Darnell",
+        "lastName": "Webb",
+        "phone": "",
+        "mobile": "615-555-0193",
+        "company": "Webb Equipment Partners",
+        "title": "Principal",
+        "type": "Broker"
+      }
+    ]
+  }
+}

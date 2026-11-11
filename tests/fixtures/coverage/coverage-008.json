@@ -1,0 +1,59 @@
+{
+  "id": "coverage-008",
+  "category": "coverage",
+  "split": "train",
+  "description": "Forwarded scheduling-tool booking notice: invitee name, email, call-back number and company are question/answer pairs; notifier and help mailboxes are not contacts",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADA4BE8C5989B6C61EA89EDFF02079C151C098F135=",
+    "internetMessageId": "<A4BE8C5989B6C61EA89EDFF0@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAC3271A66287C477BB570=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: New Event: Owen Pierce - 10:00am Fri, Nov 6, 2026 - 30 Minute Intro Call",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "new booking, please add Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Scheduler <notifications@scheduler.example> Sent: Wed",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">new booking, please add<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Scheduler &lt;notifications@scheduler.example&gt;<br>\n<b>Sent:</b> Wednesday, November 4, 2026 11:05 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> New Event: Owen Pierce - 10:00am Fri, Nov 6, 2026 - 30 Minute Intro Call<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#1a1a1a\"><p>Hi Pat Staffer,</p><p>A new event has been scheduled.</p><p><b>Event Type:</b><br>30 Minute Intro Call</p><p><b>Invitee:</b><br>Owen Pierce</p><p><b>Invitee Email:</b><br><a href=\"mailto:opierce@pierceagri.example\">opierce@pierceagri.example</a></p><p><b>Event Date/Time:</b><br>10:00am - Friday, November 6, 2026 (Central Time - US &amp; Canada)</p><p><b>Location:</b><br>Pat Staffer will call the invitee at +1 806-555-0152</p><p><b>Invitee Time Zone:</b><br>Central Time - US &amp; Canada</p><p><b>Questions:</b></p><p>Company name<br>Pierce Agri Services</p><p>What would you like to discuss?<br>Financing a used combine and two grain carts for our farm in Lubbock.</p><p><a href=\"https://scheduler.example/scheduled_events/7f3a/invitees/9c1e\">View event in Scheduler</a></p><p style=\"font-size:12px;color:#888\">Sent from Scheduler. Need help? help@scheduler.example</p></div></div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "opierce@pierceagri.example",
+        "firstName": "Owen",
+        "lastName": "Pierce",
+        "phone": "806-555-0152",
+        "company": "Pierce Agri Services",
+        "type": "Customer"
+      }
+    ]
+  }
+}

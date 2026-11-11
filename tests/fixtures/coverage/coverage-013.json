@@ -1,0 +1,61 @@
+{
+  "id": "coverage-013",
+  "category": "coverage",
+  "split": "holdout",
+  "description": "Dutch Outlook forward (Van/Verzonden/Aan/Onderwerp); lowercase surname particle \"de Vries\", T/M labels with +31 (0) trunk prefix, KvK and BTW numbers",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADED65AF393EB8E5D7DE3D514C9703BDCD38887D0B=",
+    "internetMessageId": "<ED65AF393EB8E5D7DE3D514C@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAEF5DD6901BF104FB2BB7=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Lease vrachtwagens",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Pls add, he wants to lease trucks Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here Van: Sander de Vries <s.devries@devrieslogistiek.",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Pls add, he wants to lease trucks<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>Van:</b> Sander de Vries &lt;s.devries@devrieslogistiek.example&gt;<br>\n<b>Verzonden:</b> dinsdag 3 november 2026 09:41<br>\n<b>Aan:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Onderwerp:</b> Lease vrachtwagens<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Beste Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Zoals besproken zijn wij op zoek naar financiering voor acht nieuwe trekkers. Kunt u mij een voorstel sturen?<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Met vriendelijke groet,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Sander de Vries<o:p></o:p></p>\n<p class=\"MsoNormal\">Directeur<o:p></o:p></p>\n<p class=\"MsoNormal\">De Vries Logistiek B.V.<o:p></o:p></p>\n<p class=\"MsoNormal\">Havenweg 12, 3089 JB Rotterdam<o:p></o:p></p>\n<p class=\"MsoNormal\">T +31 (0)10 555 0143<o:p></o:p></p>\n<p class=\"MsoNormal\">M +31 (0)6 5550 0178<o:p></o:p></p>\n<p class=\"MsoNormal\">KvK 55500123 | BTW NL005550012B01<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "s.devries@devrieslogistiek.example",
+        "firstName": "Sander",
+        "lastName": "de Vries",
+        "phone": "+31 10 555 0143",
+        "mobile": "+31 6 5550 0178",
+        "company": "De Vries Logistiek B.V.",
+        "city": "Rotterdam",
+        "type": "Customer"
+      }
+    ]
+  }
+}

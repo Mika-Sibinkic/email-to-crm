@@ -1,0 +1,62 @@
+{
+  "id": "coverage-016",
+  "category": "coverage",
+  "split": "train",
+  "description": "Plain-text forward of a reply chain: contact's short \"-- \" signature on top, the forwarder's own signature inside \"> \" quotes below, and a \">>\" second level",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD2F270382B92EF78AF1052BE526DB6D0D5EE7CC1C=",
+    "internetMessageId": "<2F270382B92EF78AF1052BE5@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA2AF858A322C444F0006A=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Fwd: Re: Skid steer financing",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add as customer ---------- Forwarded message --------- From: Ian Chu <ian@churentals.example> Date: Wed, Nov 4, 2026 at 4:40 PM Subject: Re: Skid steer financing To: Pat Staffer <pat@yourcompany.com> Sounds good, Thursday works. Call my cell. -- Ian Chu |",
+    "body": {
+      "contentType": "text",
+      "content": "add as customer\r\n\r\n---------- Forwarded message ---------\r\nFrom: Ian Chu <ian@churentals.example>\r\nDate: Wed, Nov 4, 2026 at 4:40 PM\r\nSubject: Re: Skid steer financing\r\nTo: Pat Staffer <pat@yourcompany.com>\r\n\r\nSounds good, Thursday works. Call my cell.\r\n\r\n-- \r\nIan Chu | Chu Equipment Rentals\r\n406-555-0128 (m)\r\nBillings MT\r\n\r\nOn Wed, Nov 4, 2026 at 2:15 PM Pat Staffer <pat@yourcompany.com> wrote:\r\n> Ian, happy to walk through terms. Are you free Thursday?\r\n>\r\n> Pat Staffer\r\n> Managing Director | Your Company\r\n> Office (555) 010-0100 | Mobile (555) 010-0101\r\n> 100 Main Street, Anytown, ST 00000\r\n> pat@yourcompany.com\r\n> Your Company Tagline Here\r\n>\r\n> On Wed, Nov 4, 2026 at 11:02 AM Ian Chu <ian@churentals.example> wrote:\r\n>> Pat, we are adding four skid steers to the rental fleet. Can you send terms?\r\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "ian@churentals.example",
+        "firstName": "Ian",
+        "lastName": "Chu",
+        "phone": "",
+        "mobile": "406-555-0128",
+        "company": "Chu Equipment Rentals",
+        "city": "Billings",
+        "state": "MT",
+        "type": "Customer"
+      }
+    ]
+  }
+}

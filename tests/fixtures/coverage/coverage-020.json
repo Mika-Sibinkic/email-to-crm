@@ -1,0 +1,63 @@
+{
+  "id": "coverage-020",
+  "category": "coverage",
+  "split": "train",
+  "description": "vCard text pasted into a plain-text body (BEGIN:VCARD ... END:VCARD): N/FN/ORG/TITLE/TEL;TYPE=CELL/ADR property syntax instead of a signature",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD6BE0486E538B50AC59520BAD827905FC2554B50C=",
+    "internetMessageId": "<6BE0486E538B50AC59520BAD@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA22FC515CAD8D0C43F09A=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "contact",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add pls, family office BEGIN:VCARD VERSION:3.0 N:Okafor;Chidi;;; FN:Chidi Okafor ORG:Okafor Family Holdings TITLE:Principal TEL;TYPE=CELL:+1-404-555-0119 TEL;TYPE=WORK:+1-404-555-0102 EMAIL;TYPE=WORK:chidi@okaforholdings.example ADR;TYPE=WORK:;;1200 Peach",
+    "body": {
+      "contentType": "text",
+      "content": "add pls, family office\r\n\r\nBEGIN:VCARD\r\nVERSION:3.0\r\nN:Okafor;Chidi;;;\r\nFN:Chidi Okafor\r\nORG:Okafor Family Holdings\r\nTITLE:Principal\r\nTEL;TYPE=CELL:+1-404-555-0119\r\nTEL;TYPE=WORK:+1-404-555-0102\r\nEMAIL;TYPE=WORK:chidi@okaforholdings.example\r\nADR;TYPE=WORK:;;1200 Peachtree St NE;Atlanta;GA;30309;USA\r\nEND:VCARD\r\n\r\nPat Staffer\r\nManaging Director | Your Company\r\nOffice (555) 010-0100 | Mobile (555) 010-0101\r\n100 Main Street, Anytown, ST 00000\r\npat@yourcompany.com\r\nYour Company Tagline Here"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "chidi@okaforholdings.example",
+        "firstName": "Chidi",
+        "lastName": "Okafor",
+        "phone": "404-555-0102",
+        "mobile": "404-555-0119",
+        "company": "Okafor Family Holdings",
+        "title": "Principal",
+        "city": "Atlanta",
+        "state": "GA",
+        "type": "Family Office"
+      }
+    ]
+  }
+}

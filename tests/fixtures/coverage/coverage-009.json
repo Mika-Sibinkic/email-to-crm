@@ -1,0 +1,61 @@
+{
+  "id": "coverage-009",
+  "category": "coverage",
+  "split": "train",
+  "description": "Introduction email where the forwarder was cc'd: the introducer wrote it and signed it; the new contact is the To: recipient, described only in her prose",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD7C2E544A740002C257014D4AAE9ED419FAB61D77=",
+    "internetMessageId": "<7C2E544A740002C257014D4A@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA781DB790652A7C51F0C5=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Intro: Jordan Reyes / Pat Staffer",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Add Jordan Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Dana Whitlock <dwhitlock@harborlinebrokers.example> Sent: Tuesday,",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">Add Jordan<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Dana Whitlock &lt;dwhitlock@harborlinebrokers.example&gt;<br>\n<b>Sent:</b> Tuesday, November 3, 2026 3:22 PM<br>\n<b>To:</b> Jordan Reyes &lt;jreyes@lakeshorefreight.example&gt;<br>\n<b>Cc:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Intro: Jordan Reyes / Pat Staffer<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Jordan, meet Pat Staffer, who runs Your Company and has been a great partner of ours on equipment deals. Pat, Jordan is the CFO at Lakeshore Freight Co. in Chicago and is pricing out financing for about thirty new trailers. His cell is 312-555-0172.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">I will let you two take it from here.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Dana<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b>Dana Whitlock</b><o:p></o:p></p>\n<p class=\"MsoNormal\">Senior Broker | Harborline Equipment Brokers LLC<o:p></o:p></p>\n<p class=\"MsoNormal\">O 615-555-0134 | C 615-555-0187<o:p></o:p></p>\n<p class=\"MsoNormal\">www.harborlinebrokers.example<o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "jreyes@lakeshorefreight.example",
+        "firstName": "Jordan",
+        "lastName": "Reyes",
+        "phone": "",
+        "mobile": "312-555-0172",
+        "company": "Lakeshore Freight Co.",
+        "title": "CFO",
+        "type": "Customer"
+      }
+    ]
+  }
+}

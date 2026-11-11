@@ -1,0 +1,61 @@
+{
+  "id": "coverage-005",
+  "category": "coverage",
+  "split": "train",
+  "description": "Gmail forward of a LinkedIn message notification: sender is a noreply relay, the person's email and cell are only in her message text, title and bank only in the headline",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADB1ECD72DA049E447EAE77D70AB0C1C0586B722F6=",
+    "internetMessageId": "<B1ECD72DA049E447EAE77D70@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA2CF77C4627C6A177A383=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Fwd: Ines sent you a new message",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add her - bank ---------- Forwarded message --------- From: Ines Carvalho via LinkedIn < messages-noreply@linkedin.example > Date: Tue, Nov 3, 2026 at 7:48 AM Subject: Ines sent you a new message To: Pat Staffer < pat@yourcompany.com > Ines sent you a new",
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">add her - bank<br><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Forwarded message ---------<br>From: <strong class=\"gmail_sendername\" dir=\"auto\">Ines Carvalho via LinkedIn</strong> <span dir=\"auto\">&lt;<a href=\"mailto:messages-noreply@linkedin.example\">messages-noreply@linkedin.example</a>&gt;</span><br>Date: Tue, Nov 3, 2026 at 7:48 AM<br>Subject: Ines sent you a new message<br>To: Pat Staffer &lt;<a href=\"mailto:pat@yourcompany.com\">pat@yourcompany.com</a>&gt;<br></div><br><br><html><body style=\"margin:0;padding:0;background:#f3f2ef\"><div style=\"display:none;max-height:0;overflow:hidden\">Ines sent you a new message&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div><table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr><td align=\"center\"><table role=\"presentation\" width=\"512\" style=\"background:#ffffff\"><tr><td style=\"padding:24px\"><img src=\"https://static.linkedin.example/logo.png\" alt=\"LinkedIn\" width=\"84\" height=\"21\"><br><br><a href=\"https://www.linkedin.example/comm/in/ines-carvalho-0a1b2c?trk=eml-msg\"><img src=\"https://media.linkedin.example/photo/ines.jpg\" alt=\"Ines Carvalho\" width=\"56\" height=\"56\"></a><p style=\"font-size:16px;font-weight:600;margin:8px 0 0\">Ines Carvalho</p><p style=\"font-size:14px;color:#666;margin:2px 0 12px\">VP, Equipment Finance at Summit Ridge Bank</p><p style=\"font-size:14px\">Hi Pat, thanks for connecting. We are expanding our vendor program and I would like to compare notes on deal flow. Best way to reach me is ines.carvalho@summitridgebank.example or my cell, 469-555-0181.</p><a href=\"https://www.linkedin.example/comm/messaging/thread/2-ZWQ5?trk=eml-reply\" style=\"background:#0a66c2;color:#fff;padding:8px 16px;border-radius:16px\">Reply</a><br><br><p style=\"font-size:12px;color:#666\">This email was intended for Pat Staffer (Managing Director at Your Company). <a href=\"https://www.linkedin.example/help/linkedin/answer/4788?lang=en\">Learn why we included this.</a><br>You are receiving Message notification emails. <a href=\"https://www.linkedin.example/comm/psettings/email-unsubscribe?lipi=urn%3Ali%3Apage&amp;e=pat%40yourcompany.com\">Unsubscribe</a> &middot; <a href=\"https://www.linkedin.example/help\">Help</a><br>&copy; 2026 LinkedIn Corporation, 1000 West Example Avenue, Sunnyvale, CA 94085.</p></td></tr></table></td></tr></table></body></html></div></div>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "ines.carvalho@summitridgebank.example",
+        "firstName": "Ines",
+        "lastName": "Carvalho",
+        "phone": "",
+        "mobile": "469-555-0181",
+        "company": "Summit Ridge Bank",
+        "title": "VP, Equipment Finance",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

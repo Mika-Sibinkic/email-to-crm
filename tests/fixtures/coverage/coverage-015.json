@@ -1,0 +1,63 @@
+{
+  "id": "coverage-015",
+  "category": "coverage",
+  "split": "train",
+  "description": "Plain-text forward where the whole quoted message, including the signature, has \"> \" prefixes and a \"-- \" delimiter (Thunderbird / text-only client)",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD16AE888452ABA6E1C7B95F36A98EDBD3FDEA3933=",
+    "internetMessageId": "<16AE888452ABA6E1C7B95F36@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA7845E4B8C468A45E43C4=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Fwd: Re: Equipment coverage",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add nora - insurance Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here On Tue, Nov 3, 2026 at 8:02 AM Nora Lindqvist <nlindqvist@nort",
+    "body": {
+      "contentType": "text",
+      "content": "add nora - insurance\r\n\r\nPat Staffer\r\nManaging Director | Your Company\r\nOffice (555) 010-0100 | Mobile (555) 010-0101\r\n100 Main Street, Anytown, ST 00000\r\npat@yourcompany.com\r\nYour Company Tagline Here\r\n\r\nOn Tue, Nov 3, 2026 at 8:02 AM Nora Lindqvist <nlindqvist@northfieldmutual.example> wrote:\r\n> Hi Pat,\r\n>\r\n> Following up on our call. We can quote the equipment coverage for your\r\n> portfolio once we have the schedule of values. Send it whenever you have it.\r\n>\r\n> Regards,\r\n> Nora\r\n>\r\n> --\r\n> Nora Lindqvist\r\n> Senior Underwriter\r\n> Northfield Mutual Insurance Co.\r\n> Office: 952-555-0133\r\n> Mobile: 952-555-0109\r\n> Minneapolis, MN 55402\r\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "nlindqvist@northfieldmutual.example",
+        "firstName": "Nora",
+        "lastName": "Lindqvist",
+        "phone": "952-555-0133",
+        "mobile": "952-555-0109",
+        "company": "Northfield Mutual Insurance Co.",
+        "title": "Senior Underwriter",
+        "city": "Minneapolis",
+        "state": "MN",
+        "type": "Insurance"
+      }
+    ]
+  }
+}

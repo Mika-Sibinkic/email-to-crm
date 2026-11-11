@@ -1,0 +1,60 @@
+{
+  "id": "coverage-012",
+  "category": "coverage",
+  "split": "train",
+  "description": "Italian Gmail forward (\"Messaggio inoltrato\", Da:) from the Associate; Tel./Cell. labels with +39, Italian title (unchecked), GDPR footer",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD433B29D82E9EDE8057FD22329D85E6E9755ABCBA=",
+    "internetMessageId": "<433B29D82E9EDE8057FD2232@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA9C366F76982EF821B0E6=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Fwd: Proposta di collaborazione",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Alex Example",
+        "address": "alex@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add as lender Alex Example Associate | Your Company Mobile (555) 010-0102 alex@yourcompany.com Your Company Tagline Here ---------- Messaggio inoltrato --------- Da: Giulia Bernardi < g.bernardi@bernardileasing.example > Date: lun 2 nov 2026 alle ore 15:2",
+    "body": {
+      "contentType": "html",
+      "content": "<div dir=\"ltr\">add as lender<br clear=\"all\"><div><div dir=\"ltr\" class=\"gmail_signature\" data-smartmail=\"gmail_signature\"><div dir=\"ltr\"><b>Alex Example</b><br>Associate | Your Company<br>Mobile (555) 010-0102<br>alex@yourcompany.com<br>Your Company Tagline Here</div></div></div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\" class=\"gmail_attr\">---------- Messaggio inoltrato ---------<br>Da: <strong class=\"gmail_sendername\" dir=\"auto\">Giulia Bernardi</strong> <span dir=\"auto\">&lt;<a href=\"mailto:g.bernardi@bernardileasing.example\">g.bernardi@bernardileasing.example</a>&gt;</span><br>Date: lun 2 nov 2026 alle ore 15:20<br>Subject: Proposta di collaborazione<br>To: &lt;<a href=\"mailto:alex@yourcompany.com\">alex@yourcompany.com</a>&gt;<br></div><br><br><div dir=\"ltr\">Gentile Alex,<br><br>come anticipato al telefono, saremmo interessati a finanziare operazioni di leasing strumentale per i vostri clienti in Europa. Le invio in allegato la nostra presentazione la prossima settimana.<br><br>Cordiali saluti,<br><br><div class=\"gmail_signature\">Giulia Bernardi<br>Responsabile Commerciale<br>Bernardi Leasing S.p.A.<br>Via Roma 45, 20121 Milano<br>Tel. +39 02 5550 1234<br>Cell. +39 345 555 0187<br><span style=\"font-size:10px;color:#888\">Le informazioni contenute in questo messaggio sono riservate. Ai sensi del Regolamento UE 2016/679 (GDPR) ...</span></div></div></div></div>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "g.bernardi@bernardileasing.example",
+        "firstName": "Giulia",
+        "lastName": "Bernardi",
+        "phone": "+39 02 5550 1234",
+        "mobile": "+39 345 555 0187",
+        "company": "Bernardi Leasing S.p.A.",
+        "type": "Financial Institution"
+      }
+    ]
+  }
+}

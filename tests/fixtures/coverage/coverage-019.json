@@ -1,0 +1,59 @@
+{
+  "id": "coverage-019",
+  "category": "coverage",
+  "split": "train",
+  "description": "Android contact shared as text into a new Outlook-for-Android email: no note, no greeting, only Name/Company/Mobile/Work/Email lines",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADD4B213C5F2B6199386043975695D2EA06B0D5D94=",
+    "internetMessageId": "<D4B213C5F2B6199386043975@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQACFF401FC08CA3C23E037=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "Kevin Albright",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "Kevin Albright Albright Crane & Rigging Mobile: +1 615-555-0185 Work: +1 615-555-0111 Email: kalbright@albrightcrane.example Get Outlook for Android",
+    "body": {
+      "contentType": "html",
+      "content": "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head><body><div dir=\"auto\">Kevin Albright<br>Albright Crane &amp; Rigging<br>Mobile: +1 615-555-0185<br>Work: +1 615-555-0111<br>Email: kalbright@albrightcrane.example</div><div dir=\"auto\"><br></div><div id=\"ms-outlook-mobile-signature\" dir=\"auto\">Get <a href=\"https://aka.ms/AAb9ysg\">Outlook for Android</a></div></body></html>"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "kalbright@albrightcrane.example",
+        "firstName": "Kevin",
+        "lastName": "Albright",
+        "phone": "615-555-0111",
+        "mobile": "615-555-0185",
+        "company": "Albright Crane & Rigging"
+      }
+    ]
+  }
+}

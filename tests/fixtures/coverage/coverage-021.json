@@ -1,0 +1,75 @@
+{
+  "id": "coverage-021",
+  "category": "coverage",
+  "split": "holdout",
+  "description": "Forwarded trade-show lead-scan digest with two badge scans (one Work, one Mobile number); the scanner vendor's support mailbox and number are not contacts",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADF4E7DB03D406823712E31C865A9333852520087B=",
+    "internetMessageId": "<F4E7DB03D406823712E31C86@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAA3D2959337113DED04E9=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Your leads from Southwest Equipment Expo 2026",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add both, both customers Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: LeadScan <noreply@leadscan.example> Sent: Tuesday, N",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">add both, both customers<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> LeadScan &lt;noreply@leadscan.example&gt;<br>\n<b>Sent:</b> Tuesday, November 3, 2026 7:00 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Your leads from Southwest Equipment Expo 2026<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div style=\"font-family:Arial,sans-serif;font-size:13px\"><p><b>Your leads from Southwest Equipment Expo 2026</b></p><p>You captured 2 leads on Tuesday, November 3. Export all leads from the exhibitor portal.</p><table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tr><td style=\"padding:10px;border-bottom:1px solid #ddd\"><b>Alicia Moreno</b><br>Fleet Manager<br>Desert Sun Transport<br>amoreno@desertsuntransport.example<br>Work: 480-555-0114<br>Mesa, AZ<br><span style=\"color:#888\">Scanned 11/03/2026 at Booth 412 by Pat Staffer</span></td></tr><tr><td style=\"padding:10px;border-bottom:1px solid #ddd\"><b>Brian Holt</b><br>Owner<br>Holt Excavating LLC<br>brian@holtexcavating.example<br>Mobile: 928-555-0163<br>Flagstaff, AZ<br><span style=\"color:#888\">Scanned 11/03/2026 at Booth 412 by Pat Staffer</span></td></tr></table><p style=\"font-size:11px;color:#888\">LeadScan by Expo Services | support@leadscan.example | (888) 555-0142<br>You are receiving this because your company exhibited at Southwest Equipment Expo 2026.</p></div></div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "amoreno@desertsuntransport.example",
+        "firstName": "Alicia",
+        "lastName": "Moreno",
+        "phone": "480-555-0114",
+        "mobile": "",
+        "company": "Desert Sun Transport",
+        "title": "Fleet Manager",
+        "city": "Mesa",
+        "state": "AZ",
+        "type": "Customer"
+      },
+      {
+        "email": "brian@holtexcavating.example",
+        "firstName": "Brian",
+        "lastName": "Holt",
+        "phone": "",
+        "mobile": "928-555-0163",
+        "company": "Holt Excavating LLC",
+        "title": "Owner",
+        "city": "Flagstaff",
+        "state": "AZ",
+        "type": "Customer"
+      }
+    ]
+  }
+}

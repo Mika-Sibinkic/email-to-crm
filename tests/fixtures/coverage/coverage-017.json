@@ -1,0 +1,59 @@
+{
+  "id": "coverage-017",
+  "category": "coverage",
+  "split": "train",
+  "description": "Typed one-liner from the phone, no forward and no contact signature: name, email, bare number and type run together on one lowercase line",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADD30D2ED602F981C3F44481000339F33B13F70A40=",
+    "internetMessageId": "<D30D2ED602F981C3F4448100@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA84852EFE1E53F04A8F8E=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "add",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "add tom becker tbecker@beckerlaw.example 615 555 0147 attorney Sent from my iPhone",
+    "body": {
+      "contentType": "text",
+      "content": "add tom becker tbecker@beckerlaw.example 615 555 0147 attorney\r\n\r\nSent from my iPhone"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "tbecker@beckerlaw.example",
+        "firstName": "Tom",
+        "lastName": "Becker",
+        "phone": "615-555-0147",
+        "mobile": "",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

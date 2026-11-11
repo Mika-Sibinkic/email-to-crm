@@ -1,0 +1,83 @@
+{
+  "id": "coverage-004",
+  "category": "coverage",
+  "split": "train",
+  "description": "Contact signs her email with a logo image only; title, company, address and direct line are only in the attached PDF letter",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAADB5B795722EB02689C43B71FCFC20B12C7EC2E7F6=",
+    "internetMessageId": "<B5B795722EB02689C43B71FC@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQA704AB875A0C9F763A6B1=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: Engagement letter",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": true,
+    "attachments": [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        "id": "att-5fbfabecaf7e0dd6",
+        "name": "Engagement Letter - Your Company.pdf",
+        "contentType": "application/pdf",
+        "size": 1514,
+        "isInline": false
+      }
+    ],
+    "bodyPreview": "attorney, details are on the attached letter Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: Gwendolyn Hollis <ghollis@hollis",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">attorney, details are on the attached letter<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> Gwendolyn Hollis &lt;ghollis@hollisbrandt.example&gt;<br>\n<b>Sent:</b> Monday, November 2, 2026 5:40 PM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> Engagement letter<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Pat,<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Please see the attached engagement letter. Happy to discuss.<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\">Gwen<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><img width=\"180\" height=\"48\" src=\"cid:image001.png@01DD4E2A.6B3C1F00\" alt=\"Hollis &amp; Brandt LLP\"><o:p></o:p></p>\n</div>\n</body>\n</html>\n"
+    }
+  },
+  "attachments": [
+    {
+      "@odata.type": "#microsoft.graph.fileAttachment",
+      "id": "att-5fbfabecaf7e0dd6",
+      "name": "Engagement Letter - Your Company.pdf",
+      "contentType": "application/pdf",
+      "size": 1514,
+      "isInline": false,
+      "contentBytes": "JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvUmVzb3VyY2VzIDw8IC9Gb250IDw8IC9GMSA1IDAgUiA+PiA+PiAvQ29udGVudHMgNCAwIFIgPj4KZW5kb2JqCjQgMCBvYmoKPDwgL0xlbmd0aCA5NDEgPj4Kc3RyZWFtCkJUIC9GMSAxMSBUZiAxNCBUTCA3MiA3NDAgVGQKL0YxIDE2IFRmIChIT0xMSVMgJiBCUkFORFQgTExQKSBUaiBUKgovRjEgMTAgVGYgKEF0dG9ybmV5cyBhdCBMYXcpIFRqIFQqCi9GMSAxMCBUZiAoNDAwIENvbW1lcmNlIFN0cmVldCwgU3VpdGUgMTIwMCwgRm9ydCBXb3J0aCwgVFggNzYxMDIpIFRqIFQqCi9GMSAxMCBUZiAoKSBUaiBUKgovRjEgMTEgVGYgKE5vdmVtYmVyIDIsIDIwMjYpIFRqIFQqCi9GMSAxMSBUZiAoKSBUaiBUKgovRjEgMTEgVGYgKFBhdCBTdGFmZmVyKSBUaiBUKgovRjEgMTEgVGYgKFlvdXIgQ29tcGFueSkgVGogVCoKL0YxIDExIFRmICgxMDAgTWFpbiBTdHJlZXQsIEFueXRvd24sIFNUIDAwMDAwKSBUaiBUKgovRjEgMTEgVGYgKCkgVGogVCoKL0YxIDExIFRmIChSZTogRW5nYWdlbWVudCBmb3IgZG9jdW1lbnRhdGlvbiByZXZpZXcpIFRqIFQqCi9GMSAxMSBUZiAoKSBUaiBUKgovRjEgMTEgVGYgKERlYXIgUGF0OikgVGogVCoKL0YxIDExIFRmICgpIFRqIFQqCi9GMSAxMSBUZiAoVGhpcyBsZXR0ZXIgY29uZmlybXMgdGhlIHRlcm1zIHVuZGVyIHdoaWNoIG91ciBmaXJtIHdpbGwgcmV2aWV3IHRoZSBsb2FuIGRvY3VtZW50YXRpb24pIFRqIFQqCi9GMSAxMSBUZiAoZm9yIHlvdXIgcGVuZGluZyB0cmFuc2FjdGlvbnMuIFBsZWFzZSBjb3VudGVyc2lnbiBhbmQgcmV0dXJuIGEgY29weSBhdCB5b3VyIGNvbnZlbmllbmNlLikgVGogVCoKL0YxIDExIFRmICgpIFRqIFQqCi9GMSAxMSBUZiAoVmVyeSB0cnVseSB5b3VycywpIFRqIFQqCi9GMSAxMSBUZiAoKSBUaiBUKgovRjEgMTEgVGYgKEd3ZW5kb2x5biBIb2xsaXMpIFRqIFQqCi9GMSAxMSBUZiAoUGFydG5lcikgVGogVCoKL0YxIDExIFRmIChUZWxlcGhvbmUgODE3LTU1NS0wMTMxKSBUaiBUKgovRjEgMTEgVGYgKGdob2xsaXNAaG9sbGlzYnJhbmR0LmV4YW1wbGUpIFRqIFQqCkVUCmVuZHN0cmVhbQplbmRvYmoKNSAwIG9iago8PCAvVHlwZSAvRm9udCAvU3VidHlwZSAvVHlwZTEgL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgPj4KZW5kb2JqCnhyZWYKMCA2CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI0MSAwMDAwMCBuIAowMDAwMDAxMjMzIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNiAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTMzMAolJUVPRgo="
+    }
+  ],
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "ghollis@hollisbrandt.example",
+        "firstName": "Gwendolyn",
+        "lastName": "Hollis",
+        "phone": "817-555-0131",
+        "company": "Hollis & Brandt LLP",
+        "title": "Partner",
+        "city": "Fort Worth",
+        "state": "TX",
+        "type": "Attorney"
+      }
+    ]
+  }
+}

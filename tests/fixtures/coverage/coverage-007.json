@@ -1,0 +1,63 @@
+{
+  "id": "coverage-007",
+  "category": "coverage",
+  "split": "train",
+  "description": "Forwarded CRM lead-assignment notification: label/value table with the lead's fields, plus the vendor's support mailbox and toll-free number in the footer",
+  "email": {
+    "id": "AAMkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZABGAAAAAAD12CB2AC7CDB6357AC27E599239AE61286E29E3E6=",
+    "internetMessageId": "<12CB2AC7CDB6357AC27E5992@coverage.mail.example>",
+    "conversationId": "AAQkAGVmMDEzMTM4LTZmYWUtNDdkNC1hMDZiLTU1OGZmNGQzZDhmZAAQAC99EB1CA5CE2DF04A36D=",
+    "receivedDateTime": "2026-11-04T15:12:00Z",
+    "sentDateTime": "2026-11-04T15:12:00Z",
+    "subject": "FW: New lead assigned: Hannah Ortiz - Granite Peak Logistics",
+    "isDraft": false,
+    "isRead": false,
+    "parentFolderId": "<inbox-folder-id>",
+    "importance": "normal",
+    "from": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "sender": {
+      "emailAddress": {
+        "name": "Pat Staffer",
+        "address": "pat@yourcompany.com"
+      }
+    },
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "name": "Contacts",
+          "address": "contacts@yourcompany.com"
+        }
+      }
+    ],
+    "ccRecipients": [],
+    "bccRecipients": [],
+    "hasAttachments": false,
+    "bodyPreview": "for crm Pat Staffer Managing Director | Your Company Office (555) 010-0100 | Mobile (555) 010-0101 100 Main Street, Anytown, ST 00000 pat@yourcompany.com Your Company Tagline Here From: LeadRouter Notifications <notifications@leadrouter.example> Sent: Wed",
+    "body": {
+      "contentType": "html",
+      "content": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns=\"http://www.w3.org/TR/REC-html40\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><meta name=\"Generator\" content=\"Microsoft Word 15 (filtered medium)\"><style><!--\np.MsoNormal, li.MsoNormal, div.MsoNormal\n\t{margin:0in;\n\tfont-size:11.0pt;\n\tfont-family:\"Calibri\",sans-serif;}\n--></style></head><body lang=\"EN-US\" link=\"#0563C1\" vlink=\"#954F72\" style=\"word-wrap:break-word\"><div class=\"WordSection1\">\n<p class=\"MsoNormal\">for crm<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<p class=\"MsoNormal\"><b><span style=\"font-size:10.0pt;color:#1F3864\">Pat Staffer</span></b><o:p></o:p></p>\n<p class=\"MsoNormal\">Managing Director | Your Company<o:p></o:p></p>\n<p class=\"MsoNormal\">Office (555) 010-0100 | Mobile (555) 010-0101<o:p></o:p></p>\n<p class=\"MsoNormal\">100 Main Street, Anytown, ST 00000<o:p></o:p></p>\n<p class=\"MsoNormal\">pat@yourcompany.com<o:p></o:p></p>\n<p class=\"MsoNormal\">Your Company Tagline Here<o:p></o:p></p>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div><div style=\"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in 0in 0in\"><p class=\"MsoNormal\"><b>From:</b> LeadRouter Notifications &lt;notifications@leadrouter.example&gt;<br>\n<b>Sent:</b> Wednesday, November 4, 2026 9:31 AM<br>\n<b>To:</b> Pat Staffer &lt;pat@yourcompany.com&gt;<br>\n<b>Subject:</b> New lead assigned: Hannah Ortiz - Granite Peak Logistics<o:p></o:p></p></div></div>\n<p class=\"MsoNormal\"><o:p>&nbsp;</o:p></p>\n<div style=\"font-family:Arial,sans-serif;font-size:13px\"><p style=\"font-size:16px\"><b>New lead assigned to you</b></p><p>A new lead has been routed to you by the round-robin rule <i>Inbound - West</i>.</p><table cellpadding=\"0\" cellspacing=\"0\"><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Lead Owner</td><td style=\"padding:4px 0\">Pat Staffer</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Name</td><td style=\"padding:4px 0\">Hannah Ortiz</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Title</td><td style=\"padding:4px 0\">Controller</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Company</td><td style=\"padding:4px 0\">Granite Peak Logistics</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Email</td><td style=\"padding:4px 0\">hortiz@granitepeaklogistics.example</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Phone</td><td style=\"padding:4px 0\">(602) 555-0137</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Mobile</td><td style=\"padding:4px 0\">(602) 555-0148</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">City</td><td style=\"padding:4px 0\">Phoenix</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">State</td><td style=\"padding:4px 0\">AZ</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Lead Source</td><td style=\"padding:4px 0\">Web - Financing Inquiry</td></tr><tr><td style=\"padding:4px 12px 4px 0;color:#555;font-weight:bold\">Description</td><td style=\"padding:4px 0\">We are looking to finance 12 tractor trailers in Q1. Please call me after 2pm.</td></tr></table><br><a href=\"https://app.leadrouter.example/leads/00Q8c00001XyZ\" style=\"background:#1a73e8;color:#fff;padding:6px 14px\">View Lead</a><p style=\"font-size:11px;color:#888\">You received this because you are a user of LeadRouter. Manage notifications in Settings. Questions? support@leadrouter.example | 1-800-555-0199<br>LeadRouter Inc., 500 Market Street, San Francisco, CA 94105</p></div></div>\n</body>\n</html>\n"
+    }
+  },
+  "expected": {
+    "skip": false,
+    "contacts": [
+      {
+        "email": "hortiz@granitepeaklogistics.example",
+        "firstName": "Hannah",
+        "lastName": "Ortiz",
+        "phone": "602-555-0137",
+        "mobile": "602-555-0148",
+        "company": "Granite Peak Logistics",
+        "title": "Controller",
+        "city": "Phoenix",
+        "state": "AZ",
+        "type": "Customer"
+      }
+    ]
+  }
+}
