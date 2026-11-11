@@ -3,7 +3,10 @@
 // Emits one item per successful upsert, each with its own fetchUrl, so Fetch Zoho
 // Contact runs once per contact and Prepare Confirmation Email can match records by
 // Zoho ID. With a single fetch, a multi-contact email showed the first contact's
-// CRM data on every card. If nothing was upserted, emits one skipped/failed item.
+// CRM data on every card.
+//
+// Input: the Upsert Contact responses, plus Prepare Upsert's last item for context.
+// Output: one item per successful upsert, or one skipped/failed item if none.
 
 const allUpsertItems = $input.all();
 const allPrepareItems = $('Prepare Upsert').all();
@@ -22,7 +25,7 @@ if (prepareData.zohoSkipped) {
   }];
 }
 
-// Aggregate results from ALL upsert responses
+// Collect every upsert response; one contact per request means one response per contact.
 const zohoResults = [];
 let anyFailed = false;
 let zohoError = '';
@@ -43,7 +46,6 @@ for (const item of allUpsertItems) {
   } catch (e) { anyFailed = true; zohoError = e.message; }
 }
 
-// emit one output item per successful upsert so Fetch Zoho Contact fires per contact
 const successResults = zohoResults.filter(r => r.success);
 const accessToken = prepareData.accessToken || '';
 
