@@ -1389,7 +1389,14 @@ for (const item of items) {
       // Title Case normalization for AI-extracted names
       if (contact.firstName) contact.firstName = toTitleCase(contact.firstName);
       if (contact.lastName) contact.lastName = toTitleCase(contact.lastName);
-      if (contact.jobTitle) contact.jobTitle = toTitleCase(contact.jobTitle);
+      if (contact.jobTitle) {
+        const t = contact.jobTitle.trim();
+        if (/^[A-Z]{2,4}$/.test(t)) {
+          // A bare acronym ("CFO") is not an all-caps phrase: keep it, or use the spelled-out form the email itself gives
+          const spelled = fullBody.match(new RegExp('\\b' + t.split('').map(ch => ch + '[a-z]+').join('\\s+') + '\\b'));
+          contact.jobTitle = spelled ? spelled[0] : t;
+        } else contact.jobTitle = toTitleCase(contact.jobTitle);
+      }
 
       // Fallback - extract name from email headers (From/To/Cc) when AI returns empty firstName
       if (!contact.firstName && contact.email) {
@@ -3046,7 +3053,9 @@ for (const item of items) {
             if (nd.length < 10 || nd.length > 15 || isOwnCompanyPhone(num)) continue;
             const lab = line.slice(0, m.index).toLowerCase();
             if (/\bfax\b/.test(lab)) continue;
-            const isMobile = /\b(cell|mobile|mob|m|c)\b/.test(lab) || (/\bdirect\b/.test(lab) && !/\bdirect\s+line\b/.test(lab));
+            // "text me at <number>" in prose: only a number that takes texts is a mobile
+            const isMobile = /\b(cell|mobile|mob|m|c)\b/.test(lab) || (/\bdirect\b/.test(lab) && !/\bdirect\s+line\b/.test(lab)) ||
+              /\b(?:text|txt|sms|whatsapp)(?:\s+(?:me|us|him|her))?(?:\s+(?:at|on))?\s*:?\s*$/.test(lab);
             if (isMobile && !contact.mobile) { contact.mobile = num; filled.push('mobile'); }
             else if (!isMobile && !contact.phone) { contact.phone = num; filled.push('phone'); }
           }
