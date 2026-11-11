@@ -9,7 +9,8 @@
 // Holdings"), a literal "Title " prefix, the title bleeding into the company
 // ("Co-Founder & CEO Acme Group"), run-together company names (Acmeindustrialinc),
 // stray brackets, bare domains as company names (acmetrailerleasing.com), labels
-// around phone numbers, and duplicate contacts. Generic mailboxes (info@, test@)
+// around phone numbers, an address line in the city field, UK country spellings
+// (UK, England), and duplicate contacts. Generic mailboxes (info@, test@)
 // are flagged, not removed.
 //
 // Input: Merge Research Results items ({ contacts: [...] }).
@@ -59,6 +60,22 @@ function internationalPhone(phone, country) {
   const digits = p.replace(/\s*x\d+$/, '').replace(/\D/g, '');
   if (digits.length < 8 || digits.length > 11) return p;
   return '+' + code + ' ' + p.replace(/^\(?0\)?\s*/, '').replace(/[()]/g, '').trim();
+}
+
+// The UK and its constituent countries are stored under one CRM country value.
+const COUNTRY_CANONICAL = {
+  'uk': 'United Kingdom', 'u.k.': 'United Kingdom', 'gb': 'United Kingdom', 'great britain': 'United Kingdom',
+  'england': 'United Kingdom', 'scotland': 'United Kingdom', 'wales': 'United Kingdom',
+  'northern ireland': 'United Kingdom',
+};
+
+// "Las Condes, Santiago" or "Walnut Tree Close, Guildford": the model copied a whole address
+// line into city. Drop a trailing state, country or short region code, then keep the last part.
+function cleanCity(city, state, country) {
+  const parts = city.split(',').map(p => p.trim()).filter(Boolean);
+  const drop = new Set([state, country].map(v => (v || '').trim().toLowerCase()).filter(Boolean));
+  while (parts.length > 1 && (drop.has(parts[parts.length - 1].toLowerCase()) || /^[A-Za-z.]{1,4}$/.test(parts[parts.length - 1]))) parts.pop();
+  return parts.length ? parts[parts.length - 1] : city;
 }
 
 function titleCase(s) {
@@ -214,6 +231,9 @@ for (const item of allItems) {
       cc.companyName = co;
       cc.company = co;
     }
+
+    if (cc.country) cc.country = COUNTRY_CANONICAL[cc.country.trim().toLowerCase()] || cc.country;
+    if (cc.city && cc.city.includes(',')) cc.city = cleanCity(cc.city, cc.state, cc.country);
 
     // Phones: keep the number and any extension, dropping labels like "M ", "Tel: " or a
     // trailing " office", then store it in international form where the country says how.

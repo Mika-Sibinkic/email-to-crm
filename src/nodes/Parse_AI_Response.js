@@ -106,6 +106,12 @@ const MOBILE_LABEL_RE = /(?:\b(?:M(?:ob(?:ile?)?|[o\u00f3]vil)?|C(?:el(?:l(?:\s*
 // "Cell Phone: ..." must not be read as a Phone label.
 const CELL_PHONE_RE = /\bCell\s*Phone\b/i;
 const extToX = p => p.replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1').trim();
+// A bare field label from a web form ("Company" on its own row, value on the next) is not a name.
+// "Commercial Equipment Finance Group" is a department line, not a title: it ends in an org unit
+// and its only title-like word is a weak one (Commercial, Senior, Executive).
+const STRONG_TITLE_RE = /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Analyst|Consultant|Specialist|Broker|Banker|Underwriter|Originator|Head\b|VP\b|SVP\b|EVP\b|AVP\b)/i;
+const isDepartmentLine = l => /\b(?:Group|Department|Dept|Division|Team|Unit)\s*$/i.test(l) && !STRONG_TITLE_RE.test(l);
+const FORM_LABEL_RE = /^(?:company(?:\s+name)?|firm|organi[sz]ation|employer|business(?:\s+name)?)\s*:?$/i;
 
 // ANTI-DROP GUARD - when email local-part yields no derivable name, scan body lines
 // near the email for a "Mr./Ms./Dr. First Last" or standalone "First Last" pattern. Fixes
@@ -695,7 +701,7 @@ function scanSignatures(body, excludeForwarder) {
         if (!jobTitle && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|Commercial|VP\b|SVP\b|EVP\b|AVP\b|Sr\b)/i.test(line)) {
           // Make sure it's a short title line, not a sentence, and not a company name
           // URL and address lines are skipped: "www.examplebrokers.example" contains "broker".
-          if (line.length < 100 && !/[.!?]$/.test(line.trim()) && !/^(good|it was|i |please|looking|best|hi |hello|dear|just |thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim())) {
+          if (line.length < 100 && !/[.!?]$/.test(line.trim()) && !/^(good|it was|i |please|looking|best|hi |hello|dear|just |thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim()) && !isDepartmentLine(line)) {
             jobTitle = line;
           }
         }
@@ -735,7 +741,7 @@ function scanSignatures(body, excludeForwarder) {
             // Make sure it's not a sentence, email header, or tagline
             // Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
             const kwLineEndsPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|Jr|Sr|Esq|LLC|LLP|P\.?C|L\.?C)\.\s*$/i.test(line.trim());
-            if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwLineEndsPunct && !/^\d/.test(line)) {
+            if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwLineEndsPunct && !/^\d/.test(line) && !FORM_LABEL_RE.test(line)) {
               if (!isOwnBranding(line) && !isPhoneNumber(line)) {
                 companyName = line;
               }
@@ -936,7 +942,7 @@ function scanSignatures(body, excludeForwarder) {
           } else if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Real Estate|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|American|Pacific|Atlantic|Southern|Northern|Western|Eastern|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
             // Allow trailing "." for abbreviations (Inc., Ltd., Corp., Co.)
             const kwAfterEndsPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|Jr|Sr|Esq|LLC|LLP|P\.?C|L\.?C)\.\s*$/i.test(line.trim());
-            if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwAfterEndsPunct && !/^\d/.test(line)) {
+            if (!/^(from|to|cc|date|subject|sent|good|hi |hello|please|thank|best|regard|we |the |a |mobile|office|fax|email|web|phone)/i.test(line) && !kwAfterEndsPunct && !/^\d/.test(line) && !FORM_LABEL_RE.test(line)) {
               if (!isOwnBranding(line) && !isPhoneNumber(line)) {
                 companyName = line;
               }
@@ -1082,7 +1088,8 @@ function scanSignatures(body, excludeForwarder) {
             if (cs) { fbCity = cs[1]; fbState = cs[2]; }
           }
           // Country
-          if (!fbCountry) {
+          // Short lines only: a country in body prose ("we serve UK corporates") is not an address.
+          if (!fbCountry && line.length <= 60) {
             const cm = line.match(/\b(TURKEY|CANADA|UNITED KINGDOM|UK|AUSTRALIA|GERMANY|FRANCE|BRAZIL|MEXICO|INDIA|JAPAN|CHINA|SOUTH KOREA|ITALY|SPAIN|NETHERLANDS|SWITZERLAND|SWEDEN|NORWAY|DENMARK|IRELAND|SINGAPORE|HONG KONG|NEW ZEALAND|ISRAEL|UAE|UNITED ARAB EMIRATES|QATAR|BAHRAIN|KUWAIT|SAUDI ARABIA|SOUTH AFRICA|CAYMAN ISLANDS|BERMUDA|BAHAMAS|COLOMBIA|CHILE|ARGENTINA|PERU)\b/i);
             if (cm) fbCountry = cm[1];
           }
@@ -1099,7 +1106,7 @@ function scanSignatures(body, excludeForwarder) {
             if (!/@/.test(line) && !/^https?:\/\//i.test(line) && !/^www\./i.test(line) && !/^\d/.test(line)) {
               if (/(?:Bank|Capital|Financial|Group|Holdings|Securities|Partners|Advisors|Advisory|Wealth|Management|Corp|Inc|LLC|LLP|Associates|Enterprises|Insurance|Realty|Mortgage|Lending|Leasing|Credit|Trust|Fund|Investment|Asset|Global|National|Equipment|Company|Properties|Development|Construction|Engineering|Technology|Systems)/i.test(line)) {
                 const endsWithPunct = /[.!?]$/.test(line.trim()) && !/(?:Inc|Ltd|Corp|Co|LLC|LLP)\.\s*$/i.test(line.trim());
-                if (!endsWithPunct && !isOwnBranding(line) && !isPhoneNumber(line)) {
+                if (!endsWithPunct && !isOwnBranding(line) && !isPhoneNumber(line) && !FORM_LABEL_RE.test(line)) {
                   fbCompany = line;
                 }
               }
@@ -1108,7 +1115,7 @@ function scanSignatures(body, excludeForwarder) {
           // Title
           // Added LLC/Inc/Corp guard (same as primary scanner)
           if (!fbTitle && line.length < 100 && /(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Senior|Associate|Analyst|Consultant|Specialist|Executive|Managing|Broker|Banker|Underwriter|Originator|VP\b|SVP\b|EVP\b)/i.test(line)) {
-            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim())) {
+            if (!/[.!?]$/.test(line.trim()) && !/^(good|it was|please|looking|thank|we |the )/i.test(line) && !/(?:LLC|Inc|Corp|LLP|Ltd|L\.?L\.?C|P\.?C)\b/i.test(line) && !/@|^www\.|^https?:\/\//i.test(line.trim()) && !isDepartmentLine(line)) {
               fbTitle = line;
             }
           }
@@ -1501,13 +1508,22 @@ for (const item of items) {
       'zoho.com','yandex.com','gmx.com','comcast.net','att.net','verizon.net']);
     // fullBody already declared earlier
     // Collect all emails from From:/Sent:/To: header lines
-    const chainEmails = new Set();
+    // email -> display name on its header line ("" when the header shows a bare address)
+    const chainEmails = new Map();
     const headerLineRegex = /^(?:From|Sent|To)\s*:.*$/gim;
     let headerMatch;
     while ((headerMatch = headerLineRegex.exec(fullBody)) !== null) {
       const lineEmails = headerMatch[0].match(/[\w.+-]+@[\w.-]+\.\w{2,}/g) || [];
-      for (const he of lineEmails) chainEmails.add(he.toLowerCase());
+      for (const he of lineEmails) {
+        const esc = he.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const nm = headerMatch[0].match(new RegExp('(?:^[A-Za-z]+\\s*:|[;,])\\s*"?([^"<>;:]+?)"?\\s*<' + esc + '>', 'i'));
+        if (!chainEmails.get(he.toLowerCase())) chainEmails.set(he.toLowerCase(), nm ? nm[1] : '');
+      }
     }
+    // A personal address is a chain participant only when it belongs to staff or the forwarder
+    // (staff forwarding from a private mailbox). Contacts who write from gmail.com stay.
+    const normName = n => n.toLowerCase().replace(/^([^,]+),\s*(.+)$/, '$2 $1').replace(/\s+/g, ' ').trim();
+    const ownNames = new Set([...OWN_STAFF_FULL, normName(prevData.forwarderName || '')].filter(Boolean));
     contacts = contacts.filter(c => {
       const contactEmail = (c.email || '').toLowerCase();
       if (!contactEmail) return true;
@@ -1515,7 +1531,8 @@ for (const item of items) {
       // Only filter PERSONAL domain emails that appear in chain headers
       // Business domains (example.bank, etc.) are never filtered here
       if (PERSONAL_DOMAINS_FILTER.has(domain) && chainEmails.has(contactEmail)) {
-        return false; // Personal email in forwarding chain = not an external contact
+        const name = normName(chainEmails.get(contactEmail) || `${c.firstName || ''} ${c.lastName || ''}`);
+        if (ownNames.has(name)) return false;
       }
       return true;
     });
@@ -2340,6 +2357,9 @@ for (const item of items) {
     }
     const sourceText = (prevData.fullBody || '') + ' ' + (prevData.originalSubject || '') + ' ' + inlineOcr;
     const sourceLower = sourceText.toLowerCase();
+    // Logo alt texts: the only spaced spelling of a company that otherwise shows up run together.
+    const imgAlts = [...(prevData.rawHtml || '').matchAll(/<img\b[^>]*\balt\s*=\s*"([^"]+)"/gi)].map(m => m[1].replace(/&amp;/g, '&').trim());
+    const lettersOnly = v => (v || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
     function valueInSource(value, minLength = 3) {
       if (!value || value.length < minLength) return true;
@@ -2602,6 +2622,13 @@ for (const item of items) {
           contact.companyName = '';
           contact.company = '';
         }
+      }
+
+      // "Copperridge Equipment Sales" (split from the domain) takes the logo's spacing when the
+      // letters are the same: "Copper Ridge Equipment Sales".
+      if (contact.companyName) {
+        const alt = imgAlts.find(x => lettersOnly(x) === lettersOnly(contact.companyName));
+        if (alt) { contact.companyName = alt; contact.company = alt; }
       }
 
       // Validate jobTitle
