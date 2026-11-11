@@ -36,6 +36,31 @@ const GENERIC_EMAIL_PREFIXES = new Set([
   'media','webmaster','fraud','test','example','admin','abuse','postmaster'
 ]);
 
+// Calling codes used to store a nationally written number ("01 99 00 41 27", "082 555 0144") in
+// international form when the contact's country is known. NANP countries are left out on
+// purpose (their numbers stay as written), and so is Italy, whose leading 0 is not a trunk prefix.
+const COUNTRY_CALLING_CODES = {
+  'united kingdom': '44', 'uk': '44', 'england': '44', 'scotland': '44', 'wales': '44',
+  'ireland': '353', 'germany': '49', 'deutschland': '49', 'austria': '43', 'switzerland': '41',
+  'france': '33', 'belgium': '32', 'netherlands': '31', 'spain': '34', 'portugal': '351',
+  'sweden': '46', 'norway': '47', 'denmark': '45', 'finland': '358', 'poland': '48',
+  'mexico': '52', 'm\u00e9xico': '52', 'brazil': '55', 'brasil': '55', 'argentina': '54',
+  'chile': '56', 'colombia': '57', 'peru': '51', 'south africa': '27', 'australia': '61',
+  'new zealand': '64', 'india': '91', 'japan': '81', 'china': '86', 'hong kong': '852',
+  'singapore': '65', 'south korea': '82', 'israel': '972', 'turkey': '90',
+  'uae': '971', 'united arab emirates': '971', 'saudi arabia': '966',
+};
+
+// "+44 (0)20 7946 0000" drops the (0) trunk prefix; a national number gets the country's code.
+function internationalPhone(phone, country) {
+  const p = phone.replace(/^(\+\d{1,3})\s*\(0\)\s*/, '$1 ');
+  const code = COUNTRY_CALLING_CODES[(country || '').trim().toLowerCase().replace(/\./g, '')];
+  if (!code || /^(\+|00)/.test(p)) return p;
+  const digits = p.replace(/\s*x\d+$/, '').replace(/\D/g, '');
+  if (digits.length < 8 || digits.length > 11) return p;
+  return '+' + code + ' ' + p.replace(/^\(?0\)?\s*/, '').replace(/[()]/g, '').trim();
+}
+
 function titleCase(s) {
   if (!s) return s;
   return s.split(' ').map(w => w.length <= 2 ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
@@ -190,11 +215,13 @@ for (const item of allItems) {
       cc.company = co;
     }
 
-    // Phones: keep the number itself, dropping labels like "M ", "Tel: " or a trailing " office".
+    // Phones: keep the number and any extension, dropping labels like "M ", "Tel: " or a
+    // trailing " office", then store it in international form where the country says how.
     for (const field of ['phone', 'mobile']) {
       if (cc[field]) {
-        const match = cc[field].match(/[+(\d][\d\s.()\-+]+\d/);
-        cc[field] = match ? match[0].trim() : cc[field];
+        const match = cc[field].match(/[+(\d][\d\s.()\-+]+\d(?:\s*(?:x|ext\.?|extension)\s*\d{1,6})?/i);
+        const num = match ? match[0].trim().replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1') : cc[field];
+        cc[field] = internationalPhone(num, cc.country);
       }
     }
 

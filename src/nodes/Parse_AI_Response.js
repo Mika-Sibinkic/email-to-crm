@@ -92,11 +92,20 @@ function toTitleCase(str) {
 
 function isOwnCompanyPhone(phoneStr) {
   if (!phoneStr) return false;
-  const digits = phoneStr.replace(/\D/g, '');
+  const digits = phoneStr.replace(/\s*(?:x|ext\.?|extension)\s*\d+\s*$/i, '').replace(/\D/g, '');
   // Check last 10 digits (strip country code)
   const last10 = digits.length > 10 ? digits.slice(-10) : digits;
   return OWN_PHONES.has(last10);
 }
+
+// Signature phone labels, including the German, French, Spanish and Portuguese forms
+// (Tel. with or without the accent, Telefon, Oficina, Mobil, Port., Cel., Celular, Handy). Office and main lines are
+// the phone; a bare "Direct" is the mobile by convention. The phone keeps an extension.
+const PHONE_LABEL_RE = /(?:\b(?:T(?:[e\u00e9]l(?:[e\u00e9](?:phone|fono)|efon)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?|ficina)?|Main|Business|Direct\s+Line)\b|\((?:[tpo])\))[\s.:|]*([\d(+][\d\s.()\-]{6,}\d(?:\s*(?:x|ext\.?|extension)\s*\d{1,6})?)/i;
+const MOBILE_LABEL_RE = /(?:\b(?:M(?:ob(?:ile?)?|[o\u00f3]vil)?|C(?:el(?:l(?:\s*Phone)?|ular)?)?|Port(?:able)?|Handy|Direct(?!\s+Line))\b|\((?:[mc])\))[\s.:|]*([\d(+][\d\s.()\-]{6,}\d)/i;
+// "Cell Phone: ..." must not be read as a Phone label.
+const CELL_PHONE_RE = /\bCell\s*Phone\b/i;
+const extToX = p => p.replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1').trim();
 
 // ANTI-DROP GUARD - when email local-part yields no derivable name, scan body lines
 // near the email for a "Mr./Ms./Dr. First Last" or standalone "First Last" pattern. Fixes
@@ -611,12 +620,12 @@ function scanSignatures(body, excludeForwarder) {
         // Also handles bare vanity numbers like "(555) 010-DEAL" or "(555) 011-DEAL"
         // Exclude "Cell Phone" lines (handled by mobile regex below)
         // Skip own-company phone numbers
-        if (!phone && !/\bCell\b/i.test(line)) {
+        if (!phone && !CELL_PHONE_RE.test(line)) {
           // Removed "Direct" - now maps to mobile by convention (office=phone, direct=mobile)
           // Added "Direct Line" - this is an office direct line, not mobile
-          const phoneMatch = line.match(/(?:\b(?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?)?|Business|Direct\s+Line)\b|\((?:[tpo])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+          const phoneMatch = line.match(PHONE_LABEL_RE);
           if (phoneMatch) {
-            const candidate = phoneMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
+            const candidate = extToX(phoneMatch[1]);
             if (!isOwnCompanyPhone(candidate)) {
               phone = candidate;
             }
@@ -650,7 +659,7 @@ function scanSignatures(body, excludeForwarder) {
         // "Direct Line" handled above in phone regex; standalone "Direct" stays as mobile
         // Skip own-company phone numbers
         if (!mobile) {
-          const mobileMatch = line.match(/(?:\b(?:M(?:obile)?|C(?:ell(?:\s*Phone)?)?|Direct(?!\s+Line))\b|\((?:[mc])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+          const mobileMatch = line.match(MOBILE_LABEL_RE);
           if (mobileMatch) {
             const candidate = mobileMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
             if (!isOwnCompanyPhone(candidate)) {
@@ -847,12 +856,12 @@ function scanSignatures(body, excludeForwarder) {
         // Own-company phone guard applies to after-email scan too
         // Same "P" prefix fix as above
         // Bare vanity phone extraction
-        if (!phone && !/\bCell\b/i.test(line)) {
+        if (!phone && !CELL_PHONE_RE.test(line)) {
           // Removed "Direct" - now maps to mobile by convention (office=phone, direct=mobile)
           // Added "Direct Line" - office phone, not mobile
-          const phoneMatch = line.match(/(?:\b(?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?)?|Business|Direct\s+Line)\b|\((?:[tpo])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+          const phoneMatch = line.match(PHONE_LABEL_RE);
           if (phoneMatch) {
-            const candidate = phoneMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
+            const candidate = extToX(phoneMatch[1]);
             if (!isOwnCompanyPhone(candidate)) phone = candidate;
           }
           // Bare vanity phone in after-email scan
@@ -877,7 +886,7 @@ function scanSignatures(body, excludeForwarder) {
         if (!mobile) {
           // Added "Direct" - convention: direct/cell=mobile
           // Negative lookahead excludes "Direct Line" (handled by phone regex)
-          const mobileMatch = line.match(/(?:\b(?:M(?:obile)?|C(?:ell(?:\s*Phone)?)?|Direct(?!\s+Line))\b|\((?:[mc])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+          const mobileMatch = line.match(MOBILE_LABEL_RE);
           if (mobileMatch) {
             const candidate = mobileMatch[1].replace(/\s*[\(]?(?:ext|x|extension)\.?\s*\d+\)?\s*$/i, '').trim();
             if (!isOwnCompanyPhone(candidate)) mobile = candidate;
@@ -1043,15 +1052,15 @@ function scanSignatures(body, excludeForwarder) {
           if (/confidential|privilege|disclaimer/i.test(line)) continue;
 
           // Phone (label-before + number-before patterns)
-          if (!fbPhone && !/\bCell\b/i.test(line)) {
-            const pm1 = line.match(/(?:\b(?:T(?:el(?:ephone)?)?|P(?:h(?:one)?)?|O(?:ffice(?:\s*Phone)?)?|Business)\b|\((?:[tpo])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+          if (!fbPhone && !CELL_PHONE_RE.test(line)) {
+            const pm1 = line.match(PHONE_LABEL_RE);
             const pm2 = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:office|business|main|work)\b/i);
             const pm = pm1 || pm2;
-            if (pm && !isOwnCompanyPhone(pm[1])) fbPhone = pm[1];
+            if (pm && !isOwnCompanyPhone(pm[1])) fbPhone = extToX(pm[1]);
           }
           // Mobile/Direct
           if (!fbMobile) {
-            const mm1 = line.match(/(?:\b(?:M(?:obile)?|C(?:ell(?:\s*Phone)?)?|Direct)\b|\((?:[mc])\))\s*[:|\s]*([\d(+][\d\s.()\-]{6,}\d)/i);
+            const mm1 = line.match(MOBILE_LABEL_RE);
             const mm2 = line.match(/([\d(+][\d\s.()\-]{6,}\d)\s+(?:direct|cell|mobile)\b/i);
             const mm = mm1 || mm2;
             if (mm && !isOwnCompanyPhone(mm[1])) fbMobile = mm[1];
@@ -1920,10 +1929,11 @@ for (const item of items) {
       if (!phoneStr) return phoneStr;
       // Only convert if it contains a mix of digits and letters in phone-like pattern
       if (!/^[\d(+]/.test(phoneStr.trim())) return phoneStr;
-      // Drop an extension first: 'ext' was being converted like a vanity word (e=3, x=9, t=8)
-      phoneStr = phoneStr.replace(/\s*(?:ext\.?|extension|x)\s*\d+\s*$/i, '');
+      // Set an extension aside first: 'ext' was being converted like a vanity word (e=3, x=9, t=8)
+      const ext = phoneStr.match(/\s*(?:ext\.?|extension|x)\s*(\d+)\s*$/i);
+      if (ext) phoneStr = phoneStr.slice(0, ext.index);
       const vanityMap = {A:2,B:2,C:2,D:3,E:3,F:3,G:4,H:4,I:4,J:5,K:5,L:5,M:6,N:6,O:6,P:7,Q:7,R:7,S:7,T:8,U:8,V:8,W:9,X:9,Y:9,Z:9};
-      return phoneStr.replace(/[A-Za-z]/g, ch => vanityMap[ch.toUpperCase()] || ch);
+      return phoneStr.replace(/[A-Za-z]/g, ch => vanityMap[ch.toUpperCase()] || ch) + (ext ? ' x' + ext[1] : '');
     }
     for (const contact of contacts) {
       if (contact.phone) {
@@ -2343,6 +2353,10 @@ for (const item of items) {
       return sourceLoose.includes(' ' + v + ' ');
     }
 
+    // A vanity number ("(855) 555-ACME") is stored as digits, so it is also checked against the
+    // source with letters that follow a digit group converted the same way.
+    const VANITY_KEYS = {A:2,B:2,C:2,D:3,E:3,F:3,G:4,H:4,I:4,J:5,K:5,L:5,M:6,N:6,O:6,P:7,Q:7,R:7,S:7,T:8,U:8,V:8,W:9,X:9,Y:9,Z:9};
+    const sourceVanity = sourceText.replace(/(\d[\s.\-]?)([A-Z]{2,7})\b/g, (m, p, l) => p + l.replace(/[A-Z]/g, ch => VANITY_KEYS[ch]));
     function phoneInSource(phone) {
       if (!phone) return true;
       const digits = phone.replace(/\D/g, '');
@@ -2352,6 +2366,7 @@ for (const item of items) {
       // was rejected and the mobile cleared.
       const anySepPattern = digits.split('').join('[\\s.()\\-+]*');
       if (new RegExp(anySepPattern).test(sourceText)) return true;
+      if (new RegExp(anySepPattern).test(sourceVanity)) return true;
       // Strategy 1: Check if the digits (in order) appear with any separators between them
       // Split into groups of 2-3 for flexible matching
       const digitGroups = digits.match(/.{1,3}/g) || [];
