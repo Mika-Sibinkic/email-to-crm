@@ -33,8 +33,12 @@
 // - Code-node require() is limited to crypto, path, url, util, buffer, fs, http, https, dns,
 //   child_process. http/https/dns are offline mocks routed the same way as HTTP nodes; fs writes
 //   outside /tmp land in a per-fixture temp dir; execSync refuses wget/curl (no OCR model download).
-// - Outlook send and Excel append are captured, not sent. The Outlook Trigger, "Get a message1"
-//   and nodes without a parent never run.
+// - Outlook send and Excel append are captured, not sent. The mail queue in front ("Every Minute",
+//   "List Mailbox", "Claim New Mail"), "Get a message1" and nodes without a parent never run;
+//   tests/queue.js covers the queue nodes on their own.
+// - $getWorkflowStaticData returns one object per fixture that starts empty, so every fixture
+//   begins with no cached Zoho token and goes through Refresh Zoho Token. $workflow.id is "test",
+//   so Mark Processed writes its ledger into the fixture's temp dir.
 // - Result contacts are read from "Format for CSV" (the same contacts Prepare Upsert reads via
 //   Save to CSV), whether or not Zoho is skipped. Contacts flagged skipZohoUpsert are scored too.
 

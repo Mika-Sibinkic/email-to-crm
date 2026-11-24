@@ -1,23 +1,22 @@
 #!/usr/bin/env node
-// Renders the importable n8n workflow from the template plus the Code-node sources.
-// Input:  workflows/email-to-crm.template.json (Code nodes hold "__SRC__:<file>") and src/nodes/*.js
-// Output: workflows/email-to-crm.json
+// Renders the importable n8n workflows from their templates plus the Code-node sources.
+// Input:  workflows/<name>.template.json (Code nodes hold "__SRC__:<file>") and src/nodes/*.js
+// Output: workflows/<name>.json for every template (email-to-crm, pipeline-health)
 //
 // Usage:
-//   node scripts/build-workflow.js           write workflows/email-to-crm.json
-//   node scripts/build-workflow.js --check   exit 1 if the committed JSON differs from a fresh build
+//   node scripts/build-workflow.js           write every workflows/<name>.json
+//   node scripts/build-workflow.js --check   exit 1 if a committed JSON differs from a fresh build
 // src/nodes is the source of truth; edit the .js files, never the jsCode inside the built JSON.
 
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const TEMPLATE = path.join(ROOT, 'workflows/email-to-crm.template.json');
-const OUT = path.join(ROOT, 'workflows/email-to-crm.json');
+const WF_DIR = path.join(ROOT, 'workflows');
 const SRC = path.join(ROOT, 'src/nodes');
 
-function render() {
-  const wf = JSON.parse(fs.readFileSync(TEMPLATE, 'utf8'));
+function render(template) {
+  const wf = JSON.parse(fs.readFileSync(template, 'utf8'));
   for (const n of wf.nodes) {
     const code = n.parameters && n.parameters.jsCode;
     if (typeof code !== 'string' || !code.startsWith('__SRC__:')) continue;
@@ -29,15 +28,19 @@ function render() {
   return JSON.stringify(wf, null, 2) + '\n';
 }
 
-const built = render();
-if (process.argv.includes('--check')) {
-  const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
-  if (current !== built) {
-    console.error(`${path.relative(ROOT, OUT)} is out of sync with the template and src/nodes. Run: node scripts/build-workflow.js`);
-    process.exit(1);
+let stale = false;
+for (const t of fs.readdirSync(WF_DIR).filter(f => f.endsWith('.template.json')).sort()) {
+  const out = path.join(WF_DIR, t.replace('.template.json', '.json'));
+  const built = render(path.join(WF_DIR, t));
+  if (process.argv.includes('--check')) {
+    const current = fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : '';
+    if (current !== built) {
+      console.error(`${path.relative(ROOT, out)} is out of sync with its template and src/nodes. Run: node scripts/build-workflow.js`);
+      stale = true;
+    } else console.log(`${path.relative(ROOT, out)} is in sync`);
+  } else {
+    fs.writeFileSync(out, built);
+    console.log(`wrote ${path.relative(ROOT, out)}`);
   }
-  console.log(`${path.relative(ROOT, OUT)} is in sync`);
-} else {
-  fs.writeFileSync(OUT, built);
-  console.log(`wrote ${path.relative(ROOT, OUT)}`);
 }
+if (stale) process.exit(1);

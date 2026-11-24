@@ -3,35 +3,6 @@
   "nodes": [
     {
       "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyX",
-              "value": 1,
-              "unit": "minutes"
-            }
-          ]
-        },
-        "filters": {},
-        "options": {}
-      },
-      "id": "0ad0b7ab-f988-4f97-a5e8-94a7a797f602",
-      "name": "Outlook Trigger",
-      "type": "n8n-nodes-base.microsoftOutlookTrigger",
-      "typeVersion": 1,
-      "position": [
-        -8208,
-        -2464
-      ],
-      "credentials": {
-        "microsoftOutlookOAuth2Api": {
-          "id": "",
-          "name": "Microsoft Outlook account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "jsCode": "__SRC__:Map_Outlook_to_Standard_Format.js"
       },
       "id": "a62989ca-bb54-4bea-9b7b-cb787398ce2f",
@@ -541,7 +512,7 @@
       "type": "n8n-nodes-base.microsoftOutlook",
       "typeVersion": 2,
       "position": [
-        -128,
+        96,
         -2624
       ],
       "credentials": {
@@ -977,20 +948,184 @@
         -2304,
         -2608
       ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "8c1044e4-ded9-4f57-a22f-f9acf2cfe9ac",
+      "name": "Every Minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -8648,
+        -2464
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/me/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "$filter",
+              "value": "={{ 'receivedDateTime ge ' + $now.minus({days: 10}).toUTC().toISO() + ' and isDraft eq false' }}"
+            },
+            {
+              "name": "$select",
+              "value": "id,receivedDateTime,from,subject,isDraft,parentFolderId"
+            },
+            {
+              "name": "$orderby",
+              "value": "receivedDateTime asc"
+            },
+            {
+              "name": "$top",
+              "value": "500"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "908ed4f1-f4db-46bb-9b2b-e0b6e80d7e44",
+      "name": "List Mailbox",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -8428,
+        -2464
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "Microsoft Outlook account"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "__SRC__:Claim_New_Mail.js"
+      },
+      "id": "a556498a-b4b9-451e-a76a-87b76e5147b3",
+      "name": "Claim New Mail",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -8208,
+        -2464
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "__SRC__:Zoho_Token_Gate.js"
+      },
+      "id": "c56473a3-48ee-42b9-9b04-40e5149351cc",
+      "name": "Zoho Token Gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1600,
+        -2800
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "63b2baee-6a78-4e85-9ced-d2dfb8fb51f2",
+              "leftValue": "={{ !!$json.access_token }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f1fc97f7-7934-4ba3-ba79-2036fbae0dbf",
+      "name": "Token Cached?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1424,
+        -2800
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "424ff30b-6e38-4228-acb4-270597b422d6",
+              "leftValue": "={{ !$json.skipEmail && !!$json.forwarderEmail }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b33c6053-8012-4b24-87ea-fcb71afdb459",
+      "name": "Has Confirmation?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -2624
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "__SRC__:Mark_Processed.js"
+      },
+      "id": "421c6819-fcfa-4850-a21e-2c2c0054c67f",
+      "name": "Mark Processed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -2416
+      ]
     }
   ],
   "connections": {
-    "Outlook Trigger": {
-      "main": [
-        [
-          {
-            "node": "Get a message1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Map Outlook to Standard Format": {
       "main": [
         [
@@ -1245,7 +1380,12 @@
       "main": [
         [
           {
-            "node": "Send Confirmation",
+            "node": "Has Confirmation?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mark Processed",
             "type": "main",
             "index": 0
           }
@@ -1263,7 +1403,7 @@
         ],
         [
           {
-            "node": "Refresh Zoho Token",
+            "node": "Zoho Token Gate",
             "type": "main",
             "index": 0
           }
@@ -1438,6 +1578,11 @@
             "node": "Discarded (Self-Sent)",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Mark Processed",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -1454,6 +1599,79 @@
         [
           {
             "node": "Format for CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every Minute": {
+      "main": [
+        [
+          {
+            "node": "List Mailbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Mailbox": {
+      "main": [
+        [
+          {
+            "node": "Claim New Mail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claim New Mail": {
+      "main": [
+        [
+          {
+            "node": "Get a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zoho Token Gate": {
+      "main": [
+        [
+          {
+            "node": "Token Cached?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Cached?": {
+      "main": [
+        [
+          {
+            "node": "Prepare Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Refresh Zoho Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Confirmation?": {
+      "main": [
+        [
+          {
+            "node": "Send Confirmation",
             "type": "main",
             "index": 0
           }

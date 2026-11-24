@@ -1,0 +1,146 @@
+{
+  "name": "Email-to-CRM Pipeline Health",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "ee9a92af-e1aa-4d70-8e16-ba3baad3c8ee",
+      "name": "Every 10 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/me/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftOutlookOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "$filter",
+              "value": "={{ 'receivedDateTime ge ' + $now.minus({days: 10}).toUTC().toISO() + ' and isDraft eq false' }}"
+            },
+            {
+              "name": "$select",
+              "value": "id,receivedDateTime,from,subject,isDraft,parentFolderId"
+            },
+            {
+              "name": "$orderby",
+              "value": "receivedDateTime asc"
+            },
+            {
+              "name": "$top",
+              "value": "500"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "63e47fea-b068-40b8-b190-9966325615b6",
+      "name": "List Mailbox",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "Microsoft Outlook account"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pipeline Health\n//\n// Runs every 10 minutes in its own workflow (workflows/pipeline-health.json) and emails\n// ALERT_EMAIL when the contact pipeline needs a person, before the forwarders notice:\n// - forwarded mail still not processed LATE_MIN minutes after it arrived (queue stuck or model too slow)\n// - a message that failed MAX_ATTEMPTS times and was given up on\n// - the mailbox not readable\n// - the local model (Ollama) not answering\n// It sends one email when a problem appears and one when everything is clear again, and\n// nothing while the state holds, so a long outage is not a flood of alerts.\n//\n// Input: the List Mailbox response ({ value: [messages] }, or an error item).\n// Output: [] when nothing changed, else one item { to, subject, body } for Send Alert.\n\n// Organization settings\nconst INTAKE_ADDRESS = 'contacts@yourcompany.com';\nconst SUBJECT_TAG = '[CRM]';\n// Who gets the alerts. ALERT_EMAIL in the n8n environment overrides this placeholder.\nlet ALERT_EMAIL = 'you@yourcompany.com';\ntry { if (typeof $env !== 'undefined' && $env.ALERT_EMAIL) ALERT_EMAIL = $env.ALERT_EMAIL; } catch (e) {}\n// The id of the imported Email-to-CRM workflow (from its URL in n8n). The ledger file is\n// named after it, and this workflow has a different id of its own.\nconst MAIN_WORKFLOW_ID = '<main-workflow-id>';\nconst OLLAMA_URL = 'http://ollama:11434';\n\nconst fs = require('fs'), http = require('http');\nconst LEDGER = '/data/ingest_ledger_' + MAIN_WORKFLOW_ID + '.log';\nconst LATE_MIN = 45, MAX_ATTEMPTS = 4, LEASE_MIN = 90; // same limits as Claim New Mail\nconst TAG_RE = new RegExp('^' + SUBJECT_TAG.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') + ' ');\n\nconst listed = $input.first().json;\nconst problems = [];\nif (MAIN_WORKFLOW_ID.startsWith('<')) problems.push('MAIN_WORKFLOW_ID is not set in Pipeline Health, so the queue ledger cannot be read');\nif (!Array.isArray(listed.value)) problems.push('Microsoft mailbox not reachable: ' + JSON.stringify(listed.error || listed).slice(0, 200));\n\nconst state = new Map();\nfor (const line of (fs.existsSync(LEDGER) ? fs.readFileSync(LEDGER, 'utf8') : '').split('\\n')) {\n  const [ts, ev, id] = line.split('\\t');\n  if (!id) continue;\n  const s = state.get(id) || { done: false, claims: 0, last: '', lastClaim: 0 };\n  if (ev === 'done') s.done = true;\n  if (ev === 'claim') { s.claims++; s.lastClaim = Date.parse(ts) || 0; }\n  s.last = ev;\n  state.set(id, s);\n}\nconst now = Date.now(), late = [], gaveUp = [];\nfor (const m of listed.value || []) {\n  const from = (((m.from || {}).emailAddress || {}).address || '').toLowerCase();\n  if (from === INTAKE_ADDRESS || (/^\\/o=exchangelabs/.test(from) && TAG_RE.test(m.subject || ''))) continue; // same rule as Claim New Mail\n  const s = state.get(m.id) || { done: false, claims: 0 };\n  if (s.done) continue;\n  const line = `${m.receivedDateTime.slice(0, 16).replace('T', ' ')}Z  ${from}  \"${(m.subject || '').slice(0, 60)}\"`;\n  if (s.claims >= MAX_ATTEMPTS && (s.last === 'release' || now - s.lastClaim > LEASE_MIN * 60000)) gaveUp.push(line); // last try finished, or its lease ran out\n  else if (now - Date.parse(m.receivedDateTime) > LATE_MIN * 60000) late.push(line + (s.claims ? `  (tried ${s.claims}x)` : '  (not started)'));\n}\nif (late.length) problems.push(`${late.length} forwarded email(s) not processed after ${LATE_MIN} min:\\n  ` + late.join('\\n  '));\nif (gaveUp.length) problems.push(`${gaveUp.length} email(s) failed ${MAX_ATTEMPTS} times and were given up on:\\n  ` + gaveUp.join('\\n  '));\n\nconst ollamaUp = await new Promise(res => {\n  const r = http.get(OLLAMA_URL + '/api/tags', { timeout: 15000 }, x => { x.resume(); res(x.statusCode === 200); });\n  r.on('timeout', () => { r.destroy(); res(false); }); r.on('error', () => res(false));\n});\nif (!ollamaUp) problems.push('Local model (Ollama) not answering at ' + OLLAMA_URL);\n\n// Alert on a change of state only; counts are masked so a growing backlog is not a new problem.\nconst sd = $getWorkflowStaticData('global');\nconst key = problems.map(p => p.split('\\n')[0].replace(/^\\d+ /, 'N ')).join('|');\nif (key === (sd.lastKey || '')) return [];\nsd.lastKey = key;\nreturn [{ json: {\n  to: ALERT_EMAIL,\n  subject: problems.length ? '[CRM pipeline] Needs attention' : '[CRM pipeline] Back to normal',\n  body: (problems.length ? problems.join('\\n\\n') : 'All checks pass again: queue moving, model answering.') +\n    '\\n\\nLedger: ' + LEDGER + ' in the n8n container.',\n} }];\n"
+      },
+      "id": "22490861-3dc4-422f-aadf-1bd033c7236d",
+      "name": "Pipeline Health",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "bodyContent": "={{ $json.body }}",
+        "additionalFields": {}
+      },
+      "id": "b0d6e9a2-6b49-4f85-aeff-f4cb62be8e74",
+      "name": "Send Alert",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "",
+          "name": "Microsoft Outlook account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 10 Minutes": {
+      "main": [
+        [
+          {
+            "node": "List Mailbox",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Mailbox": {
+      "main": [
+        [
+          {
+            "node": "Pipeline Health",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pipeline Health": {
+      "main": [
+        [
+          {
+            "node": "Send Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

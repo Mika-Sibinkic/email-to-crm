@@ -9,7 +9,7 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 const START_NODE = 'Get a message1';
 const MAX_NODE_RUNS = 500;
 const CONTEXT_NAMES = ['$input', '$', '$json', '$node', '$items', '$env', 'require', 'console',
-  'items', '$execution', '$workflow', '$runIndex', '$itemIndex'];
+  'items', '$execution', '$workflow', '$runIndex', '$itemIndex', '$getWorkflowStaticData'];
 
 // n8n hands nodes serialized copies (task runner); a JSON round trip gives the same isolation.
 const clone = v => (v === undefined ? undefined : JSON.parse(JSON.stringify(v)));
@@ -42,6 +42,7 @@ class Execution {
     this.logs = [];
     this.error = null;
     this.reach = {};
+    this.staticData = opts.staticData || {}; // $getWorkflowStaticData('global'); fresh per fixture unless passed in
   }
 
   async run(emailJson) {
@@ -166,6 +167,7 @@ class Execution {
       $workflow: { id: self.wf.id || 'test', name: self.wf.name || '', active: false },
       $runIndex: (self.runData[node.name] || []).length,
       $itemIndex: itemIndex,
+      $getWorkflowStaticData: () => self.staticData,
     };
   }
 

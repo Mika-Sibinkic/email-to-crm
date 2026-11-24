@@ -3,14 +3,42 @@
 // Builds one confirmation per email in the poll. Each contact gets a card with every
 // field Zoho now holds (from Fetch Zoho Contact, falling back to the extracted
 // values), any warnings, and a signed 24-hour undo link. Contacts built from
-// fragments or with low confidence are marked as needing a check.
+// fragments or with low confidence are marked as needing a check. With several
+// contacts each card also has its own undo link, and list entries that could not be
+// added are listed under "Not added, please check".
+//
+// When Zoho refused the upsert, no email goes to the forwarder: the item carries
+// retry: true so Mark Processed releases the message for another attempt.
 //
 // Input: Format for CSV items (one per email), plus Upsert Contact and Fetch Zoho
 // Contact results. Output: { emailSubject, emailBody, forwarderEmail, zohoIds,
-// undoLink, ... } per email, or a skipEmail item when there is nothing to send.
+// undoLink, emailId, ... } per email, or a skipEmail item when there is nothing to send.
 
 // Organization settings
 const SUBJECT_TAG = '[CRM]';
+
+// Signed 24-hour undo link for a set of Zoho records.
+function makeUndoLink(zohoIds, emails) {
+  const crypto = require('crypto');
+  // Set UNDO_SECRET in the n8n environment; never commit it.
+  const UNDO_SECRET = $env.UNDO_SECRET;
+  // Set WEBHOOK_BASE_URL to the public n8n host. The try-catch is there because
+  // some n8n setups block $env access in Code nodes.
+  let baseUrl = 'https://n8n.example.internal';
+  try { if (typeof $env !== 'undefined' && $env.WEBHOOK_BASE_URL) baseUrl = $env.WEBHOOK_BASE_URL; } catch(e) {}
+  const payload = JSON.stringify({ zohoIds, emails, timestamp: Date.now(), expires: Date.now() + (24 * 60 * 60 * 1000) });
+  const signature = crypto.createHmac('sha256', UNDO_SECRET).update(payload).digest('hex');
+  return baseUrl + '/webhook/undo-contact?token=' + encodeURIComponent(Buffer.from(JSON.stringify({ payload, sig: signature })).toString('base64'));
+}
+
+// Entries of a typed contact list that were not written to Zoho, with the reason
+// (Parse AI Response fills listIssues as [{ raw, reason }]).
+function listIssuesText(issues) {
+  if (!Array.isArray(issues) || !issues.length) return '';
+  return '\n━━━ Not added, please check (' + issues.length + ') ━━━\n' +
+    issues.map((x, i) => (i + 1) + '. ' + x.raw + '\n   → ' + x.reason + '\n').join('') +
+    'Correct these and send them in a new email.\n';
+}
 
 function buildContactCard(contact, zohoRecord, upsertResult, contactNum, totalContacts) {
   const c = contact;
@@ -134,7 +162,7 @@ const results = [];
 
 // Skipped emails get a skipEmail item instead of a reply.
 for (const si of skipItems) {
-  results.push({ json: { skipEmail: true, reason: si.json.skipReason || 'SKIPPED', emailSubject: '', emailBody: '' } });
+  results.push({ json: { skipEmail: true, reason: si.json.skipReason || 'SKIPPED', emailSubject: '', emailBody: '', emailId: si.json.email_id || '' } });
 }
 
 let allEmails = [];
@@ -184,6 +212,9 @@ let upsertIdx = 0;
 for (let emailIdx = 0; emailIdx < allEmails.length; emailIdx++) {
   const contactData = allEmails[emailIdx].json;
   const contacts = contactData.contacts || [];
+  // Prepare Upsert never sends a contact without a valid email (an inferred email is what it
+  // sends), so show it as skipped; otherwise it would count as upsertable and read as a Zoho failure.
+  for (const c of contacts) if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(String(c.email || c.inferredEmail || '').trim())) { c.skipZohoUpsert = true; (c.infoNotes = c.infoNotes || []).push('No email address found, so it was skipped. Send it again with the email on its own line.'); }
   const detectionFlags = contactData.detectionFlags || [];
   const zohoSkipped = contactData.skipZohoUpsert || false;
 
@@ -206,25 +237,7 @@ for (let emailIdx = 0; emailIdx < allEmails.length; emailIdx++) {
   const zohoFailed = !zohoSkipped && upsertableContacts.length > 0 && emailUpsertResults.length === 0;
   const tokenFailed = false;
 
-  let undoLink = '';
-  if (emailZohoIds.length > 0) {
-    const crypto = require('crypto');
-    // Set UNDO_SECRET in the n8n environment; never commit it.
-    const UNDO_SECRET = $env.UNDO_SECRET;
-    // Set WEBHOOK_BASE_URL to the public n8n host. The try-catch is there because
-    // some n8n setups block $env access in Code nodes.
-    let baseUrl = 'https://n8n.example.internal';
-    try { if (typeof $env !== 'undefined' && $env.WEBHOOK_BASE_URL) baseUrl = $env.WEBHOOK_BASE_URL; } catch(e) {}
-    const payload = JSON.stringify({
-      zohoIds: emailZohoIds,
-      emails: contacts.map(c => c.email).filter(Boolean),
-      timestamp: Date.now(),
-      expires: Date.now() + (24 * 60 * 60 * 1000)
-    });
-    const signature = crypto.createHmac('sha256', UNDO_SECRET).update(payload).digest('hex');
-    const signedToken = Buffer.from(JSON.stringify({ payload, sig: signature })).toString('base64');
-    undoLink = baseUrl + '/webhook/undo-contact?token=' + encodeURIComponent(signedToken);
-  }
+  const undoLink = emailZohoIds.length > 0 ? makeUndoLink(emailZohoIds, contacts.map(c => c.email).filter(Boolean)) : '';
 
   let emailBody = '';
   let emailSubject = '';
@@ -261,21 +274,15 @@ for (let emailIdx = 0; emailIdx < allEmails.length; emailIdx++) {
       emailBody += '\n\nIf there IS a contact here that the system missed, please forward again with contact details in the email body text.\n';
     }
 
+    emailBody += listIssuesText(contactData.listIssues);
     emailBody += '\n---\nEmail-to-CRM';
 
   } else if (zohoFailed) {
-    emailSubject = SUBJECT_TAG + ' Zoho sync failed — contacts saved to log';
-    emailBody = '🚨 Zoho sync failed — contacts saved to backup log\n\n' +
-      'Source: ' + (contactData.originalSubject || 'N/A') + '\n' +
-      'Cause: Zoho authentication token refresh failed\n\n' +
-      'Extracted ' + contacts.length + ' contact(s) but could not sync to Zoho CRM.\n' +
-      'They have been saved to the backup CSV log for manual import.\n\n';
-    for (let i = 0; i < contacts.length; i++) {
-      const c = contacts[i];
-      const name = ((c.firstName || '') + ' ' + (c.lastName || '')).trim() || 'Unknown';
-      emailBody += '  ' + (i+1) + '. ' + name + ' — ' + (c.email || 'no email') + ' (' + (c.type || 'N/A') + ')\n';
-    }
-    emailBody += '\n---\nEmail-to-CRM';
+    // Zoho refused (login or outage). The forwarder is not emailed: the message is released
+    // for retry (Mark Processed), and after the last attempt Pipeline Health alerts the operator.
+    $getWorkflowStaticData('global').zohoTokenAt = 0; // the next run logs in again
+    results.push({ json: { skipEmail: true, retry: true, reason: 'ZOHO_RETRY', emailId: contactData.email_id || '', emailSubject: '', emailBody: '' } });
+    continue;
 
   } else {
     const upsertedCount = emailUpsertResults.filter(r => r.success).length;
@@ -326,12 +333,14 @@ for (let emailIdx = 0; emailIdx < allEmails.length; emailIdx++) {
       }
 
       emailBody += buildContactCard(c, contactZoho, upsertResult, i + 1, contacts.length);
+      if (contacts.length > 1 && upsertResult.zohoId) emailBody += 'Undo just this contact: ' + makeUndoLink([upsertResult.zohoId], [c.email]) + '\n';
       emailBody += '\n';
     }
 
     if (reviewCount > 0) {
       emailBody += reviewCount + ' contact(s) need manual review.\n';
     }
+    emailBody += listIssuesText(contactData.listIssues);
 
     if (undoLink) {
       emailBody += '\nUndo this update (expires in 24hrs): ' + undoLink + '\n';
@@ -349,7 +358,8 @@ for (let emailIdx = 0; emailIdx < allEmails.length; emailIdx++) {
       undoLink,
       zohoFailed: zohoFailed || tokenFailed,
       zohoSkipped,
-      contactCount: contacts.length
+      contactCount: contacts.length,
+      emailId: contactData.email_id || '' // for Mark Processed
     }
   });
 }

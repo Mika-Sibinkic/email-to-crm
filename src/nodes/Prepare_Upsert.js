@@ -15,13 +15,21 @@ if ($input.first().json.skip) {
   return [{ json: $input.first().json }];
 }
 const tokenResponse = $input.first().json;
-// A failed token refresh still yields an item; the per-email check below turns it
-// into a CSV-only result instead of a crash.
-if (!tokenResponse.access_token) {
+// Zoho refuses refreshes after about 10 in 10 minutes, and a token lives 60 minutes, so the
+// last good token is kept in static data (Zoho Token Gate reads it) and reused when a refresh fails.
+// Only a fresh login restarts the clock: re-stamping a reused token would keep it past its expiry.
+// A failed refresh with no usable token still yields an item; the per-email check below
+// turns it into a CSV-only result instead of a crash.
+const _zohoCache = $getWorkflowStaticData('global');
+let accessToken = tokenResponse.access_token;
+if (accessToken && !tokenResponse.cachedToken) {
+  _zohoCache.zohoToken = accessToken; _zohoCache.zohoTokenAt = Date.now();
+} else if (_zohoCache.zohoToken && Date.now() - _zohoCache.zohoTokenAt < 50 * 60 * 1000) {
+  accessToken = _zohoCache.zohoToken;
+  console.log('WARNING: Zoho token refresh failed, reusing token from', new Date(_zohoCache.zohoTokenAt).toISOString());
+} else {
   console.log('WARNING: Zoho token refresh returned no access_token');
 }
-
-const accessToken = tokenResponse.access_token;
 
 // One token serves every email in the poll; each Save to CSV item is one email.
 const allCsvItems = $('Save to CSV').all();
