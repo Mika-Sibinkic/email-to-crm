@@ -32,8 +32,17 @@ const OWN_STAFF_FULL = OWN_STAFF.map(s => s.name.toLowerCase());
 const OWN_COMPANY_NAMES = ['Your Company'];
 const OWN_TAGLINE = 'Your Company Tagline Here';
 const OWN_BRAND_NAMES = [...OWN_COMPANY_NAMES, OWN_TAGLINE];
+// Your office address as it appears in staff signatures: the street line, then the city line.
+// It is never a contact's address, and the city line ends a staff signature block.
+const OWN_ADDRESS_PARTS = ['100 Main Street', 'Anytown, ST'];
 
 // MULTI-ITEM WRAPPER - Process each AI response independently
+
+// n8n kills a Code node after 300 s. The company checks that reach the network (website fetch,
+// a second model question) run only while this node is well inside that limit.
+const __PARSE_T0 = Date.now();
+const __provElapsed = () => Date.now() - __PARSE_T0;
+let __rechecks = 0;
 
 const allItems = $input.all();
 const allResults = [];
@@ -46,6 +55,7 @@ try { emailParserItems = $('Email Parser').all(); } catch(e) {
 for (let _idx = 0; _idx < allItems.length; _idx++) {
 let _item = allItems[_idx];
 let _aiFailureNote = '';
+let _listIssues = []; // list entries that were not written, shown in the confirmation
 
 // SKIP_CHECK - Pass through skip signal
 if (_item.json.skip) {
@@ -121,6 +131,211 @@ const FORM_LABEL_RE = /^(?:company(?:\s+name)?|firm|organi[sz]ation|employer|bus
 // Courtesy and professional prefixes in display names ("Lic. Jane Doe", "Dott.ssa Jane Doe").
 const HONORIFIC_RE = /^(?:(?:Mr|Mrs|Ms|Miss|Dr|Prof|Lic|Ing|Arq|Sr|Sra|Srta|Dott|Dott\.ssa|Herr|Frau)\.?\s+)+/i;
 const ATTRIBUTION_RE = /^[\s>]*On\s.*\bwrote:\s*$/i;
+
+// Street and zip from a signature address. `line` matched "City, ST 12345" at cityIdx; the street is
+// the text before the city on that line, else the line above. Your own office address never counts.
+const _addrNorm = t => ' ' + String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
+const isOwnAddressLine = l => OWN_ADDRESS_PARTS.some(p => _addrNorm(l).includes(_addrNorm(p)));
+const STREET_RE = /^(?:[NSEW]?\d{1,6}[A-Za-z]?\s+[A-Za-z0-9][\w .,'#&\/-]{2,80}|P\.?\s*O\.?\s*Box\s+\d+[\w .,#-]{0,40})$/i;
+function streetZipFrom(line, prevLine, cityIdx) {
+  if (isOwnAddressLine(line) || isOwnAddressLine(prevLine || '')) return { street: '', zip: '' };
+  const zm = line.slice(cityIdx).match(/\b[A-Z]{2}\s*,?\s*(\d{5}(?:-\d{4})?)\b/);
+  const isStreet = t => !!t && STREET_RE.test(t) && !/@|https?:|www\.|:/i.test(t) &&
+    t.replace(/\D/g, '').length / t.length < 0.5;
+  const before = line.slice(0, cityIdx).replace(/[\s,|•·-]+$/, '').trim();
+  const street = (isStreet(before) ? before : (!before && isStreet((prevLine || '').trim()) ? prevLine.trim() : '')).replace(/[\s,;]+$/, '');
+  return { street, zip: zm ? zm[1] : '' };
+}
+
+// "Dana Reyes, Broker / President" on one line becomes two lines, so the name and title detectors
+// each see their own line; otherwise the scanner found no name and lost the street and zip too.
+// Comma only: pipe lines ("Name | Title | Co") put other people's names on colleagues' emails.
+// A line ending in a separator ("Name, Title - " cut off at the email) is a one-line list row,
+// which the scanner already reads; splitting it let the row above lend its title as a company.
+const NAME_TITLE_LINE_RE = /^([A-Z][a-zA-ZÀ-ÿ'‘’-]+\s+(?:[A-Z]\.?\s+)?[A-Z][a-zA-ZÀ-ÿ'‘’-]+)\s*,(?!\s*[A-Z]{2,}\b)\s*(.{3,60})$/;
+const TITLE_WORD_RE = /\b(?:Director|President|Vice|Manager|Advisor|Officer|Partner|Principal|Chief|Counsel|Attorney|Broker|Banker|Underwriter|Originator|Analyst|Consultant|Specialist|Executive|Owner|Founder|CEO|CFO|COO|VP|SVP|EVP|AVP)\b/i;
+function splitNameTitleLine(l) {
+  const m = l.match(NAME_TITLE_LINE_RE);
+  return m && TITLE_WORD_RE.test(m[2]) && !/@|\d/.test(m[2]) && !/[-–—|:]\s*$/.test(m[2]) ? [m[1], m[2].trim()] : [l];
+}
+
+// LIST PARSER
+// Reads a list of people typed by the forwarder (blank lines, numbers, bullets, one per line, any
+// field order). On such lists the model returns one person and the signature scanner borrows details
+// from neighbours, so most entries came out wrong or under another person's name. The forwarder's
+// text is cut into one block per person and each block is read alone. A block whose details cannot
+// be tied to one person is reported as an issue and nothing from it is written.
+const LP_EMAIL_RE = /[A-Za-z0-9][\w.+-]*@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const LP_PHONE_RE = /(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(?:\s*(?:x|ext\.?|extension)\s*\d{1,6})?/i;
+const LP_CITY_RE = /^([A-Za-z][A-Za-z .'-]*?),?\s+([A-Z]{2})\.?(?:\s+(\d{5}(?:-\d{4})?))?$/;
+const LP_NAME_RE = /^(?:(?:Mr|Mrs|Ms|Dr)\.?\s+)?([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'‘’.-]*(?:\s+[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'‘’.-]*){1,3})$/;
+const LP_TITLE_RE = new RegExp(TITLE_WORD_RE.source.replace('(?:', '(?:Associate|Assistant|Agent|Representative|Rep|Coordinator|Administrator|Engineer|Captain|Treasurer|Controller|Secretary|Head|Lead|Supervisor|Superintendent|Chairman|Chair|Member|Trustee|Advisor|Adviser|'), 'i');
+const LP_NOT_NAME_RE = /\b(?:hi|hello|thanks?|please|regards|team|add|zoho|crm|customers?|contacts?|below|following|list|these|funding|source|broker|dealer|insurance|street|st|rd|road|ave|blvd|suite|ln|dr|cv|way|ct|llc|inc|corp|group|capital|company|bank)\b/i;
+const LP_MOBILE_LABEL = /\b(?:cell|mobile|mob|direct|dir|c|m)\b\.?\s*:?\s*$|^\s*(?:cell|mobile|mob|direct|dir|c|m)\b/i;
+const LP_PHONE_LABEL = /\b(?:office|phone|ph|tel|telephone|work|main|business|o|p|t)\b\.?\s*:?\s*$|^\s*(?:office|phone|ph|tel|telephone|work|main|business|o|p|t)\b/i;
+const LP_MARKER_RE = /^(?:\(?\d{1,3}[.)\]:]|#\d{1,3}[.):]?|[•●▪◦*·>-])\s+(?!\d{3}[\s.-]?\d{4}\b)/;
+const LP_HEADER_RE = /^\s*(?:From|Sent|To|Cc|Date|Subject|De|Von|Envoyé|Gesendet)\s*:|^-{2,}\s*(?:Original|Forwarded)|^Begin forwarded message|^On .+wrote:$/i;
+const LP_INLINE_HEADER_RE = /\b(?:From|Sent|Subject|Von|Gesendet|Betreff|De|Envoyé|Objet)\s*:\s*\S/;
+const lpExternal = (e, fwd) => ![...OWN_DOMAINS].some(d => e.toLowerCase().endsWith('@' + d)) && e.toLowerCase() !== (fwd || '').toLowerCase();
+
+// Text the forwarder wrote: everything above the first forwarded or quoted header.
+function lpForwarderText(body) {
+  const lines = (body || '').replace(/\r/g, '').split('\n');
+  const h = lines.findIndex(l => LP_HEADER_RE.test(l));
+  return (h === -1 ? lines : lines.slice(0, h)).map(l => l.replace(/[​﻿]/g, '').replace(/ /g, ' ').replace(/ {2,}/g, ' ').trim());
+}
+
+// Splits "Name - email | phone" into pieces, separates "555-010-0150jlee@acme.example", drops list markers.
+function lpPieces(line) {
+  let l = line.replace(LP_MARKER_RE, '');
+  l = l.replace(/(\d{4})(?=[A-Za-z][\w.+-]*@)/g, '$1 ').replace(/([A-Za-z]{2,})(\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})/g, '$1 $2');
+  l = l.replace(LP_EMAIL_RE, m => '\u0001' + m + '\u0001')
+       .replace(new RegExp('((?:\\b(?:cell|mobile|mob|direct|office|phone|ph|tel|work|main|fax|[cmopt])\\b\\.?\\s*:?\\s*)?' + LP_PHONE_RE.source + ')', 'gi'), '\u0001$1\u0001');
+  return l.split(/\u0001|\s+[|–—-]\s+|\s*[|–—]\s*|\s+\/\s+|\t|;\s*/)
+    .map(s => s.replace(/\(\s*\)|<\s*>|\[\s*\]/g, ' ').trim().replace(/^[\s,|–—:<>\[\]-]+|[\s,|–—:<>\[\]-]+$/g, '').replace(/^\((?!\d{3}\))|\)$/g, '').trim()).filter(Boolean);
+}
+
+function lpReadBlock(lines, fwd) {
+  const c = { firstName: '', lastName: '', email: '', phone: '', mobile: '', companyName: '', jobTitle: '',
+              address: '', city: '', state: '', zip: '', website: '' };
+  const extra = [];
+  // "Riley Chen, Portfolio Associate" becomes a name and a title.
+  const pieces = lines.flatMap(lpPieces).flatMap(p => { const m = p.match(NAME_TITLE_LINE_RE);
+    return m && LP_TITLE_RE.test(m[2]) && !/@|\d/.test(m[2]) ? [m[1], m[2].trim()] : [p]; });
+  // A line that spells the email's domain is the company ("Acme Holdings" above
+  // jlee@acmeholdings.example), not the person's name.
+  const dom = (((lines.join(' ').match(LP_EMAIL_RE) || []).find(e => lpExternal(e, fwd)) || '').split('@')[1] || '').split('.')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isDomainName = p => { const a = p.toLowerCase().replace(/[^a-z0-9]/g, ''); return dom.length >= 3 && a.length >= 3 && (a === dom || (dom.startsWith(a) && a.length >= 4)); };
+  for (let p of pieces) {
+    const emails = (p.match(LP_EMAIL_RE) || []).filter(e => lpExternal(e, fwd));
+    if (emails.length) {
+      c.email = c.email || emails[0];
+      p = p.replace(LP_EMAIL_RE, ' ').replace(/\b(?:e-?mail|email address)\s*:?/i, ' ').trim();
+      if (!p) continue;
+    }
+    if (/@/.test(p)) continue; // an internal or forwarder address
+    let ph = p.match(LP_PHONE_RE);
+    while (ph) {
+      const num = ph[0].replace(/\s*(?:x|ext\.?|extension)\s*(\d+)$/i, ' x$1').trim();
+      const before = p.slice(0, ph.index), after = p.slice(ph.index + ph[0].length);
+      const label = (before + ' ' + after.split(/[,;]/)[0]).trim();
+      if (/\bfax\b/i.test(label) || isOwnCompanyPhone(num)) { /* never a contact number */ }
+      else if (LP_MOBILE_LABEL.test(before) || /^\s*(?:cell|mobile|direct)\b/i.test(after)) { if (!c.mobile) c.mobile = num; else extra.push(num); }
+      else if (!c.phone) c.phone = num;
+      else if (!c.mobile && !LP_PHONE_LABEL.test(before)) c.mobile = num;
+      else extra.push(num);
+      p = (before.replace(LP_MOBILE_LABEL, '').replace(LP_PHONE_LABEL, '') + ' ' + after.replace(/^\s*(?:cell|mobile|direct|office|phone|work|main)\b/i, '')).trim();
+      ph = p.match(LP_PHONE_RE);
+    }
+    p = p.replace(/^(?:fax|phone|office|cell|mobile|direct|tel|e-?mail|name|address|company|title)\s*:?\s*$/i, '').trim();
+    if (!p || /^[\W\d]*$/.test(p)) continue;
+    if (/^(?:https?:\/\/|www\.)\S+$/i.test(p)) { c.website = c.website || p; continue; }
+    const city = p.match(LP_CITY_RE);
+    if (city && !LP_NAME_RE.test(p.replace(/,/g, '')) || (city && city[3])) { if (!c.city) { c.city = city[1].trim(); c.state = city[2]; c.zip = city[3] || ''; } continue; }
+    const sc = p.match(/^(\d[^,]+?),\s*([A-Za-z][A-Za-z .'-]*?),?\s+([A-Z]{2})\.?(?:\s+(\d{5}(?:-\d{4})?))?$/);
+    if (sc && STREET_RE.test(sc[1])) { c.address = c.address || sc[1].trim(); if (!c.city) { c.city = sc[2].trim(); c.state = sc[3]; c.zip = sc[4] || ''; } continue; }
+    if (STREET_RE.test(p) && /\d/.test(p.split(/\s/)[0])) { c.address = c.address || p.replace(/[\s,]+$/, ''); continue; }
+    if (isDomainName(p)) { c.companyName = c.companyName || p; continue; }
+    const comma = p.match(/^([A-Z][A-Za-z'’-]+),\s+([A-Z][A-Za-z'’-]+)$/); // "Smith, John"
+    const nm = comma ? null : p.replace(/[.,]+$/, '').match(LP_NAME_RE);
+    if (!c.firstName && (comma || (nm && !LP_NOT_NAME_RE.test(p) && !LP_TITLE_RE.test(p)))) {
+      const toks = comma ? [comma[2], comma[1]] : nm[1].split(/\s+/);
+      c.firstName = toTitleCase(toks[0]);
+      const rest = toks.slice(1).filter((x, i, a) => !(a.length > 1 && i < a.length - 1 && /^[A-Z]\.?$/i.test(x))); // drop middle initials
+      c.lastName = toTitleCase(rest.join(' '));
+      continue;
+    }
+    if (LP_TITLE_RE.test(p) && !c.jobTitle) { c.jobTitle = p; continue; }
+    // A company line is Title Case or has an org word. Free text such as "met at the trade show" is left out.
+    if (!c.companyName && (/\b(?:LLC|L\.L\.C|Inc|Corp|Co|Ltd|LLP|LP|PC|Group|Capital|Bank|Partners|Holdings|Company|Leasing|Insurance|Services|Systems)\b\.?/i.test(p)
+        || /^(?:[A-Z0-9&][\w&'’.-]*)(?:\s+(?:[A-Z0-9&][\w&'’.-]*|of|and|the|&))*$/.test(p))) { c.companyName = p; continue; }
+    extra.push(p);
+  }
+  return { contact: c, extra };
+}
+
+// Returns { contacts, issues }, or null when the email is not a list; the normal path then reads it.
+function parseContactList(body, fwd) {
+  const lines = lpForwarderText(body);
+  const ext = new Set((lines.join('\n').match(LP_EMAIL_RE) || []).filter(e => lpExternal(e, fwd)).map(e => e.toLowerCase()));
+  if (ext.size < 2) return null;
+  // 1. Blocks: blank lines, list markers ("1.", "2)", bullets, "-") and divider lines separate people.
+  const blocks = []; let cur = [];
+  const push = () => { if (cur.length) blocks.push(cur); cur = []; };
+  const emailsIn = ls => (ls.join(' ').match(LP_EMAIL_RE) || []).filter(e => lpExternal(e, fwd));
+  for (const l of lines) {
+    if (!l || /^[-_=*~.]{3,}$/.test(l)) { push(); continue; }
+    if (LP_MARKER_RE.test(l)) push();
+    cur.push(l);
+  }
+  push();
+  // 2. A block with several people in it has no separators. Each person starts the way the first one
+  //    does: with an email line ("Name - email" per line, or email first) or with a name line.
+  const isNameLine = l => !/@/.test(l) && LP_NAME_RE.test(l.replace(/[.,]+$/, '')) && !LP_NOT_NAME_RE.test(l)
+    && !LP_TITLE_RE.test(l) && !LP_CITY_RE.test(l);
+  const split = [];
+  for (const b of blocks) {
+    if (emailsIn(b).length <= 1) { split.push(b); continue; }
+    if (b.length === 1) { // "A a@x.example; B b@y.example": split on ; , "and" only when every part has one email
+      const parts = b[0].split(/\s*;\s*|\s*,\s*(?=[^,]*@)|\s+and\s+/i).filter(s => s.trim());
+      split.push(...(parts.length === emailsIn(b).length && parts.every(s => emailsIn([s]).length === 1) ? parts.map(s => [s]) : [b]));
+      continue;
+    }
+    const leadsWithEmail = emailsIn([b[0]]).length > 0;
+    let sub = [];
+    for (const l of b) {
+      const starts = leadsWithEmail ? emailsIn([l]).length > 0 : isNameLine(l);
+      if (starts && sub.length && emailsIn(sub).length) { split.push(sub); sub = []; }
+      sub.push(l);
+    }
+    if (sub.length) split.push(sub);
+  }
+  // 3. Keep the blocks from the first person to the last. Text before is a greeting, text after is
+  //    the forwarder's signature.
+  const hasExt = b => emailsIn(b).some(e => lpExternal(e, fwd));
+  // A list needs two or more blocks with exactly one email each, and no long or header-like line next
+  // to an email (a thread pasted on one line, a paragraph). Anything else goes to the normal path.
+  const oneEach = split.filter(b => new Set(emailsIn(b).map(e => e.toLowerCase())).size === 1).length;
+  if (oneEach < 2 || split.some(b => hasExt(b) && b.some(l => l.length > 200 || LP_INLINE_HEADER_RE.test(l)))) return null;
+  const first = split.findIndex(hasExt), last = split.length - 1 - [...split].reverse().findIndex(hasExt);
+  const contacts = [], issues = [];
+  for (let i = first; i <= last; i++) {
+    const b = split[i], n = new Set(emailsIn(b).filter(e => lpExternal(e, fwd)).map(e => e.toLowerCase())).size;
+    if (n > 1) { issues.push({ raw: b.join(' / '), reason: 'Two or more email addresses together, so the details could not be matched to one person' }); continue; }
+    const { contact, extra } = lpReadBlock(b, fwd);
+    if (n === 0) {
+      if (contact.firstName || contact.phone || contact.mobile) issues.push({ raw: b.join(' / '), reason: 'No email address for this person' });
+      continue;
+    }
+    contact.infoNotes = ['Read from a list of contacts (one block per person)'].concat(extra.length ? ['Not used: ' + extra.join(', ')] : []);
+    contacts.push(contact);
+  }
+  return { contacts, issues };
+}
+
+// A value that appears only inside one of your staff signatures is the forwarder's, not the contact's.
+// The block runs from a staff name line to the office city line or the next forwarded header.
+// Returns the fields to clear.
+const STAFF_SIG_RE = new RegExp('^\\s*(?:' + OWN_STAFF.map(s => s.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\s*$', 'i');
+function dropSignatureValues(c, body) {
+  const lines = body.split('\n'), sig = new Array(lines.length).fill(false);
+  const cityPart = OWN_ADDRESS_PARTS[OWN_ADDRESS_PARTS.length - 1];
+  for (let i = 0, on = false; i < lines.length; i++) {
+    if (STAFF_SIG_RE.test(lines[i])) on = true;
+    else if (LP_HEADER_RE.test(lines[i])) on = false;
+    sig[i] = on;
+    if (on && _addrNorm(lines[i]).includes(_addrNorm(cityPart))) on = false;
+  }
+  if (!sig.some(Boolean)) return {};
+  const inSig = _addrNorm(lines.filter((l, i) => sig[i]).join(' ')), outSig = _addrNorm(lines.filter((l, i) => !sig[i]).join(' '));
+  const out = {};
+  for (const k of ['jobTitle', 'companyName', 'address', 'city', 'state', 'zip']) {
+    const v = _addrNorm(c[k]);
+    if (v.trim() && inSig.includes(v) && !outSig.includes(v)) out[k] = '';
+  }
+  if ('city' in out && c.state && !outSig.includes(_addrNorm(c.state))) out.state = '';
+  return out;
+}
 
 // ANTI-DROP GUARD - when email local-part yields no derivable name, scan body lines
 // near the email for a "Mr./Ms./Dr. First Last" or standalone "First Last" pattern. Fixes
@@ -270,21 +485,29 @@ async function resolveTldLessEmail(tldLessEmail, companyHint) {
   if (mxCandidates.length === 1) return localPart + '@' + domain + '.' + mxCandidates[0].tld;
 
   // Phase 2: Multiple MX candidates - verify by homepage content + company name match
-  function fetchPage(url, timeout) {
+  // res.destroy() at 50 KB never emits 'end', so a page over that size left the promise pending until
+  // n8n killed the node at 300 s. Resolve on 'close' too, cap redirects, and race a hard timer.
+  function fetchPage(url, timeout, hops = 3) {
     return new Promise((resolve) => {
-      const req = https.get(url, { timeout, headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
-        // Follow one redirect
-        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-          const redir = res.headers.location.startsWith('http') ? res.headers.location : url.split('/').slice(0,3).join('/') + res.headers.location;
-          return fetchPage(redir, timeout).then(resolve);
-        }
-        let data = '';
-        res.on('data', chunk => { data += chunk; if (data.length > 50000) res.destroy(); });
-        res.on('end', () => resolve(data));
-        res.on('error', () => resolve(''));
-      });
-      req.on('error', () => resolve(''));
-      req.on('timeout', () => { req.destroy(); resolve(''); });
+      let done = false;
+      const hard = setTimeout(() => finish(''), timeout + 2000);
+      function finish(v) { if (!done) { done = true; clearTimeout(hard); resolve(v || ''); } }
+      try {
+        const req = https.get(url, { timeout, headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+          try {
+            if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+              res.resume();
+              if (hops <= 0) return finish('');
+              const redir = res.headers.location.startsWith('http') ? res.headers.location : url.split('/').slice(0,3).join('/') + res.headers.location;
+              return fetchPage(redir, timeout, hops - 1).then(finish, () => finish(''));
+            }
+            let data = '';
+            res.on('data', chunk => { data += chunk; if (data.length > 50000) res.destroy(); });
+            res.on('end', () => finish(data)); res.on('close', () => finish(data)); res.on('error', () => finish(data));
+          } catch (e) { finish(''); }
+        });
+        req.on('error', () => finish('')); req.on('timeout', () => { try { req.destroy(); } catch (e) {} finish(''); });
+      } catch (e) { finish(''); }
     });
   }
 
@@ -604,12 +827,13 @@ function scanSignatures(body, excludeForwarder) {
 
       const beforeEmail = body.substring(Math.max(0, emailIdx - 1000), emailIdx);
       const afterEmail = body.substring(emailIdx, Math.min(body.length, emailIdx + 500));
-      const lines = isAttribution ? [] : beforeEmail.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const lines = isAttribution ? [] : beforeEmail.split('\n').map(l => l.trim()).filter(l => l.length > 0).flatMap(splitNameTitleLine);
 
       let firstName = '', lastName = '', nickname = '';
       let fallbackFirst = '', fallbackLast = '', fallbackNick = '';
       let jobTitle = '', companyName = '', companyGuessed = false;
       let phone = '', mobile = '', city = '', state = '', country = '';
+      let street = '', zip = '';
       const nameHints = inferNameFromEmail(extEmail);
 
       // Extract name from email headers as a reliable backup
@@ -834,6 +1058,7 @@ function scanSignatures(body, excludeForwarder) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
             city = cityState[1]; state = cityState[2];
+            ({ street, zip } = streetZipFrom(line, lines[i - 1], cityState.index));
           }
         }
 
@@ -953,6 +1178,7 @@ function scanSignatures(body, excludeForwarder) {
           const cityState = line.match(/([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\s*,?\s*([A-Z]{2})\s*,?\s*\d{5}/);
           if (cityState) {
             city = cityState[1]; state = cityState[2];
+            ({ street, zip } = streetZipFrom(line, afterLines[i - 1], cityState.index));
           }
         }
         // Same @ guard for company in after-email scan
@@ -1033,7 +1259,7 @@ function scanSignatures(body, excludeForwarder) {
           // Title Case for job titles too - "EQUIPMENT FINANCE MANAGER" -> "Equipment Finance Manager"
           jobTitle: toTitleCase(jobTitle),
           city, state,
-          address: '', country: country || '',
+          address: street, zip, country: country || '',
           website: '',
           type: '', specificType: '',
           confidence: 'high',
@@ -1382,6 +1608,10 @@ for (const item of items) {
           .trim();
       }
 
+      // Drop a trailing extension before the split below reads "Ext. 130" as a second number (a
+      // fake mobile "130"). The extension is read again from the email text when the output is built.
+      if (contact.phone) contact.phone = contact.phone.replace(/\s*[,;]?\s*\(?(?:ext\.?|extension|x)\s*[:#]?\s*\d{1,6}\)?\s*$/i, '').trim();
+
       // phone: if it contains multiple numbers, split into phone + mobile
       if (contact.phone && !contact.mobile) {
         const phoneStr = contact.phone;
@@ -1594,7 +1824,12 @@ for (const item of items) {
 
     // ALWAYS-ON SIGNATURE SCANNER + AI MERGE
 
-    const _scanResult = scanSignatures(prevData.fullBody || '', forwarderEmail);
+    // A typed list of people is read block by block; the model's reply and the signature scan are not
+    // used for it.
+    const _list = parseContactList(prevData.fullBody || '', forwarderEmail);
+    if (_list) { contacts = []; _listIssues = _list.issues; }
+    const _scanResult = _list ? { contacts: _list.contacts.map(c => ({ ...c, nickname: '', country: '', type: '', specificType: '',
+      confidence: 'high', extractionMethod: 'LIST_PARSE' })) } : scanSignatures(prevData.fullBody || '', forwarderEmail);
     const scannedContacts = _scanResult.contacts || _scanResult; // backward compat
     _outerTldLessPending = _scanResult.pendingTldLess || [];
 
@@ -1677,10 +1912,13 @@ for (const item of items) {
           phone: sc.phone || ai.phone,
           mobile: sc.mobile || ai.mobile,
           companyName: pickCompany(scCompany, ai.companyName, sc.email, ai.jobTitle),
+          // both readers' candidates, for the company provenance check below
+          _scCompany: sc.companyName || '', _aiCompany: ai.companyName || '',
           jobTitle: (scAmbiguous && ai.jobTitle) || sc.jobTitle || ai.jobTitle,
           city: sc.city || ai.city,
           state: sc.state || ai.state,
-          address: ai.address || '',
+          address: sc.address || ai.address || '',
+          zip: sc.zip || ai.zip || '',
           country: sc.country || ai.country || '',
           website: ai.website || sc.website || '',
           type: ai.type || '',
@@ -1694,7 +1932,7 @@ for (const item of items) {
       } else {
         // Scanner-only contact (AI missed it entirely)
         if (namedFoundByAi && !isNamedPerson(sc)) continue;
-        mergedByEmail.set(key, {
+        mergedByEmail.set(key, sc.extractionMethod === 'LIST_PARSE' ? sc : {
           ...sc,
           extractionMethod: 'SIGNATURE_SCAN',
           infoNotes: ['Extracted via signature scan (AI missed this contact)']
@@ -2268,9 +2506,13 @@ for (const item of items) {
       }
     }
 
-    // 4. Cap contacts at 15 per email to prevent API flooding
-    const MAX_CONTACTS = 15;
-    if (contacts.length > MAX_CONTACTS) {
+    // 4. Cap contacts per email to prevent API flooding: 15, or 100 for a typed list, where anyone
+    //    past 100 is listed in the confirmation.
+    const MAX_CONTACTS = _list ? 100 : 15;
+    if (_list && contacts.length > MAX_CONTACTS) {
+      for (const x of contacts.slice(MAX_CONTACTS)) _listIssues.push({ raw: ((x.firstName || '') + ' ' + (x.lastName || '') + ' ' + x.email).trim(), reason: 'Over 100 people in one email. Send this one again in a new email' });
+      contacts = contacts.slice(0, MAX_CONTACTS);
+    } else if (contacts.length > MAX_CONTACTS) {
       const excess = contacts.length - MAX_CONTACTS;
       contacts = contacts.slice(0, MAX_CONTACTS);
       contacts[MAX_CONTACTS - 1].infoNotes = contacts[MAX_CONTACTS - 1].infoNotes || [];
@@ -2504,6 +2746,206 @@ for (const item of items) {
       const significantWords = words.filter(w => !skipWords.has(w));
       if (significantWords.length === 0) return true;
       return significantWords.every(w => sourceLower.includes(w));
+    }
+
+    // COMPANY PROVENANCE HELPERS
+    // A company counts as stated only when it is written in the email outside email addresses and
+    // URLs. ".example" is in the list because it is the reserved test domain the fixtures use.
+    const URL_OR_EMAIL_RE = /[\w.+-]+@[\w.-]+\.[a-z]{2,}|\b(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|co|io|us|biz|info|bank|capital|finance|ca|uk|de|ch|fr|au|mx|br|ae|world|global|group|partners|llc|example)(?:\/\S*)?\b/gi;
+    const statedLower = sourceLower.replace(URL_OR_EMAIL_RE, ' ');
+    const statedLoose = ' ' + statedLower.replace(/[^a-z0-9]+/g, ' ').trim() + ' ';
+    const statedAlnum = statedLower.replace(/[^a-z0-9]/g, '');
+    const _alnum = s => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    function companyStated(company) {
+      if (!company) return false;
+      const loose = company.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      if (loose.length >= 3 && statedLoose.includes(' ' + loose + ' ')) return true;
+      const a = _alnum(company);
+      if (a.length >= 6 && statedAlnum.includes(a)) return true;
+      // same leniency as companyInSource, minus email and URL text
+      const skip = new Set(['the', 'and', 'inc', 'llc', 'ltd', 'corp', 'group', 'company', 'services']);
+      const sig = company.toLowerCase().split(/\s+/).filter(w => w.length >= 3 && !skip.has(w));
+      return sig.length > 0 && sig.every(w => statedLoose.includes(' ' + w.replace(/[^a-z0-9]+/g, ' ').trim() + ' '));
+    }
+    // The leading words of `company` that are written in the email, when the remaining words appear
+    // nowhere in it. The model sometimes embellishes: "Acme Concrete Services of NY" for "Acme Concrete Services".
+    function statedForm(company, email) {
+      // a name that spells the email or website domain is already right ("Pine Labs" for pinelabs.example)
+      if (cleanDomainName(company, email)) return company;
+      const words = (company || '').trim().split(/\s+/);
+      const looseOf = ws => ws.join(' ').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      if (statedLoose.includes(' ' + looseOf(words) + ' ')) return company;
+      for (let k = words.length - 1; k >= 1; k--) {
+        const head = looseOf(words.slice(0, k));
+        if (head.length < 4 || !statedLoose.includes(' ' + head + ' ')) continue;
+        const FILLER = new Set(['of', 'the', 'and', 'inc', 'llc', 'ltd', 'co', 'corp', 'lp', 'llp', 'pllc', 'na']);
+        const rest = words.slice(k).map(w => w.toLowerCase().replace(/[^a-z0-9]/g, '')).filter(w => w.length >= 2 && !FILLER.has(w));
+        if (rest.every(w => !statedLoose.includes(' ' + w + ' '))) return words.slice(0, k).join(' ').replace(/[,;:\-]+$/, '');
+        return company;
+      }
+      return company;
+    }
+    // The domain's name written in the text, e.g. "Brightwell" in a disclaimer ("...approval of
+    // Brightwell") for j.doe@brightwell.example. Returns the word exactly as written, or ''.
+    const statedOrig = sourceText.replace(URL_OR_EMAIL_RE, ' ');
+    function domainWordInText(domains) {
+      for (const d of domains) {
+        const root = (d.split('.')[0] || '').toLowerCase();
+        if (root.length < 4 || /^(mail|info|email|office|admin|contact|home|online|global|group|company)$/.test(root)) continue;
+        const m = statedOrig.match(new RegExp('(^|[^A-Za-z0-9])(' + root.replace(/[^a-z0-9-]/g, '') + ')(?![A-Za-z0-9])', 'i'));
+        if (m && !isOwnBranding(m[2])) return m[2].length > 3 && m[2] === m[2].toUpperCase() ? m[2].charAt(0) + m[2].slice(1).toLowerCase() : m[2];
+      }
+      return '';
+    }
+    const DOMAIN_SUFFIX_WORDS = new Set(['private', 'wealth', 'capital', 'financial', 'group', 'partners', 'advisors', 'advisory', 'management', 'holdings', 'investments', 'consulting', 'services', 'solutions', 'global', 'international', 'national', 'insurance', 'realty', 'mortgage', 'lending', 'credit', 'trust', 'fund', 'asset', 'bank', 'logic', 'sales', 'properties', 'development', 'construction', 'engineering', 'technology', 'systems', 'industries', 'equipment', 'leasing', 'enterprises', 'resources', 'associates', 'company', 'design', 'logistics', 'transport', 'trading', 'supply', 'energy', 'media', 'broker', 'premier', 'trailer']);
+    // "Elevon Capital" from elevoncapital.example: every word after the first is a known business word
+    // and the words rebuild a domain in the email. A glued split such as "Acmeofny" fails.
+    function cleanDomainName(company, email) {
+      const words = (company || '').trim().split(/\s+/);
+      if (words.length < 2) return false;
+      const lw = words.map(w => w.toLowerCase());
+      // glued junk from domain splitting: a business word fused with more letters ("Groupintl", "Capitalllc")
+      const glued = lw.some(w => [...DOMAIN_SUFFIX_WORDS].some(sx => w !== sx && sx.length >= 3 && (w.startsWith(sx) || w.endsWith(sx)) && /^[a-z]+$/.test(w)));
+      const suffixShape = lw.slice(1).every(w => DOMAIN_SUFFIX_WORDS.has(w));
+      // properly spaced real words that spell the domain ("Oak Park Capital" for OakParkCapital.example)
+      const wordShape = !glued && words.every(w => /^[A-Za-z][A-Za-z&]{0,12}$/.test(w));
+      if (!words.every(w => /^[A-Za-z][A-Za-z&.]*$/.test(w)) || (!suffixShape && !wordShape)) return false; // "Acme- Leasing" fails
+      const a = _alnum(company);
+      const hosts = [(email || '').split('@')[1] || '', ...((sourceLower.match(URL_OR_EMAIL_RE) || []))]
+        .map(d => d.replace(/^.*@/, '').replace(/^(?:https?:\/\/)?(?:www\.)?/, '').split('/')[0].toLowerCase());
+      // root alone ("elevoncapital") or root plus a meaningful TLD ("granite.bank" spells "Granite Bank")
+      return hosts.some(h => { const p = h.replace(/-/g, '').split('.'); return p[0] === a || (p.length === 2 && p[0] + p[1] === a); });
+    }
+    // A job title is not a company; the model's re-check once answered with a title and credentials.
+    const TITLE_WORDS = /\b(?:manager|director|president|vice|vp|svp|evp|ceo|cfo|coo|cto|officer|chief|founder|co-?founder|owner|partner|principal|associate|analyst|broker|agent|specialist|consultant|coordinator|assistant|sales|executive|head|lead|senior|sr|jr|captain|attorney|counsel|member|shareholder)\b/i;
+    const COMPANY_WORDS = /\b(?:inc|llc|ltd|corp|corporation|company|co|group|bank|capital|partners|holdings|financial|finance|leasing|credit|trust|fund|investments?|advisors?|wealth|management company|services|solutions|industries|international|enterprises|associates,? (?:inc|llc)|pllc|llp|lp|n\.a\.)\b/i;
+    function looksLikeTitle(c, contact) {
+      // (no "equals the contact's title" rule: the scanner sometimes files the company line as the title)
+      const head = (c || '').split(/,|\bof\b/i)[0];
+      // "Managing Director, Capital Markets": a title up front is a title even with company words after it
+      if (/^\s*(?:(?:senior|sr\.?|executive|managing|regional|national|general|vice|assistant|associate|deputy)\s+)*(?:director|president|manager|vice president|vp|svp|evp|ceo|cfo|coo|cto|chief\b.*officer|officer|partner|principal|founder|co-?founder|owner|head|broker|agent|specialist|analyst|consultant|coordinator|assistant|attorney|counsel)\b/i.test(head)) return true;
+      return TITLE_WORDS.test(c) && !COMPANY_WORDS.test(c.replace(/\b(?:finance|financial|sales)\b(?=[^,]*\b(?:manager|director|specialist|analyst|officer|executive)\b)/ig, ''));
+    }
+    function companyUsable(c, contact) {
+      return c.length <= 60 && !isOwnBranding(c) && !isPhoneNumber(c) && !looksLikeTitle(c, contact) &&
+        !/(?:does not appear|not found|please note|no (?:company|information|data)|unknown|n\/a|^none$|not available|not provided)/i.test(c);
+    }
+    const FREEMAIL_DOMAINS = /^(gmail|yahoo|hotmail|outlook|aol|icloud|me|live|msn|protonmail|mail|zoho|yandex|gmx|comcast|att|verizon|bellsouth|sbcglobal|linkedin|microsoft|office|google|zoom|aka|safelinks|bit|twitter|x|facebook|instagram|youtube)\./i;
+    const isOwnHost = d => [...OWN_DOMAINS].some(o => d === o || d.endsWith('.' + o));
+    // Website domains written near the contact's email address first, then the email's own domain.
+    function companyDomains(email) {
+      const out = [];
+      const lines = (prevData.fullBody || '').split(/\r?\n/);
+      const at = email ? lines.findIndex(l => l.toLowerCase().includes(email.toLowerCase())) : -1;
+      const near = at >= 0 ? lines.slice(Math.max(0, at - 12), at + 12).join('\n') : '';
+      for (const m of near.match(/\b(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}\b(?!@)/gi) || []) {
+        if (/@/.test(m)) continue;
+        const d = m.toLowerCase().replace(/^(?:https?:\/\/)?(?:www\.)?/, '');
+        if (near.toLowerCase().includes('@' + d)) continue; // part of an email address
+        if (!isOwnHost(d) && !FREEMAIL_DOMAINS.test(d) && !out.includes(d)) out.push(d);
+      }
+      const ed = ((email || '').split('@')[1] || '').toLowerCase();
+      if (ed && !isOwnHost(ed) && !FREEMAIL_DOMAINS.test(ed) && !out.includes(ed)) out.push(ed);
+      return out.slice(0, 3);
+    }
+    // No `URL` global and no throw inside callbacks: n8n's task-runner sandbox lacks URL, and an error
+    // escaping a socket callback kills the runner process.
+    function getPage(url, hops) {
+      return new Promise(resolve => {
+        let done = false;
+        const finish = v => { if (!done) { done = true; resolve(v || ''); } };
+        try {
+          const req = require('https').get(url, { timeout: 5000, headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
+            try {
+              const loc = res.headers && res.headers.location;
+              if (res.statusCode >= 300 && res.statusCode < 400 && loc && hops > 0) {
+                res.resume();
+                const origin = (url.match(/^https?:\/\/[^/]+/i) || [''])[0];
+                const next = /^https?:\/\//i.test(loc) ? loc : loc.startsWith('//') ? 'https:' + loc : origin + (loc.startsWith('/') ? '' : '/') + loc;
+                if (!/^https:\/\//i.test(next)) return finish('');
+                return getPage(next, hops - 1).then(finish, () => finish(''));
+              }
+              let data = '';
+              res.on('data', c => { try { data += c; if (data.length > 400000) res.destroy(); } catch (e) { finish(data); } });
+              res.on('end', () => finish(data)); res.on('close', () => finish(data)); res.on('error', () => finish(data));
+            } catch (e) { finish(''); }
+          });
+          req.on('error', () => finish('')); req.on('timeout', () => { try { req.destroy(); } catch (e) {} finish(''); });
+        } catch (e) { finish(''); }
+      });
+    }
+    const _siteCache = {};
+    // The name a site publishes for itself (og:site_name, JSON-LD Organization name, application-name),
+    // accepted only when it spells the domain ("Acme Concrete Services" for acmeconcreteservicesny.example).
+    async function siteCompanyName(domain) {
+      if (domain in _siteCache) return _siteCache[domain];
+      if (__provElapsed() > 100000) return ''; // keep well inside the 300 s Code-node limit
+      const root = _alnum(domain.split('.')[0]);
+      let html = '';
+      try { html = await getPage('https://' + domain, 3); } catch (e) {}
+      const dec = t => t.replace(/&amp;/g, '&').replace(/&#0?39;|&apos;|&#x27;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+      const cands = [];
+      for (const re of [/<meta[^>]+property=["']og:site_name["'][^>]*content=["']([^"']+)/gi, /<meta[^>]+content=["']([^"']+)["'][^>]*property=["']og:site_name["']/gi,
+                        /"@type"\s*:\s*"(?:Organization|Corporation|LocalBusiness|[A-Za-z]*Business)"[^}]{0,400}?"name"\s*:\s*"([^"]+)"/gi,
+                        /"name"\s*:\s*"([^"]+)"[^}]{0,400}?"@type"\s*:\s*"(?:Organization|Corporation|LocalBusiness|[A-Za-z]*Business)"/gi,
+                        /<meta[^>]+name=["']application-name["'][^>]*content=["']([^"']+)/gi]) {
+        let m; while ((m = re.exec(html))) cands.push(dec(m[1]));
+      }
+      let found = '';
+      for (const c of cands) {
+        for (const part of [c, ...c.split(/\s[|–—-]\s/)]) {
+          const n = _alnum(part);
+          const fits = n.length >= 4 && (n === root ||
+            (root.startsWith(n) && n.length >= root.length - 4) ||
+            (n.startsWith(root) && root.length >= 5 && n.length <= root.length + 14));
+          if (fits && companyUsable(part.trim())) { found = part.trim(); break; }
+        }
+        if (found) break;
+      }
+      _siteCache[domain] = found;
+      return found;
+    }
+    // A focused second question to the local model; its answer counts only if it is stated in the email.
+    async function aiCompanyRecheck(contact) {
+      // budget: at most 2 re-checks per run, only in the first 120 s, 75 s each, so the worst case stays near 195 s of 300 s
+      if (__rechecks >= 2 || __provElapsed() > 120000) return { ok: false };
+      __rechecks++;
+      const full = prevData.fullBody || '';
+      const at = contact.email ? full.toLowerCase().indexOf(contact.email.toLowerCase()) : -1;
+      const body = (prevData.originalSubject ? 'Subject: ' + prevData.originalSubject + '\n' : '') +
+        (at >= 0 ? full.slice(Math.max(0, at - 1500), at + 1500) : full.slice(0, 3000));
+      const who = ((contact.firstName || '') + ' ' + (contact.lastName || '')).trim() || contact.email || 'the contact';
+      const payload = JSON.stringify({
+        model: 'llama3.2:3b', stream: false,
+        options: { temperature: 0, num_predict: 40, num_ctx: 4096, num_thread: 6 },
+        messages: [
+          { role: 'system', content: 'You read emails and quote text exactly. Reply with only the quoted text, or NONE.' },
+          { role: 'user', content: 'EMAIL:\n' + body + '\n\nWhat company or organization does ' + who + (contact.email ? ' (' + contact.email + ')' : '') +
+            ' work for, exactly as it is written in the email text? Do not use the email address or website address, and do not use ' + OWN_COMPANY_NAMES[0] + '. If the email text does not state it, reply NONE.' }
+        ]
+      });
+      let base = 'http://ollama:11434';
+      try { if (typeof $env !== 'undefined' && $env && $env.OLLAMA_URL) base = $env.OLLAMA_URL; } catch (e) {}
+      const hm = base.match(/^(https?):\/\/([^/:]+)(?::(\d+))?/i) || [];
+      const reply = await new Promise(resolve => {
+        let done = false;
+        const finish = v => { if (!done) { done = true; resolve(v); } };
+        try {
+          const req = require(hm[1] === 'https' ? 'https' : 'http').request({ hostname: hm[2], port: hm[3] || (hm[1] === 'https' ? 443 : 80),
+            path: '/api/chat', method: 'POST', timeout: 75000, headers: { 'Content-Type': 'application/json' } }, res => {
+            let d = '';
+            res.on('data', c => { d += c; });
+            res.on('end', () => { try { finish({ ok: res.statusCode === 200, text: (JSON.parse(d).message || {}).content || '' }); } catch (e) { finish({ ok: false }); } });
+            res.on('error', () => finish({ ok: false }));
+          });
+          req.on('error', () => finish({ ok: false })); req.on('timeout', () => { try { req.destroy(); } catch (e) {} finish({ ok: false }); });
+          req.end(payload);
+        } catch (e) { finish({ ok: false }); }
+      });
+      if (!reply.ok) return { ok: false };
+      const ans = (reply.text || '').split('\n')[0].replace(/^["'`*\s]+|["'`*.\s]+$/g, '').trim();
+      if (!ans || /^none\b/i.test(ans)) return { ok: true, name: '' };
+      return { ok: true, name: companyStated(ans) && companyUsable(ans, contact) ? ans : '' };
     }
 
     for (const contact of contacts) {
@@ -2756,6 +3198,73 @@ for (const item of items) {
         }
       }
 
+      // COMPANY PROVENANCE
+      // A company counts as stated only if it appears in the email outside email addresses and URLs
+      // ("Acmeofny" lived only in jdoe@acmeofny.example). Otherwise try, in order: a clean domain split
+      // ("Elevon Capital"), the other reader's stated candidate, the domain's name written in the text,
+      // the name the website in the email publishes for itself (must match that domain), a hyphenated
+      // domain spelled out, and a focused model re-check whose answer must be stated. If all of that
+      // finds nothing, the company stays blank and Final Sanity Clean adds a notice.
+      {
+        const cur = contact.companyName || '';
+        let picked = '', how = '', checkFailed = false;
+        if (cur && companyStated(cur)) picked = statedForm(cur, contact.email);
+        else if (cur && cleanDomainName(cur, contact.email)) picked = cur;
+        if (!picked) {
+          const alt = [contact._aiCompany, contact._scCompany].find(c => c && c !== cur && companyStated(c) && companyUsable(c, contact));
+          if (alt) { picked = statedForm(alt, contact.email); how = 'Company set to "' + picked + '" (stated in email)' + (cur ? ' instead of "' + cur + '"' : ''); }
+        }
+        if (!picked) {
+          const w = domainWordInText(companyDomains(contact.email));
+          if (w) { picked = w; how = 'Company "' + w + '" (written in the email; matches the email/website domain)'; }
+        }
+        if (!picked) {
+          for (const dom of companyDomains(contact.email)) {
+            const site = await siteCompanyName(dom);
+            if (site) { picked = site; how = 'Company "' + site + '" is the name published by ' + dom + ' (the website in the email)'; break; }
+          }
+        }
+        if (!picked) {
+          // "acme-leasing.example" spells "Acme Leasing"
+          for (const dom of companyDomains(contact.email)) {
+            const parts = dom.split('.')[0].split('-');
+            if (parts.length >= 2 && parts.length <= 4 && parts.every(x => /^[a-z]{2,}$/i.test(x))) {
+              picked = parts.map(x => x.length <= 3 && !/[aeiou]/i.test(x) ? x.toUpperCase() : x.charAt(0).toUpperCase() + x.slice(1).toLowerCase()).join(' ');
+              how = 'Company "' + picked + '" spelled out by the domain ' + dom;
+              break;
+            }
+          }
+        }
+        if (!picked) {
+          const r = await aiCompanyRecheck(contact);
+          if (r.ok && r.name) { picked = statedForm(r.name, contact.email); how = 'Company "' + picked + '" found by AI re-check (stated in email)'; }
+          if (!r.ok) checkFailed = true;
+        }
+        if (picked !== cur) {
+          // the earlier "Converted bare domain ... to company name" note no longer describes the result
+          if (cur) contact.infoNotes = (contact.infoNotes || []).filter(n => !(/^Converted bare domain/.test(n) && n.includes('"' + cur + '"')));
+          // Not a clearedFields entry: those trigger Web Research, whose page scrape once wrote a menu
+          // label ("Investor Portal") into Title. Kept for audit only.
+          if (cur) contact.companyReplaced = cur;
+          contact.companyName = picked; contact.company = picked;
+          contact.verifiedFields = contact.verifiedFields.filter(f => f !== 'companyName');
+          if (picked) {
+            contact.verifiedFields.push('companyName');
+            contact.clearedFields = contact.clearedFields.filter(f => (f.field || f) !== 'companyName');
+          }
+        }
+        if (how) { contact.infoNotes = contact.infoNotes || []; contact.infoNotes.push(how); }
+        if (!picked) {
+          const doms = companyDomains(contact.email);
+          // An attachment can hold the company ("add the contact at the bottom of this spec sheet"), so say nothing.
+          if (prevData.hasAttachments || prevData.hasPdfAttachment || prevData.hasImageAttachment || (prevData.attachmentHints || []).length) {}
+          else if (checkFailed) { contact.infoNotes = contact.infoNotes || []; contact.infoNotes.push('Company could not be checked (AI re-check unavailable)'); }
+          else if (doms.length) contact.companyDomainOnly = doms[0]; // the email points at a company only through a domain
+          else contact.companyNotStated = true;                      // freemail or no domain: the company truly is not in the email
+        }
+        delete contact._aiCompany; delete contact._scCompany;
+      }
+
       // Cell / mobile / direct label goes to mobile. The rule is office=phone, direct/cell=mobile;
       // when the AI put a number labelled "Cell:" or "Direct:" into phone, move it to mobile.
       if (contact.phone && !contact.mobile) {
@@ -2904,6 +3413,16 @@ for (const item of items) {
               // Don't break - try to find a fuller match
             }
           }
+        }
+
+        // The narrative can list "+ lastName: Doe" on its own line; only firstName had a pattern, so the
+        // stub had no last name and Zoho rejected it (Last_Name is mandatory). Only when the narrative
+        // also carries a real email: with a first and last name but no email, Web Research guesses an
+        // address from name and domain, which must not be newly exposed.
+        const _ownDomainRe = new RegExp('@(?:' + [...OWN_DOMAINS].map(d => d.replace(/\./g, '\\.')).join('|') + ')', 'gi');
+        if (stubFirstName && !stubLastName && /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+/.test(narrative.replace(_ownDomainRe, ''))) {
+          const lm = narrative.match(/(?:lastName|last_name)\s*[:\-]?\s*["']?([A-Z][A-Za-z'’-]+(?:\s+[A-Z][A-Za-z'’-]+)?)/);
+          if (lm && !STUB_NOT_NAMES.has(lm[1].toLowerCase())) stubLastName = lm[1].trim();
         }
 
         // Scan for companies
@@ -3059,6 +3578,7 @@ for (const item of items) {
     // forms ("cell is (555) 010-0199.") when the AI was distracted (forward chains, noise).
     for (const contact of contacts) {
       if (!contact.email) continue;
+      if (contact.extractionMethod === 'LIST_PARSE') continue; // read from its own block; 7 lines around it would reach the next person
       const sigLines = (prevData.fullBody || '').split('\n');
       const own = contact.email.toLowerCase();
       const at = sigLines.findIndex(l => l.toLowerCase().includes(own));
@@ -3177,6 +3697,17 @@ for (const item of items) {
     }
 
     // Step 5: Build output
+    // Phone extension: every path above strips "Ext. 130"; put it back when the email writes an
+    // extension right after this exact number ("555.010.0144 Ext. 130").
+    for (const c of contacts) {
+      if (!c.phone || /\b(?:ext|x)\s*\.?\s*\d/i.test(c.phone)) continue;
+      const digits = c.phone.replace(/\D/g, '');
+      if (digits.length < 7) continue;
+      const m = (prevData.fullBody || '').match(new RegExp(digits.split('').join('[\\s.()\\-+]*') +
+        '(?!\\d)\\s*[,;]?\\s*\\(?(?:ext\\.?|extension|x)\\s*[:#]?\\s*(\\d{1,6})\\b', 'i'));
+      if (m && (c.phone + ' x' + m[1]).length <= 50) c.phone = c.phone + ' x' + m[1]; // Zoho Phone holds 50 characters
+    }
+
     const hasRealContact = contacts.some(c => !!(c.email || (c.firstName && c.lastName)));
     const shouldForceResearch = !hasRealContact && prevData.hasUrls;
     const allCleared = contacts.flatMap(c => c.clearedFields || []);
@@ -3235,6 +3766,10 @@ for (const item of items) {
       }
     }
 
+    // A value found only inside one of your staff signatures (a one-line forward keeps the
+    // forwarder's title and office city right above the contact) is not the contact's.
+    for (const c of contacts) Object.assign(c, dropSignatureValues(c, prevData.fullBody || ''));
+
     results.push({
       json: {
         contacts: contacts,
@@ -3262,6 +3797,7 @@ for (const item of items) {
         skipZohoUpsert: false,
         extractionStrategy: urlDiscoveryActivated ? 'URL_DISCOVERY' : (prevData.extractionStrategy || 'BODY_ONLY'),
         aiSkipped: !!_aiFailureNote, aiFailure: _aiFailureNote, // the AI failed but the scanner still ran
+        listIssues: _listIssues,
         // Report AI parse failure even when scanner recovered contacts
         parseError: aiParseError,
         errorMessage: aiParseError ? aiErrorMessage : '',
@@ -3368,7 +3904,8 @@ if (_outerTldLessPending.length > 0) {
     for (const contact of contacts) {
       if (contact._tldLessEmail) {
         resolvePromises.push(
-          resolveTldLessEmail(contact._tldLessEmail, contact._companyHint)
+          // the whole repair is capped at 30 s; DNS lookups have no timeout of their own
+          Promise.race([resolveTldLessEmail(contact._tldLessEmail, contact._companyHint), new Promise(r => setTimeout(() => r(null), 30000))])
             .then(resolved => {
               if (resolved) {
                 contact.email = resolved;

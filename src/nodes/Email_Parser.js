@@ -38,7 +38,13 @@ if (_item.json.skip) {
 
 const email = _item.json;
 const subject = email.subject || '';
-const body = email.body || '';
+// A name typed against its email ("Adam Smithadam@acme.example") gets its space back
+// ("Adam Smith adam@acme.example") when the email starts with the first name. "at Jane.Doe@acme.example"
+// is left alone: the lowercase "at" never starts the pattern.
+const body = (email.body || '').replace(/\b([A-Z][a-z]{2,}) ([A-Z][a-z]+)([\w.+-]*@[\w-]+(?:\.[\w-]+)+)/g, (m, first, word, rest) => {
+  const at = word.toLowerCase().indexOf(first.toLowerCase(), 2);
+  return at > 1 ? first + ' ' + word.slice(0, at) + ' ' + word.slice(at) + rest : m;
+});
 const fullContent = `${subject}\n${body}`;
 
 // The forwarder's note sits at the top of the body, before any "From:", separator or

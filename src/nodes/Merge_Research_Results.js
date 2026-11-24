@@ -143,10 +143,10 @@ for (let _vIdx = 0; _vIdx < allValidateItems.length; _vIdx++) {
 
   const prevData = $input.all()[Math.min(_vIdx, $input.all().length - 1)]?.json || {};
   const emailParserData = {};
-  const fieldsToPass = ['originalSubject','forwarderInstruction','email_id','thread_id','received_date','forwarderEmail','detectionFlags','extractionStrategy','needsReview','reviewReason','infoNotes','primaryUrl','suggestedType','hasAttachments','attachmentHints'];
+  const fieldsToPass = ['originalSubject','forwarderInstruction','email_id','thread_id','received_date','forwarderEmail','detectionFlags','extractionStrategy','needsReview','reviewReason','infoNotes','primaryUrl','suggestedType','hasAttachments','attachmentHints','listIssues'];
   for (const f of fieldsToPass) { emailParserData[f] = prevData[f] ?? validateData[f] ?? ''; }
 
-  const MAX_CONTACTS = 15;
+  const MAX_CONTACTS = contacts.some(c => c.extractionMethod === 'LIST_PARSE') ? 100 : 15; // a typed list may hold up to 100 people
   let cappedContacts = contacts.length > MAX_CONTACTS ? contacts.slice(0, MAX_CONTACTS) : contacts;
   allResults.push({ json: { ...emailParserData, contacts: cappedContacts, contactCount: cappedContacts.length, webResearchAttempted: !!applyResearch, webResearchSucceeded: isDiscovery ? (researchData?.discoveredContacts?.length > 0) : (applyResearch ? (researchData?.researchFound || false) : false), urlDiscoveryMode: isDiscovery, pagesVisited: applyResearch ? [researchData?.discoveryUrl, subPageData ? 'sub-page' : null].filter(Boolean).length : 0 }});
 }

@@ -99,7 +99,8 @@ for (const contact of contacts) {
     'Web Research': data.webResearchAttempted
       ? (data.webResearchSucceeded ? `Success (${data.pagesVisited || 0} pages)` : 'Failed')
       : 'Not Needed',
-    'Date Processed': processedDate
+    'Date Processed': processedDate,
+    'Zip': clean(contact.zip) // last column: an existing CSV keeps the header from its first row
   });
 
   // Developer log: everything above plus type-resolution metadata.
@@ -141,7 +142,8 @@ for (const contact of contacts) {
     'Pages Visited': data.pagesVisited || 0,
     'Email ID': clean(data.email_id),
     'Thread ID': clean(data.thread_id),
-    'Forwarder': clean(data.forwarderEmail)
+    'Forwarder': clean(data.forwarderEmail),
+    'Zip': clean(contact.zip)
   });
 
   // Zoho log: column names match Zoho's import fields so the sheet can be re-imported.
@@ -158,7 +160,8 @@ for (const contact of contacts) {
     'Mailing_Country': clean(contact.country) ,
     'Account_Name': clean(contact.companyName),
     'Type': clean(contact.type),
-    'Specific_Type': clean(contact.specificType)
+    'Specific_Type': clean(contact.specificType),
+    'Mailing_Zip': clean(contact.zip) // log only; Prepare Upsert does not send zip to Zoho
   });
 }
 

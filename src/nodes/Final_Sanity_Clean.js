@@ -11,10 +11,13 @@
 // stray brackets, bare domains as company names (acmetrailerleasing.com), labels
 // around phone numbers, an address line in the city field, UK country spellings
 // (UK, England), and duplicate contacts. Generic mailboxes (info@, test@)
-// are flagged, not removed.
+// are flagged, not removed. A contact whose company is not written anywhere in the email gets a
+// notice saying so.
 //
 // Input: Merge Research Results items ({ contacts: [...] }).
 // Output: the same items with cleaned contacts and an updated contactCount.
+
+const COMPANY_NOTICE = 'Notice: Company not stated in email';
 
 const TITLE_KW = /\b(?:officer|director|president|manager|chief|head|lead|senior|junior|vice|vp|svp|evp|ceo|cfo|cto|coo|partner|co-?founder|founder|principal|broker|sales|specialist|agent|banker|analyst|controller|accountant|attorney|counsel|advisor|associate|executive|administrator|coordinator|supervisor|consultant|engineer|architect|developer|designer|writer|editor|reporter|correspondent)\b/i;
 
@@ -287,6 +290,18 @@ for (const item of allItems) {
         if (!existing.companyName && c.companyName) { existing.companyName = c.companyName; existing.company = c.companyName; }
       }
     }
+  }
+  // Parse AI Response flags companyNotStated only after every company source came up empty. The
+  // notice is added here, last, so a company filled later (web research) never carries it.
+  for (const c of deduped) {
+    if (c.companyNotStated && !c.companyName) {
+      c.infoNotes = c.infoNotes || [];
+      if (!c.infoNotes.includes(COMPANY_NOTICE)) c.infoNotes.push(COMPANY_NOTICE);
+    } else if (c.companyDomainOnly && !c.companyName) {
+      c.infoNotes = c.infoNotes || [];
+      c.infoNotes.push('Company name not written in email (only the domain ' + c.companyDomainOnly + ')');
+    }
+    delete c.companyNotStated; delete c.companyDomainOnly;
   }
   d.contacts = deduped;
   d.contactCount = deduped.length;
